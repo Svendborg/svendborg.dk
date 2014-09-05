@@ -55,15 +55,15 @@
     <h2><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
   </header>
 
+  <?php
+    hide($content['os2web_spotbox']);
+    hide($content['field_os2web_base_field_spotbox']);
+    hide($content['field_list_as_spotboks']);
+    hide($content['field_os2web_base_field_selfserv']);
+    print "<div class='wrap'>";
+    print render($content);
+    print "</div>";?>
 
-  <div class="col-md-12 col-sm-12 content">
-    <?php
-      hide($content['os2web_spotbox']);
-      hide($content['field_os2web_base_field_spotbox']);
-      hide($content['field_list_as_spotboks']);
-      hide($content['field_os2web_base_field_selfserv']);
-      print render($content); ?>
-  </div>
   <?php endif; ?>
 </article>
 

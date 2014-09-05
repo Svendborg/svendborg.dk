@@ -6728,16 +6728,6 @@ a:hover {
 /**
  * This file is only for really global styles. None specific styles.
  */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-body.page-node .field-name-field-os2web-base-field-media .field-label,
-body.page-taxonomy-term.term-is-not-top .field-name-field-os2web-base-field-media .field-label {
-  text-transform: uppercase;
-}
 h3,
 h6 {
   font-weight: bold;
@@ -6899,6 +6889,9 @@ fieldset[disabled] #block-feedback-form #feedback-submit.btn-default.active {
 }
 #block-cittaslow-block #block-block-cittaslow button:hover {
   color: #fff;
+}
+.main-container .form-search input:focus {
+  border: 4px solid #589000;
 }
 .btn-default {
   color: #ffffff;
@@ -7665,13 +7658,14 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   margin-top: 5px;
 }
 .header_fixed #search-block-form button {
-  background: url('../images/search_icon.png') center center;
+  background-image: url('../images/search_icon.png') !important;
   background-repeat: no-repeat;
   border-left: none;
   border-color: #ccc;
   height: 2em;
   font-size: 2em;
-  /*.search_box_bg();*/
+  background-color: #fff;
+  background-position: center center;
 }
 .header_fixed input {
   box-shadow: none;
@@ -8232,31 +8226,51 @@ body.page-node .region-content.col-md-6 div.node-os2web-base-news .field-name-fi
 body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web-base-news .field-name-field-os2web-base-field-image img {
   border-radius: 4px 4px 0 0;
 }
+.page-taxonomy .region-content.col-sm-9 article .wrap,
 .page-node .region-content.col-sm-9 article .wrap,
+.page-taxonomy .region-content.col-md-9 article .wrap,
 .page-node .region-content.col-md-9 article .wrap,
+.page-taxonomy .region-content.col-sm-12 article .wrap,
 .page-node .region-content.col-sm-12 article .wrap,
+.page-taxonomy .region-content.col-md-12 article .wrap,
 .page-node .region-content.col-md-12 article .wrap,
+.page-taxonomy .region-content.col-sm-9 article header,
 .page-node .region-content.col-sm-9 article header,
+.page-taxonomy .region-content.col-md-9 article header,
 .page-node .region-content.col-md-9 article header,
+.page-taxonomy .region-content.col-sm-12 article header,
 .page-node .region-content.col-sm-12 article header,
+.page-taxonomy .region-content.col-md-12 article header,
 .page-node .region-content.col-md-12 article header {
   margin: 0 auto;
 }
+.page-taxonomy .region-content.col-sm-9 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-sm-9 article .field-name-field-os2web-base-field-image,
+.page-taxonomy .region-content.col-md-9 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-md-9 article .field-name-field-os2web-base-field-image,
+.page-taxonomy .region-content.col-sm-12 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-sm-12 article .field-name-field-os2web-base-field-image,
+.page-taxonomy .region-content.col-md-12 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-md-12 article .field-name-field-os2web-base-field-image {
   padding: 0 15px;
 }
+.page-taxonomy .region-content.col-sm-9 article .wrap,
 .page-node .region-content.col-sm-9 article .wrap,
+.page-taxonomy .region-content.col-md-9 article .wrap,
 .page-node .region-content.col-md-9 article .wrap,
+.page-taxonomy .region-content.col-sm-9 article header,
 .page-node .region-content.col-sm-9 article header,
+.page-taxonomy .region-content.col-md-9 article header,
 .page-node .region-content.col-md-9 article header {
   width: 77.77777776%;
 }
+.page-taxonomy .region-content.col-sm-12 article .wrap,
 .page-node .region-content.col-sm-12 article .wrap,
+.page-taxonomy .region-content.col-md-12 article .wrap,
 .page-node .region-content.col-md-12 article .wrap,
+.page-taxonomy .region-content.col-sm-12 article header,
 .page-node .region-content.col-sm-12 article header,
+.page-taxonomy .region-content.col-md-12 article header,
 .page-node .region-content.col-md-12 article header {
   width: 83.33333333%;
 }
