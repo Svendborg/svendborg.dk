@@ -7655,6 +7655,9 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
     padding-left: 0px;
   }
 }
+.header_fixed .navbar-header {
+  z-index: 300;
+}
 .header_fixed .search_box {
   margin-top: 5px;
 }
