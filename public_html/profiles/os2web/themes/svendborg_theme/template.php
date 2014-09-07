@@ -199,12 +199,14 @@ function svendborg_theme_preprocess_page(&$variables) {
   if (($node && $spotboxes = field_get_items('node', $node, 'field_os2web_base_field_spotbox')) ||
       ($term && !$term_is_top && $spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox'))) {
 
-    $variables['page']['content_bottom'] = array(
+    $variables['page']['content']['os2web_spotbox'] = array(
       'os2web_spotbox' => array(
         '#markup' => drupal_render(_svendborg_theme_get_spotboxes($spotboxes)),
       ),
-      '#theme_wrappers' => array('region'),
-      '#region' => 'content_bottom',
+      '#theme_wrappers' => array('container'),
+      '#attributes' => array(
+        'class' => array('row', 'spotboxes')
+      ),
     );
   }
 
@@ -402,7 +404,7 @@ function svendborg_theme_qt_quicktabs_tabset($vars) {
  * @return array
  *   The renderable array.
  */
-function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-4 col-md-3 col-lg-3') {
+function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-6 col-md-6 col-lg-6') {
   $spotbox_nids = array();
   foreach ($spotboxes as $spotbox) {
     $spotbox_nids[$spotbox['nid']] = $spotbox['nid'];

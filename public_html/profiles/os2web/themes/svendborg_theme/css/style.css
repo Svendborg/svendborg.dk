@@ -7431,7 +7431,7 @@ div.node-os2web-spotbox-box {
   background: white;
   border-radius: 4px;
   padding: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .spotbox img,
 div.panel-pane div.node.node-os2web-spotbox-box img,
@@ -8279,6 +8279,9 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 .region-content .taxonomy-term-description a,
 .region-content .field-name-body a {
   font-weight: bold;
+}
+.wrap img {
+  max-width: 100%;
 }
 #nyheder-carousel-large {
   background-color: #fff;

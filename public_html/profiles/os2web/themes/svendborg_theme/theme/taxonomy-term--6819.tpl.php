@@ -73,6 +73,7 @@
         </div>';
       }
       print '</div></div>';
+      drupal_add_js(drupal_get_path('theme', 'svendborg_theme') . '/js/jquery.imagesloaded.js');
     ?>
     <div class="nyheder-seperator"></div>
     <div class="nyheder-content" id="nyheder-content-isotoper">
