@@ -118,6 +118,13 @@
 
     $('#feedback-submit').addClass('btn-primary');
 
+    var links = $('.region-content a');
+    $(links).each(function() {
+      if (!$(this).attr('href') && $(this).attr('id')) {
+        $(this).addClass('link_here');
+      }
+    });
+
   });
 
 Drupal.behaviors.feedbackForm = {
