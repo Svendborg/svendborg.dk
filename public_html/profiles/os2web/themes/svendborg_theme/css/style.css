@@ -6539,7 +6539,6 @@ a:hover {
   border-radius: 32px;
   background: white;
   height: 64px;
-  line-height: 64px;
   display: table;
   width: 100%;
 }
@@ -6745,6 +6744,8 @@ body .form-control {
   background-image: rgba(223, 222, 215, 0.9);
   border-left: 1px solid rgba(255, 255, 255, 0.8);
   border-right: 1px solid rgba(255, 255, 255, 0.8);
+}
+.not-front .main-container {
   background-image: -webkit-linear-gradient(#ffffff, rgba(223, 222, 215, 0.9) 250px, rgba(223, 222, 215, 0.9));
   background-image: linear-gradient(#ffffff, rgba(223, 222, 215, 0.9) 250px, rgba(223, 222, 215, 0.9));
   background-repeat: no-repeat;
@@ -7666,6 +7667,7 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   font-size: 2em;
   background-color: #fff;
   background-position: center center;
+  filter: none;
 }
 .header_fixed input {
   box-shadow: none;
@@ -8742,7 +8744,7 @@ h2.menu-footer a.Kommunen {
   height: 45px;
 }
 #front-carousel-small {
-  background-color: initial;
+  background-color: transparent !important;
 }
 #front-carousel-small ol {
   bottom: -35px;
@@ -8775,10 +8777,14 @@ h2.menu-footer a.Kommunen {
 }
 .front-s-news {
   background-image: url('../images/front_s_news_bg.png');
+  overflow: hidden;
 }
 .front-s-news .front-s-news-inner {
   padding-top: 25px;
-  background: linear-gradient(to top, rgba(14, 14, 14, 0.05), rgba(46, 46, 46, 0.05));
+  background-image: -webkit-linear-gradient(top, rgba(14, 14, 14, 0.05) 100%, rgba(46, 46, 46, 0.05) 100%);
+  background-image: linear-gradient(to bottom, rgba(14, 14, 14, 0.05) 100%, rgba(46, 46, 46, 0.05) 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0d0e0e0e', endColorstr='#0d2e2e2e', GradientType=0);
 }
 .front-s-news .front-s-news-inner .front-s-news-item {
   padding: 10px 10px;
@@ -8859,13 +8865,13 @@ h2.menu-footer a.Kommunen {
   font-size: 14px;
   padding: 7px 30px;
 }
-.front .region-navigation.container #search-block-form {
+.front .region-navigation #search-block-form {
   margin-top: 2px;
 }
-.front .region-navigation.container #search-block-form input {
+.front .region-navigation #search-block-form input {
   display: none;
 }
-.front .region-navigation.container #search-block-form .input-group-btn {
+.front .region-navigation #search-block-form .input-group-btn {
   border: none;
   text-align: right;
 }
