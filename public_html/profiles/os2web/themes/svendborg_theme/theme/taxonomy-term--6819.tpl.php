@@ -1,19 +1,6 @@
-<?php if($page): ?>
-<?php /* region--navigation.tpl.php */ ?>
-<?php if ($page['navigation']): ?>
-  <?php print render($page['navigation']); ?>
-<?php endif; ?>
 <div class="front-main-container-wrapper">
 
   <div class="row">
-  <?php /* region--header.tpl.php */ ?>
-  <?php print render($page['header']); ?>
-
-    <?php /* region--sidebar.tpl.php */ ?>
-    <?php if ($page['sidebar_first']): ?>
-      <?php //print render($page['sidebar_first']); ?>
-    <?php endif; ?>
-
     <!-- taxonomy-term--tid.tpl.php-->
     <div class="region region-content col-md-8 col-sm-8 col-xs-12">
       <?php if ($tabs): ?>
@@ -86,6 +73,7 @@
         </div>';
       }
       print '</div></div>';
+      drupal_add_js(drupal_get_path('theme', 'svendborg_theme') . '/js/jquery.imagesloaded.js');
     ?>
     <div class="nyheder-seperator"></div>
     <div class="nyheder-content" id="nyheder-content-isotoper">
@@ -144,7 +132,3 @@
   <!-- end of right sidebar -->
 
 </div>
-<?php /* region--footer.tpl.php */ ?>
-<?php print render($page['footer']); ?>
-
-<?php endif; ?>

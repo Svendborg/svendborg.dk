@@ -6539,7 +6539,6 @@ a:hover {
   border-radius: 32px;
   background: white;
   height: 64px;
-  line-height: 64px;
   display: table;
   width: 100%;
 }
@@ -6728,16 +6727,6 @@ a:hover {
 /**
  * This file is only for really global styles. None specific styles.
  */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-body.page-node .field-name-field-os2web-base-field-media .field-label,
-body.page-taxonomy-term.term-is-not-top .field-name-field-os2web-base-field-media .field-label {
-  text-transform: uppercase;
-}
 h3,
 h6 {
   font-weight: bold;
@@ -6755,6 +6744,8 @@ body .form-control {
   background-image: rgba(223, 222, 215, 0.9);
   border-left: 1px solid rgba(255, 255, 255, 0.8);
   border-right: 1px solid rgba(255, 255, 255, 0.8);
+}
+.not-front .main-container {
   background-image: -webkit-linear-gradient(#ffffff, rgba(223, 222, 215, 0.9) 250px, rgba(223, 222, 215, 0.9));
   background-image: linear-gradient(#ffffff, rgba(223, 222, 215, 0.9) 250px, rgba(223, 222, 215, 0.9));
   background-repeat: no-repeat;
@@ -6899,6 +6890,9 @@ fieldset[disabled] #block-feedback-form #feedback-submit.btn-default.active {
 }
 #block-cittaslow-block #block-block-cittaslow button:hover {
   color: #fff;
+}
+.main-container .form-search input:focus {
+  border: 4px solid #589000;
 }
 .btn-default {
   color: #ffffff;
@@ -7437,7 +7431,7 @@ div.node-os2web-spotbox-box {
   background: white;
   border-radius: 4px;
   padding: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .spotbox img,
 div.panel-pane div.node.node-os2web-spotbox-box img,
@@ -7661,17 +7655,22 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
     padding-left: 0px;
   }
 }
+.header_fixed .navbar-header {
+  z-index: 300;
+}
 .header_fixed .search_box {
   margin-top: 5px;
 }
 .header_fixed #search-block-form button {
-  background: url('../images/search_icon.png') center center;
+  background-image: url('../images/search_icon.png') !important;
   background-repeat: no-repeat;
   border-left: none;
   border-color: #ccc;
   height: 2em;
   font-size: 2em;
-  /*.search_box_bg();*/
+  background-color: #fff;
+  background-position: center center;
+  filter: none;
 }
 .header_fixed input {
   box-shadow: none;
@@ -8232,37 +8231,65 @@ body.page-node .region-content.col-md-6 div.node-os2web-base-news .field-name-fi
 body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web-base-news .field-name-field-os2web-base-field-image img {
   border-radius: 4px 4px 0 0;
 }
+.page-taxonomy .region-content.col-sm-9 article .wrap,
 .page-node .region-content.col-sm-9 article .wrap,
+.page-taxonomy .region-content.col-md-9 article .wrap,
 .page-node .region-content.col-md-9 article .wrap,
+.page-taxonomy .region-content.col-sm-12 article .wrap,
 .page-node .region-content.col-sm-12 article .wrap,
+.page-taxonomy .region-content.col-md-12 article .wrap,
 .page-node .region-content.col-md-12 article .wrap,
+.page-taxonomy .region-content.col-sm-9 article header,
 .page-node .region-content.col-sm-9 article header,
+.page-taxonomy .region-content.col-md-9 article header,
 .page-node .region-content.col-md-9 article header,
+.page-taxonomy .region-content.col-sm-12 article header,
 .page-node .region-content.col-sm-12 article header,
+.page-taxonomy .region-content.col-md-12 article header,
 .page-node .region-content.col-md-12 article header {
   margin: 0 auto;
 }
+.page-taxonomy .region-content.col-sm-9 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-sm-9 article .field-name-field-os2web-base-field-image,
+.page-taxonomy .region-content.col-md-9 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-md-9 article .field-name-field-os2web-base-field-image,
+.page-taxonomy .region-content.col-sm-12 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-sm-12 article .field-name-field-os2web-base-field-image,
+.page-taxonomy .region-content.col-md-12 article .field-name-field-os2web-base-field-image,
 .page-node .region-content.col-md-12 article .field-name-field-os2web-base-field-image {
   padding: 0 15px;
 }
+.page-taxonomy .region-content.col-sm-9 article .wrap,
 .page-node .region-content.col-sm-9 article .wrap,
+.page-taxonomy .region-content.col-md-9 article .wrap,
 .page-node .region-content.col-md-9 article .wrap,
+.page-taxonomy .region-content.col-sm-9 article header,
 .page-node .region-content.col-sm-9 article header,
+.page-taxonomy .region-content.col-md-9 article header,
 .page-node .region-content.col-md-9 article header {
   width: 77.77777776%;
 }
+.page-taxonomy .region-content.col-sm-12 article .wrap,
 .page-node .region-content.col-sm-12 article .wrap,
+.page-taxonomy .region-content.col-md-12 article .wrap,
 .page-node .region-content.col-md-12 article .wrap,
+.page-taxonomy .region-content.col-sm-12 article header,
 .page-node .region-content.col-sm-12 article header,
+.page-taxonomy .region-content.col-md-12 article header,
 .page-node .region-content.col-md-12 article header {
   width: 83.33333333%;
 }
 .region-content .taxonomy-term-description a,
 .region-content .field-name-body a {
   font-weight: bold;
+}
+.wrap img {
+  max-width: 100%;
+}
+.link_here {
+  padding-top: 135px;
+  margin-top: -135px;
+  display: block;
 }
 #nyheder-carousel-large {
   background-color: #fff;
@@ -8728,7 +8755,7 @@ h2.menu-footer a.Kommunen {
   height: 45px;
 }
 #front-carousel-small {
-  background-color: initial;
+  background-color: transparent !important;
 }
 #front-carousel-small ol {
   bottom: -35px;
@@ -8761,10 +8788,14 @@ h2.menu-footer a.Kommunen {
 }
 .front-s-news {
   background-image: url('../images/front_s_news_bg.png');
+  overflow: hidden;
 }
 .front-s-news .front-s-news-inner {
   padding-top: 25px;
-  background: linear-gradient(to top, rgba(14, 14, 14, 0.05), rgba(46, 46, 46, 0.05));
+  background-image: -webkit-linear-gradient(top, rgba(14, 14, 14, 0.05) 100%, rgba(46, 46, 46, 0.05) 100%);
+  background-image: linear-gradient(to bottom, rgba(14, 14, 14, 0.05) 100%, rgba(46, 46, 46, 0.05) 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0d0e0e0e', endColorstr='#0d2e2e2e', GradientType=0);
 }
 .front-s-news .front-s-news-inner .front-s-news-item {
   padding: 10px 10px;
@@ -8845,13 +8876,13 @@ h2.menu-footer a.Kommunen {
   font-size: 14px;
   padding: 7px 30px;
 }
-.front .region-navigation.container #search-block-form {
+.front .region-navigation #search-block-form {
   margin-top: 2px;
 }
-.front .region-navigation.container #search-block-form input {
+.front .region-navigation #search-block-form input {
   display: none;
 }
-.front .region-navigation.container #search-block-form .input-group-btn {
+.front .region-navigation #search-block-form .input-group-btn {
   border: none;
   text-align: right;
 }
