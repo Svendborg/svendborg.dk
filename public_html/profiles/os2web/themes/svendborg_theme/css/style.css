@@ -7570,6 +7570,7 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   top: 0px;
   min-height: 40px;
   background: #000;
+  z-index: 900;
 }
 #top_menu a {
   color: #ffffff;
@@ -7646,6 +7647,9 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   .header_fixed .navbar-nav {
     float: right;
   }
+}
+.header_fixed .navbar-collapse {
+  z-index: 900;
 }
 @media (min-width: 768px) {
   .header_fixed .navbar-collapse {
