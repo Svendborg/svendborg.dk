@@ -303,7 +303,7 @@ function os2web_base_node_info() {
       'help' => '',
     ),
     'os2web_base_selfservice_link' => array(
-      'name' => t('Selvbetjeningslinks'),
+      'name' => t('Selvbetjening'),
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',

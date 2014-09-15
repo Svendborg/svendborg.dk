@@ -227,7 +227,7 @@
   <div class="container">
     <div class="front-news-bottom-inner">
       <div class=''>
-        <span>&#216;nsker du at se alle nyheder   <a href="/nyheder" class="btn btn-primary">Tryk her</a></span>
+        <span>&#216;nsker du at se alle nyheder   <a href="/nyheder" class="btn btn-primary">Klik her</a></span>
       </div>
     </div>
   </div>

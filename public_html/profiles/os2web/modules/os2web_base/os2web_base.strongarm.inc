@@ -789,6 +789,7 @@ function os2web_base_strongarm() {
   $strongarm->value = array(
     0 => 'status',
     1 => 'promote',
+    2 => 'revision',
   );
   $export['node_options_os2web_base_news'] = $strongarm;
 
@@ -808,6 +809,7 @@ function os2web_base_strongarm() {
   $strongarm->name = 'node_options_os2web_base_selfservice_link';
   $strongarm->value = array(
     0 => 'status',
+    1 => 'revision',
   );
   $export['node_options_os2web_base_selfservice_link'] = $strongarm;
 

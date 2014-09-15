@@ -1366,7 +1366,7 @@ function os2web_base_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_os2web_base_field_selfserv',
-    'label' => 'Selvbetjeningslinks',
+    'label' => 'Selvbetjening',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -5657,6 +5657,7 @@ function os2web_base_field_default_field_instances() {
   t('Primære billede');
   t('Resume (maks 2 linier!)');
   t('Resume - lang overskrift');
+  t('Selvbetjening');
   t('Selvbetjeningslinks');
   t('Side link');
   t('Skal være inkl. <i>http://</i> hvis det er sider uden for sitet. Skal kun bruges til sider ser ikke kan indlejres som indhold via iframe.');
