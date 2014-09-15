@@ -388,7 +388,7 @@ function svendborg_theme_qt_quicktabs_tabset($vars) {
       else {
         $item['class'] = array('tab-' . $key, $class);
       }
-      $item['data'] = "<div class = 'bubble' ><span>" . drupal_render($tab) . "</span></div>";
+      $item['data'] = "<div><span>" . drupal_render($tab) . "</span></div>";
       $variables['items'][] = $item;
     }
   }
