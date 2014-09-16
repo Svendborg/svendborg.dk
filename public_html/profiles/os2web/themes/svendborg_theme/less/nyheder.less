@@ -86,13 +86,15 @@
     padding: 0px 0px;
     margin-bottom: 0px;
     width: 100%;
-    display: inline-table;
+    display: block;
+    height: 56px;
     #gradient > .vertical(@gradient-light, @gradient-dark, 0%, 100%);
     li {
       padding: 0;
       position: relative;
-      display: inline-block;
+      display: block;
       width: 25%;
+      float: left;
       height: 56px;
       text-align: center;
       vertical-align: middle;
@@ -135,6 +137,10 @@
         }
         @media (max-width:520px) {
           width: 55px;
+        }
+        &:focus {
+          outline: none;
+          text-decoration: none;
         }
 
       }

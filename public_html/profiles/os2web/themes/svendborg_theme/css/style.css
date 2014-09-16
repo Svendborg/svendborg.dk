@@ -8383,7 +8383,8 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
   padding: 0px 0px;
   margin-bottom: 0px;
   width: 100%;
-  display: inline-table;
+  display: block;
+  height: 56px;
   background-image: -webkit-linear-gradient(top, #496e7e 0%, #194254 100%);
   background-image: linear-gradient(to bottom, #496e7e 0%, #194254 100%);
   background-repeat: repeat-x;
@@ -8392,8 +8393,9 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 #svendborg_tabs ul.quicktabs-tabs li {
   padding: 0;
   position: relative;
-  display: inline-block;
+  display: block;
   width: 25%;
+  float: left;
   height: 56px;
   text-align: center;
   vertical-align: middle;
@@ -8487,6 +8489,10 @@ fieldset[disabled] #svendborg_tabs ul.quicktabs-tabs li.active {
   #svendborg_tabs ul.quicktabs-tabs li a {
     width: 55px;
   }
+}
+#svendborg_tabs ul.quicktabs-tabs li a:focus {
+  outline: none;
+  text-decoration: none;
 }
 #svendborg_tabs .views-row {
   display: table;
