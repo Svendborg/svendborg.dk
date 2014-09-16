@@ -10,3 +10,7 @@ body .ui-dialog {
   height: 100px;
   width: auto;
 }
+
+body .ui-dialog .ui-dialog-content {
+  height: 450px !important;
+}

@@ -88,6 +88,7 @@ function os2web_contact_strongarm() {
   $strongarm->name = 'node_options_os2web_contact_contact';
   $strongarm->value = array(
     0 => 'status',
+    1 => 'revision',
   );
   $export['node_options_os2web_contact_contact'] = $strongarm;
 

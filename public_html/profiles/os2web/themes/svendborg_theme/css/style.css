@@ -6588,8 +6588,8 @@ a:hover {
   right: 15px;
   text-align: right;
   bottom: 0;
-  margin-left: initial;
-  left: initial;
+  margin-left: inherit;
+  left: inherit;
 }
 .carousel .carousel-indicators li {
   height: 18px;
@@ -6622,7 +6622,7 @@ a:hover {
 .carousel .carousel-inner > .item > .carousel-caption {
   right: 0;
   left: initial;
-  position: relative;
+  position: static;
   text-align: left;
   padding: 10px;
   margin-top: 20px;
