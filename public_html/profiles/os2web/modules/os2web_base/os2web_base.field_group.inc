@@ -93,7 +93,9 @@ function os2web_base_field_group_info() {
       1 => 'field_os2web_base_field_hidlinks',
       2 => 'field_os2web_base_field_rotate',
       3 => 'field_list_as_spotboks',
-      4 => 'group_os2web_base_group_hidden',
+      4 => 'field_svendborg_hide_sidebar',
+      5 => 'field_svendborg_hide_contact',
+      6 => 'group_os2web_base_group_hidden',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -264,7 +266,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_group_3';
   $field_group->data = array(
     'label' => 'Skjult',
-    'weight' => '14',
+    'weight' => '15',
     'children' => array(
       0 => 'field_os2web_base_field_case',
       1 => 'field_os2web_base_field_doc',
@@ -601,8 +603,7 @@ function os2web_base_field_group_info() {
     'children' => array(
       0 => 'field_os2web_base_field_selfserv',
       1 => 'field_os2web_base_field_related',
-      2 => 'field_os2web_base_ext_link',
-      3 => 'field_os2web_base_field_ext_link',
+      2 => 'field_os2web_base_field_ext_link',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
