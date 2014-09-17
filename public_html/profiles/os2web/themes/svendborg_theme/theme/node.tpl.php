@@ -119,6 +119,7 @@
     <?php print render($title_suffix); ?>
   </header>
   <?php endif; ?>
+
   <div class="wrap">
     <?php
       // Hide comments, tags, and links now so that we can render them later.
@@ -128,6 +129,13 @@
       hide($content['field_os2web_base_field_image']);
       hide($content['field_os2web_base_field_lead_img']);
       print render($content);
+
+      if (user_is_logged_in()) {
+        $view = views_get_view('redaktoerinfo');
+        $view->set_arguments(array($node->nid));
+        $view->execute();
+        print $view->render('block'); 
+      }
     ?>
   </div>
   <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
