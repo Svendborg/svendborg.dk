@@ -152,13 +152,19 @@ class FeedsFileFetcher extends FeedsFetcher {
         $values['file'] = $file;
       }
       elseif (empty($values['source'])) {
-        form_set_error('feeds][FeedsFileFetcher][source', t('Please upload a file.'));
+        if ($this->config['source_required']) {
+          form_set_error('feeds][FeedsFileFetcher][source', t('Please upload a file.'));
+        }
       }
       else {
         // File present from previous upload. Nothing to validate.
       }
     }
     else {
+      // Skip validating empty source if not required.
+      if (!$values['source'] && !$this->config['source_required']) {
+        return;
+      }
       // Check if chosen url scheme is allowed.
       $scheme = file_uri_scheme($values['source']);
       if (!$scheme || !in_array($scheme, $this->config['allowed_schemes'])) {
@@ -216,14 +222,14 @@ class FeedsFileFetcher extends FeedsFetcher {
       'direct' => FALSE,
       'directory' => $scheme . '://feeds',
       'allowed_schemes' => $schemes,
-    );
+    ) + parent::configDefaults();
   }
 
   /**
    * Overrides parent::configForm().
    */
   public function configForm(&$form_state) {
-    $form = array();
+    $form = parent::configForm($form_state);
     $form['allowed_extensions'] = array(
       '#type' => 'textfield',
       '#title' => t('Allowed file extensions'),
