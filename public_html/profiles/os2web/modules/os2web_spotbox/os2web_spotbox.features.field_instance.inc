@@ -132,6 +132,7 @@ function os2web_spotbox_field_default_field_instances() {
       'epsacrop' => array(
         'styles' => array(
           'os2web_spotbox_image' => 0,
+          'svendborg_content_image' => 0,
           'svendborg_spotbox' => 'svendborg_spotbox',
         ),
       ),
@@ -142,7 +143,7 @@ function os2web_spotbox_field_default_field_instances() {
       'focus_min_size' => '',
       'max_filesize' => '',
       'max_resolution' => '',
-      'min_resolution' => '',
+      'min_resolution' => '272x126',
       'title_field' => 1,
       'title_field_required' => 0,
       'user_register_form' => FALSE,
