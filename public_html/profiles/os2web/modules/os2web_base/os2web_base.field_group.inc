@@ -91,6 +91,7 @@ function os2web_base_field_group_info() {
       0 => 'field_os2web_base_field_contact',
       1 => 'field_os2web_base_field_hidlinks',
       2 => 'field_svendborg_hide_sidebar',
+      3 => 'field_svendborg_hide_contact',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -261,7 +262,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_group_3';
   $field_group->data = array(
     'label' => 'Skjult',
-    'weight' => '14',
+    'weight' => '15',
     'children' => array(
       0 => 'field_os2web_base_field_case',
       1 => 'field_os2web_base_field_doc',

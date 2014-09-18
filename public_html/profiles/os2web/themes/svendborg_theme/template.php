@@ -496,3 +496,15 @@ function svendborg_theme_file_link($variables) {
   }
   return '<span class="file">' . $icon . ' ' . l($link_text, $url, $options) . '</span>';
 }
+
+function svendborg_theme_file_formatter_table($variables) {
+  $header = array(t('Attachment'));
+  $rows = array();
+  foreach ($variables['items'] as $delta => $item) {
+    $rows[] = array(
+      theme('file_link', array('file' => (object) $item)),
+    );
+  }
+  asort($rows);
+  return empty($rows) ? '' : theme('table', array('header' => $header, 'rows' => $rows));
+}

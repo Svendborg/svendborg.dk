@@ -13,7 +13,11 @@
     <?php foreach ($rows as $key => $row): ?>
       <div class="item <?php if ($key === 0) print 'active' ?>">
         <?php print $row ?>
-        <a href="#" class="btn btn-primary"><?php print t('Læs mere'); ?></a>
+        <?php
+          // Get read more link href from the $row html content, which is the link to content. 
+          $url = preg_match('/href=["\']?([^"\'>]+)["\']?/', $row, $match);
+        ?>
+        <a href="<?php print isset($match[1]) ? $match[1]: '#'; ?>" class="btn btn-primary"><?php print t('Læs mere'); ?></a>
       </div>
     <?php endforeach ?>
   </div>

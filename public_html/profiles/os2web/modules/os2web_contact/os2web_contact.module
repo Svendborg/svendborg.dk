@@ -13,6 +13,7 @@ include_once 'os2web_contact.features.inc';
  */
 function os2web_contact_get_block() {
   $result = NULL;
+  $hide_contact = FALSE;
   $menu = menu_get_active_trail();
   while ($item = array_pop($menu)) {
     $path = explode('/', $item['link_path']);
@@ -29,6 +30,12 @@ function os2web_contact_get_block() {
       if (isset($path[1]) && is_numeric($path[1])) {
         $ent = node_load($path[1]);
         $field = field_get_items('node', $ent, 'field_os2web_base_field_contact');
+        if ($field_hide = field_get_items('node', $ent, 'field_svendborg_hide_contact')) {
+          if ($field_hide[0]['value']) {
+            $hide_contact = TRUE;
+          }
+        }
+        
       }
     }
     else {
@@ -39,7 +46,9 @@ function os2web_contact_get_block() {
     }
     if (isset($field[0]['nid'])) {
       if (node_load($field[0]['nid'])) {
-        $result = $field[0]['nid'];
+        if (!$hide_contact) {
+          $result = $field[0]['nid'];
+        }
       }
       break;
     }

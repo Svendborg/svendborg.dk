@@ -1309,6 +1309,49 @@ function os2web_base_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-os2web_base_contentpage-field_svendborg_hide_contact'
+  $field_instances['node-os2web_base_contentpage-field_svendborg_hide_contact'] = array(
+    'bundle' => 'os2web_base_contentpage',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 21,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_svendborg_hide_contact',
+    'label' => 'Skjul kontaktblok',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-os2web_base_gallery-body'
   $field_instances['node-os2web_base_gallery-body'] = array(
     'bundle' => 'os2web_base_gallery',
@@ -1423,6 +1466,60 @@ function os2web_base_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-os2web_base_gallery-field_os2web_base_field_inh_colm'
+  $field_instances['node-os2web_base_gallery-field_os2web_base_field_inh_colm'] = array(
+    'bundle' => 'os2web_base_gallery',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
+      'related_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_os2web_base_field_inh_colm',
+    'label' => 'Nedarv højrespalte',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 5,
+    ),
+  );
+
   // Exported field_instance: 'node-os2web_base_gallery-field_os2web_base_field_kle_ref'
   $field_instances['node-os2web_base_gallery-field_os2web_base_field_kle_ref'] = array(
     'bundle' => 'os2web_base_gallery',
@@ -1474,6 +1571,83 @@ function os2web_base_field_default_field_instances() {
       ),
       'type' => 'taxonomy_autocomplete',
       'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-os2web_base_gallery-field_os2web_base_field_lead_img'
+  $field_instances['node-os2web_base_gallery-field_os2web_base_field_lead_img'] = array(
+    'bundle' => 'os2web_base_gallery',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
+      'related_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_os2web_base_field_lead_img',
+    'label' => 'Vælg billede',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 1,
+      'alt_field_required' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'focus' => 0,
+      'focus_lock_ratio' => 0,
+      'focus_min_size' => '',
+      'imagecrop' => array(
+        'medium' => 0,
+      ),
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 1,
+      'title_field_required' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'image',
+      'settings' => array(
+        'filefield_sources' => array(
+          'filefield_sources' => array(),
+          'source_attach' => array(
+            'absolute' => 0,
+            'attach_mode' => 'move',
+            'path' => 'file_attach',
+          ),
+          'source_reference' => array(
+            'autocomplete' => 0,
+          ),
+        ),
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'image_image',
+      'weight' => 4,
     ),
   );
 
@@ -1582,6 +1756,58 @@ function os2web_base_field_default_field_instances() {
       ),
       'type' => 'taxonomy_autocomplete',
       'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance: 'node-os2web_base_gallery-field_os2web_base_field_parent'
+  $field_instances['node-os2web_base_gallery-field_os2web_base_field_parent'] = array(
+    'bundle' => 'os2web_base_gallery',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
+      'related_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_os2web_base_field_parent',
+    'label' => 'Forældre-menupunkt',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'node_reference',
+      'settings' => array(
+        'autocomplete_match' => 'contains',
+        'autocomplete_path' => 'node_reference/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'node_reference_autocomplete',
+      'weight' => 6,
     ),
   );
 
@@ -2697,7 +2923,7 @@ function os2web_base_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_os2web_base_field_lead_img',
     'label' => 'Primære billede',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'alt_field' => 0,
       'alt_field_required' => 1,
@@ -4947,6 +5173,7 @@ function os2web_base_field_default_field_instances() {
   t('Side link');
   t('Skal være inkl. <i>http://</i> hvis det er sider uden for sitet. Skal kun bruges til sider ser ikke kan indlejres som indhold via iframe.');
   t('Skjul automatisk relaterede links');
+  t('Skjul kontaktblok');
   t('Source ID');
   t('Spotboxe');
   t('Stikord');
@@ -4959,6 +5186,7 @@ function os2web_base_field_default_field_instances() {
   t('Vis på portalside');
   t('Vises før indholdet af iframe');
   t('Vist navn');
+  t('Vælg billede');
   t('iFrame URL');
 
   return $field_instances;
