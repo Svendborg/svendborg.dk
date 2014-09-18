@@ -184,7 +184,8 @@ function media_menu() {
       'title' => 'Edit multiple files',
       'page callback' => 'media_file_page_edit_multiple',
       'page arguments' => array(4),
-      'access arguments' => array('edit any files'),
+      'access callback' =>  '_media_file_entity_access_recursive',
+      'access arguments' => array(4, 'update'),
       'file' => 'includes/media.pages.inc',
     );
   }
@@ -568,6 +569,29 @@ function media_file_download_access($field, $entity_type, $entity) {
     // are supported by file_entity module.
     return user_access('view files');
   }
+}
+
+/**
+ * Access callback for the media-multi form.
+ *
+ * @param $files
+ *   An array of files being editing on the multiform.
+ * @param $op
+ *   A string containing the operation requested, such as 'update'.
+ * @return
+ *   TRUE if the current user has access to edit all of the files, otherwise FALSE.
+ */
+function _media_file_entity_access_recursive($files, $op) {
+  // Check that the current user can access each file.
+  if (!empty($files)) {
+    foreach ($files as $file) {
+      if (!file_entity_access($op, $file)) {
+        return FALSE;
+      }
+    }
+    return TRUE;
+  }
+  return FALSE;
 }
 
 /* ***************************************** */
