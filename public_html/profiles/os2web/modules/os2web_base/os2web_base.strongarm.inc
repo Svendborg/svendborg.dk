@@ -498,10 +498,10 @@ function os2web_base_strongarm() {
       'display' => array(),
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '1',
         ),
         'path' => array(
-          'weight' => '2',
+          'weight' => '3',
         ),
         'workbench_access' => array(
           'weight' => '0',
@@ -510,7 +510,7 @@ function os2web_base_strongarm() {
           'weight' => '4',
         ),
         'redirect' => array(
-          'weight' => '30',
+          'weight' => '5',
         ),
       ),
     ),
