@@ -100,8 +100,8 @@
     <?php print render($content['field_os2web_borger_dk_image']);?>
   </div>
   <header>
-  <h2<?php print $title_attributes; ?>>
-      <a href="<?php print 'node/' . $node->nid; ?>"><?php print $node->title; ?></a>
+    <h2<?php print $title_attributes; ?>>
+      <?php print $node->title; ?>
     </h2>
   </header>
   <div class="wrap">

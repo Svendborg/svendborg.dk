@@ -52,7 +52,7 @@
     <?php if (isset($content['field_os2web_base_field_image'])): ?>
       <?php print render($content['field_os2web_base_field_image']); ?>
     <?php endif; ?>
-    <h2><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
+    <h2><?php print $term_name; ?></h2>
   </header>
 
   <?php
@@ -94,7 +94,7 @@
         <?php endif; ?>
       </header>
       <div class="padding-20">
-        <h2><a class="content_header_2" href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
+        <h2><?php print $term_name; ?></h2>
         <?php print render($content) ?>
       </div>
     </div>

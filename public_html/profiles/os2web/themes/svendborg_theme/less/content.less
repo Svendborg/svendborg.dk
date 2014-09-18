@@ -47,10 +47,15 @@ body.page-taxonomy-term.term-is-not-top {
     header h2 {
       margin: 0;
       margin-top: 14px;
+      font-size: @font-size-h1;
+      font-family: @headings-font-family;
+      text-transform: initial;
+      color: @text-color;
+      font-weight: 600;
       a{
         color: @text-color;
         text-transform: initial;
-        font-family: @font-family-sans-serif-second;
+        font-family: @headings-font-family;
         font-size: @font-size-h1;
         @media (max-width:460px) {
           font-size: 1.3em;
@@ -93,9 +98,10 @@ body.page-taxonomy-term.term-is-not-top {
     }
     .borger_dk_header_text,
     .field-name-field-os2web-base-field-summary .field-item {
-      font-family: @font-family-sans-serif-second;
-      font-size: @font-size-h2;
-      line-height: 1.7em;
+      font-family: @headings-font-family;
+      font-size: @font-size-intro-text;
+      line-height: 1.1em;
+      padding-bottom: 20px;
       margin-bottom: 20px;
     }
     .borger_dk_header_text {
@@ -293,6 +299,12 @@ body.page-taxonomy-term.term-is-not-top {
   .taxonomy-term-description a,
   .field-name-body a {
     font-weight: bold;
+    color: @brand-lightblue;
+    &:hover,
+    &:active {
+      color: @brand-darkblue;
+    }
+    
   }
 }
 .wrap img {
