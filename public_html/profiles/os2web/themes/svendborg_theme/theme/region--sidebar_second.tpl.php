@@ -35,7 +35,7 @@
           <h3 class="panel-title"><?php print t('Selvbetjeningslinks'); ?></h3>
         </div>
         <div class="panel-body">
-          <ul>
+          <ul class='nav'>
           <?php foreach ($page['page']['os2web_selfservicelinks'] as $link) : ?>
             <li>
               <a href="<?php print $link['url']; ?>"><?php print $link['title']; ?></a>

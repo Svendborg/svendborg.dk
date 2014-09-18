@@ -187,14 +187,18 @@
       //      print render($content);
     ?>
     </div>
+    <div class="nyheder-seperator"></div>
+    <?php
+      if (user_is_logged_in()) {
+        $view = views_get_view('redaktoerinfo');
+        $view->set_arguments(array($node->nid));
+        $view->execute();
+        print $view->render('block'); 
+      }
+    ?>
   </div>
 
   <?php
-    // Remove the "Add new comment" link on the teaser page or if the comment
-    // form is being displayed on the same page.
-   // if ($teaser || !empty($content['comments']['comment_form'])) {
-      //unset($content['links']['comment']['#links']['comment-add']);
-    //}
     // Only display the wrapper div if there are links.
     $links = render($content['links']);
     if ($links):
