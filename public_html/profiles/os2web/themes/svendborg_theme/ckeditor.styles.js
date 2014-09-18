@@ -20,7 +20,8 @@ if(typeof(CKEDITOR) !== 'undefined') {
         { name : 'Overskrift 5'        , element : 'h5', attributes: { 'class': 'h5' } },
         { name : 'Overskrift 6'        , element : 'h6', attributes: { 'class': 'h6' } },
 
-        { name : 'Afsnit'     , element : 'p', attributes: { 'class': 'lead' } },
+        { name : 'Indledning'     , element : 'p', attributes: { 'class': 'lead' } },
+        { name : 'Afsnit'     , element : 'p', attributes: { } },
 
         {
             name : 'Liste',
