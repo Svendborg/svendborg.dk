@@ -1,0 +1,183 @@
+diff --git a/feeds.module b/feeds.module
+index cba702d..f848be9 100644
+--- a/feeds.module
++++ b/feeds.module
+@@ -635,11 +635,9 @@ function feeds_node_insert($node) {
+   if (isset($node->feeds) && $importer_id = feeds_get_importer_id($node->type)) {
+     $source = feeds_source($importer_id, $node->nid);
+     // Start import if requested.
+-    if (feeds_importer($importer_id)->config['import_on_create'] && !isset($node->feeds['suppress_import'])) {
++    if ($source->hasFetcherSource() && feeds_importer($importer_id)->config['import_on_create'] && !isset($node->feeds['suppress_import'])) {
+       $source->startImport();
+     }
+-    // Schedule the source.
+-    $source->schedule();
+   }
+ }
+ 
+@@ -650,8 +648,13 @@ function feeds_node_update($node) {
+   // Source attached to node.
+   if (isset($node->feeds) && $importer_id = feeds_get_importer_id($node->type)) {
+     $source = feeds_source($importer_id, $node->nid);
++    $had_fetcher_source = $source->hasFetcherSource();
+     $source->addConfig($node->feeds);
+     $source->save();
++    // Fetcher source was emptied or filled.
++    if ($had_fetcher_source != $source->hasFetcherSource()) {
++      $source->schedule();
++    }
+   }
+ }
+ 
+diff --git a/includes/FeedsSource.inc b/includes/FeedsSource.inc
+index 2fe2249..e6c7d1c 100644
+--- a/includes/FeedsSource.inc
++++ b/includes/FeedsSource.inc
+@@ -296,7 +296,7 @@ class FeedsSource extends FeedsConfigurable {
+       'period' => $period,
+       'periodic' => TRUE,
+     );
+-    if ($period == FEEDS_SCHEDULE_NEVER && $this->progressImporting() === FEEDS_BATCH_COMPLETE) {
++    if (!$this->hasFetcherSource() || $period == FEEDS_SCHEDULE_NEVER && $this->progressImporting() === FEEDS_BATCH_COMPLETE) {
+       JobScheduler::get('feeds_source_import')->remove($job);
+     }
+     elseif ($this->progressImporting() === FEEDS_BATCH_COMPLETE) {
+@@ -792,4 +792,12 @@ class FeedsSource extends FeedsConfigurable {
+     lock_release("feeds_source_{$this->id}_{$this->feed_nid}");
+   }
+ 
++  /**
++   * Checks if the fetch source is empty.
++   */
++  public function hasFetcherSource() {
++    $fetcher_source_config = $this->getConfigFor($this->importer->fetcher);
++    return !empty($fetcher_source_config['source']);
++  }
++
+ }
+diff --git a/plugins/FeedsFetcher.inc b/plugins/FeedsFetcher.inc
+index 33457de..cf4c478 100644
+--- a/plugins/FeedsFetcher.inc
++++ b/plugins/FeedsFetcher.inc
+@@ -222,4 +222,28 @@ abstract class FeedsFetcher extends FeedsPlugin {
+    *   $source, NULL otherwise.
+    */
+   public function importPeriod(FeedsSource $source) {}
++
++  /**
++   * Override parent::configDefaults().
++   */
++  public function configDefaults() {
++    return array(
++      'source_required' => TRUE,
++    );
++  }
++
++  /**
++   * Override parent::configForm().
++   */
++  public function configForm(&$form_state) {
++    $form = array();
++    // @todo Disable this option on stand-alone importers importer.
++    $form['source_required'] = array(
++      '#type' => 'checkbox',
++      '#title' => t('Require feed'),
++      '#description' => t('Ensure a feed source is provided during form submission.'),
++      '#default_value' => $this->config['source_required'],
++    );
++    return $form;
++  }
+ }
+diff --git a/plugins/FeedsFileFetcher.inc b/plugins/FeedsFileFetcher.inc
+index 5e8e116..ff50c48 100644
+--- a/plugins/FeedsFileFetcher.inc
++++ b/plugins/FeedsFileFetcher.inc
+@@ -152,13 +152,19 @@ class FeedsFileFetcher extends FeedsFetcher {
+         $values['file'] = $file;
+       }
+       elseif (empty($values['source'])) {
+-        form_set_error('feeds][FeedsFileFetcher][source', t('Please upload a file.'));
++        if ($this->config['source_required']) {
++          form_set_error('feeds][FeedsFileFetcher][source', t('Please upload a file.'));
++        }
+       }
+       else {
+         // File present from previous upload. Nothing to validate.
+       }
+     }
+     else {
++      // Skip validating empty source if not required.
++      if (!$values['source'] && !$this->config['source_required']) {
++        return;
++      }
+       // Check if chosen url scheme is allowed.
+       $scheme = file_uri_scheme($values['source']);
+       if (!$scheme || !in_array($scheme, $this->config['allowed_schemes'])) {
+@@ -216,14 +222,14 @@ class FeedsFileFetcher extends FeedsFetcher {
+       'direct' => FALSE,
+       'directory' => $scheme . '://feeds',
+       'allowed_schemes' => $schemes,
+-    );
++    ) + parent::configDefaults();
+   }
+ 
+   /**
+    * Overrides parent::configForm().
+    */
+   public function configForm(&$form_state) {
+-    $form = array();
++    $form = parent::configForm($form_state);
+     $form['allowed_extensions'] = array(
+       '#type' => 'textfield',
+       '#title' => t('Allowed file extensions'),
+diff --git a/plugins/FeedsHTTPFetcher.inc b/plugins/FeedsHTTPFetcher.inc
+index 7b71281..e87efe3 100644
+--- a/plugins/FeedsHTTPFetcher.inc
++++ b/plugins/FeedsHTTPFetcher.inc
+@@ -71,6 +71,9 @@ class FeedsHTTPFetcher extends FeedsFetcher {
+     if ($this->config['use_pubsubhubbub'] && ($raw = $this->subscriber($source->feed_nid)->receive())) {
+       return new FeedsFetcherResult($raw);
+     }
++    if (!$source_config['source']) {
++      throw new Exception(t('Source URL is empty.'));
++    }
+     $fetcher_result = new FeedsHTTPFetcherResult($source_config['source']);
+     // When request_timeout is empty, the global value is used.
+     $fetcher_result->setTimeout($this->config['request_timeout']);
+@@ -123,14 +126,14 @@ class FeedsHTTPFetcher extends FeedsFetcher {
+       'designated_hub' => '',
+       'request_timeout' => NULL,
+       'auto_scheme' => 'http',
+-    );
++    ) + parent::configDefaults();
+   }
+ 
+   /**
+    * Override parent::configForm().
+    */
+   public function configForm(&$form_state) {
+-    $form = array();
++    $form = parent::configForm($form_state);
+     $form['auto_detect_feeds'] = array(
+       '#type' => 'checkbox',
+       '#title' => t('Auto detect feeds'),
+@@ -191,7 +194,7 @@ class FeedsHTTPFetcher extends FeedsFetcher {
+       '#description' => t('Enter a feed URL.'),
+       '#default_value' => isset($source_config['source']) ? $source_config['source'] : '',
+       '#maxlength' => NULL,
+-      '#required' => TRUE,
++      '#required' => $this->config['source_required'],
+     );
+     return $form;
+   }
+@@ -201,6 +204,10 @@ class FeedsHTTPFetcher extends FeedsFetcher {
+    */
+   public function sourceFormValidate(&$values) {
+     $values['source'] = trim($values['source']);
++    // Skip validating empty source if not required.
++    if (!$values['source'] && !$this->config['source_required']) {
++      return;
++    }
+ 
+     // Keep a copy for error messages.
+     $original_url = $values['source'];

@@ -643,9 +643,11 @@ function feeds_node_insert($node) {
   if (isset($node->feeds) && $importer_id = feeds_get_importer_id($node->type)) {
     $source = feeds_source($importer_id, $node->nid);
     // Start import if requested.
-    if ($source->hasFetcherSource() && feeds_importer($importer_id)->config['import_on_create'] && !isset($node->feeds['suppress_import'])) {
+    if (feeds_importer($importer_id)->config['import_on_create'] && !isset($node->feeds['suppress_import'])) {
       $source->startImport();
     }
+    // Schedule the source.
+    $source->schedule();
   }
 }
 
@@ -656,13 +658,8 @@ function feeds_node_update($node) {
   // Source attached to node.
   if (isset($node->feeds) && $importer_id = feeds_get_importer_id($node->type)) {
     $source = feeds_source($importer_id, $node->nid);
-    $had_fetcher_source = $source->hasFetcherSource();
     $source->addConfig($node->feeds);
     $source->save();
-    // Fetcher source was emptied or filled.
-    if ($had_fetcher_source != $source->hasFetcherSource()) {
-      $source->schedule();
-    }
   }
 }
 

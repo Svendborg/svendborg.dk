@@ -36,7 +36,22 @@ function feeds_page() {
     }
   }
   if (empty($rows)) {
-    drupal_set_message(t('There are no importers, go to <a href="@importers">Feed importers</a> to create one or enable an existing one.', array('@importers' => url('admin/structure/feeds'))));
+    // The feeds_ui module is enabled.
+    if (module_exists('feeds_ui') && user_access('administer feeds')) {
+      drupal_set_message(t('There are no importers, go to <a href="@importers">Feed importers</a> to create one or enable an existing one.', array('@importers' => url('admin/structure/feeds'))));
+    }
+    else {
+      // The feeds_ui module is not enabled but the current user has access to
+      // Modules to enable it.
+      if (user_access('administer modules')) {
+        drupal_set_message(t('The Feeds UI Admin module is not enabled and there are no importers, go to <a href="@modules">Modules</a> and enable Feeds Admin UI. Then go to <a href="@importers">Feed importers</a> to create one or enable an existing one.', array('@modules' => url('admin/modules'), '@importers' => url('admin/structure/feeds'))));
+      }
+      else {
+        // The feeds_ui module is not enabled and the current user cannot
+        // enable it.
+        drupal_set_message(t("The Feeds UI Admin module is not enabled. Please contact the Administrator for your site and ask them to enable it."));
+      }
+    }
   }
   $header = array(
     t('Import'),
@@ -48,11 +63,10 @@ function feeds_page() {
 /**
  * Render a feeds import form on import/[config] pages.
  */
-function feeds_import_form($form, &$form_state, $importer_id) {
-  $source = feeds_source($importer_id, empty($form['nid']['#value']) ? 0 : $form['nid']['#value']);
+function feeds_import_form(array $form, array &$form_state, FeedsImporter $importer) {
+  $source = feeds_source($importer->id);
 
-  $form = array();
-  $form['#importer_id'] = $importer_id;
+  $form['#importer_id'] = $importer->id;
   // @todo Move this into fetcher?
   $form['#attributes']['enctype'] = 'multipart/form-data';
   $form['source_status'] = array(
@@ -111,7 +125,6 @@ function feeds_import_form_submit($form, &$form_state) {
 
   // Add to schedule, make sure importer is scheduled, too.
   $source->schedule();
-  $source->importer->schedule();
 }
 
 /**
@@ -155,9 +168,9 @@ function feeds_import_tab_form_submit($form, &$form_state) {
  * Used on both node pages and configuration pages.
  * Therefore $node may be missing.
  */
-function feeds_delete_tab_form($form, &$form_state, $importer_id, $node = NULL) {
+function feeds_delete_tab_form(array $form, array &$form_state, FeedsImporter $importer = NULL, $node = NULL) {
   if (empty($node)) {
-    $source = feeds_source($importer_id);
+    $source = feeds_source($importer->id);
     $form['#redirect'] = 'import/' . $source->id;
   }
   else {
@@ -199,9 +212,9 @@ function feeds_delete_tab_form_submit($form, &$form_state) {
  * Used on both node pages and configuration pages.
  * Therefore $node may be missing.
  */
-function feeds_unlock_tab_form($form, &$form_state, $importer_id, $node = NULL) {
+function feeds_unlock_tab_form($form, &$form_state, FeedsImporter $importer = NULL, $node = NULL) {
   if (empty($node)) {
-    $source = feeds_source($importer_id);
+    $source = feeds_source($importer->id);
     $form['#redirect'] = 'import/' . $source->id;
   }
   else {
@@ -270,8 +283,7 @@ function feeds_fetcher_callback($importer, $feed_nid = 0) {
 /**
  * Template generation
  */
-function feeds_importer_template($importer_id) {
-  $importer = feeds_importer($importer_id);
+function feeds_importer_template(FeedsImporter $importer) {
   if ($importer->parser instanceof FeedsCSVParser) {
     return $importer->parser->getTemplate();
   }
