@@ -147,10 +147,7 @@ function os2web_base_field_group_info() {
   $field_group->data = array(
     'label' => 'Hentet fra kommunens sagssystem',
     'weight' => '3',
-    'children' => array(
-      0 => 'field_os2web_base_field_case',
-      1 => 'field_os2web_base_field_doc',
-    ),
+    'children' => array(),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'label' => 'Hentet fra kommunens sagssystem',

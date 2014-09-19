@@ -214,7 +214,7 @@ function svendborg_theme_preprocess_page(&$variables) {
   drupal_add_html_head(array(
     '#tag' => 'link',
     '#attributes' => array(
-      'href' => 'http://fonts.googleapis.com/css?family=Titillium+Web:400,500,600,700|Open+Sans:400,700',
+      'href' => 'http://fonts.googleapis.com/css?family=Titillium+Web:400,600,700|Open+Sans:400,700',
       'rel' => 'stylesheet',
       'type' => 'text/css',
     ),
@@ -274,6 +274,19 @@ function svendborg_theme_preprocess_html(&$variables) {
       $variables['classes_array'][] = 'term-is-not-top';
     }
   }
+
+  // Setup IE meta tag to force IE rendering mode.
+  $meta_ie_render_engine = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'http-equiv' => 'X-UA-Compatible',
+      'content' => 'IE=8,IE=Edge,chrome=1',
+    ),
+    '#weight' => '-99999',
+  );
+  // Add header meta tag for IE to head
+  drupal_add_html_head($meta_ie_render_engine, 'meta_ie_render_engine');
 }
 /**
  * Implements hook_preprocess_node().
@@ -404,7 +417,7 @@ function svendborg_theme_qt_quicktabs_tabset($vars) {
  * @return array
  *   The renderable array.
  */
-function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-6 col-md-6 col-lg-6') {
+function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-6 col-md-4 col-lg-4') {
   $spotbox_nids = array();
   foreach ($spotboxes as $spotbox) {
     $spotbox_nids[$spotbox['nid']] = $spotbox['nid'];

@@ -51,7 +51,7 @@
           <h3 class="panel-title"><?php print t('Relaterede sider'); ?></h3>
         </div>
         <div class="panel-body">
-          <ul>
+          <ul class="nav">
           <?php foreach ($page['page']['related_links'] as $link) : ?>
             <li>
               <?php if (isset($link['url'])): ?>

@@ -19,6 +19,7 @@ features[image][] = svendborg_frontpage_news_large
 features[image][] = svendborg_frontpage_news_small
 features[quicktabs][] = nyhed_quicktabs
 features[views_view][] = culture_calendar
+features[views_view][] = forfatters_indhold
 features[views_view][] = news_filter
 features[views_view][] = svendborg_inactive_users
 features[views_view][] = svendborg_news_view

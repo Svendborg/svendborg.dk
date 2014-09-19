@@ -23,7 +23,7 @@ function os2web_news_page_form_os2web_base_news_node_form_alter(&$form, $form_st
   }
   elseif (!user_access('administer all news type')) {
     foreach ($terms as $tid => $term) {
-      if (user_access('handle-' . $term->tid)) {
+      if (user_access('administer news type-' . $term->tid)) {
         $options[$term->tid] = $term->name;
       }
     }
@@ -45,8 +45,8 @@ function os2web_news_page_permission() {
 
   // Foreach news type term, there is a permission.
   foreach ($terms as $tid => $term) {
-    $permissions['handle-' . $term->tid] = array(
-      'title' => t('Handter ') . $term->name . t(' nyhedstype'),
+    $permissions['administer news type-' . $term->tid] = array(
+      'title' => t('Administer ') . $term->name . t(' nyhedstype'),
     );
   }
   return $permissions;

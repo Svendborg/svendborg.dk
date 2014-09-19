@@ -55,16 +55,21 @@
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          13px;
+@font-size-base:          14px;
 @font-size-large:         1.5em; // 18pt / 24px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
-@font-size-h1:            2.55em; // 32pt / 42px
+@font-size-h1:            2.4em; // 32pt / 42px
 @font-size-h2:            1.5em; // 18pt / 24px
 @font-size-h3:            17.5px; // BOLD
-@font-size-h4:            17.5px;
+@font-size-h4:            1.3em;
 @font-size-h5:            15px;
 @font-size-h6:            11.5px; // BOLD
+
+// font size according to tags.
+@font-familiy-semibold:  'Titillium Web', Geneva, Verdana, sans-serif;
+@font-familiy-web: 'Titillium Web', Geneva, Verdana, sans-serif;
+@font-size-intro-text: 1.3em;
 
 //** Unit-less `line-height` for use in components like buttons.
 @line-height-base:        1.428571429; // 20/14
@@ -73,7 +78,7 @@
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family:    'Titillium Web', Geneva, Verdana, sans-serif;
-@headings-font-weight:    100;
+@headings-font-weight:    400;
 @headings-line-height:    1.1;
 @headings-color:          inherit;
 
