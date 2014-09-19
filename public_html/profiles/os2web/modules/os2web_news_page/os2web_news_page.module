@@ -46,7 +46,7 @@ function os2web_news_page_permission() {
   // Foreach news type term, there is a permission.
   foreach ($terms as $tid => $term) {
     $permissions['handle-' . $term->tid] = array(
-      'title' => t('Handter ') . $term->name . t(' nyhedstype'),
+      'title' => t('Administer ') . $term->name . t(' nyhedstype'),
     );
   }
   return $permissions;
