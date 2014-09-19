@@ -6723,6 +6723,14 @@ a:hover {
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
   font-size: 2.4em;
 }
+.page-search .main-container .region.region-content {
+  background: white;
+  border-radius: 4px 4px;
+  margin-bottom: 20px;
+}
+.page-search .main-container .region.region-content ol.search-results.apachesolr_search-results {
+  list-style: none;
+}
 /**
  * This file is only for really global styles. None specific styles.
  */
