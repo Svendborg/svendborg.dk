@@ -39,11 +39,10 @@
 
   <?php
     // Add created node info to user profile page.
-  global $user;
-  if (arg(0) == 'user' && arg(1) == $user->uid) {
+  if (arg(0) == 'user' && is_numeric(arg(1))) {
     $view = views_get_view('forfatters_indhold');
     $view->set_display('block_1');
-    $view->set_arguments(array($user->uid));
+    $view->set_arguments(array(arg(1)));
     $view->pre_execute();
     $view->execute();
     print '<div class="bg-white">';
