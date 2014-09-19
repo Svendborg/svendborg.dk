@@ -7276,6 +7276,14 @@ fieldset[disabled] .btn-orange.active {
 }
 .panel .panel-body .panel-body-inner {
   padding: 10px 19px;
+  font-weight: 400;
+}
+.panel .panel-body .panel-body-inner .field-name-field-os2web-contact-field-info a {
+  color: #0089cd;
+}
+.panel .panel-body .panel-body-inner .field-name-field-os2web-contact-field-info a:hover,
+.panel .panel-body .panel-body-inner .field-name-field-os2web-contact-field-info a:active {
+  color: #005191;
 }
 .panel .panel-body ul {
   padding: 0;
@@ -8295,7 +8303,7 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 }
 .region-content .taxonomy-term-description a,
 .region-content .field-name-body a {
-  font-weight: bold;
+  font-weight: 400;
   color: #0089cd;
 }
 .region-content .taxonomy-term-description a:hover,
