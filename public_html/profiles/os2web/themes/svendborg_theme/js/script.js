@@ -96,19 +96,33 @@
         return false;
       });
       $(".gplus_all").click(function() {
-        $("div.mArticle").show();
-        $(".microArticle a.gplus").addClass('gminus');
-        $(".microArticle a.gplus").removeClass('gplus');
+        if ($(".microArticle a").hasClass("gminus")) {
+          $("div.mArticle").hide();
+          $(".microArticle a.gminus").addClass('gplus');
+          $(".microArticle a.gminus").removeClass('gminus');
+        }
+        else {
+          $("div.mArticle").show();
+          $(".microArticle a.gplus").addClass('gminus');
+          $(".microArticle a.gplus").removeClass('gplus');
+        }
+
         return false;
       });
-
       $(".gminus_all").click(function() {
-        $(".microArticle a.gminus").addClass('gplus');
-        $(".microArticle a.gminus").removeClass('gminus');
-        $("div.mArticle").hide();
+        if ($(".microArticle a").hasClass("gminus")) {
+          $("div.mArticle").hide();
+          $(".microArticle a.gminus").addClass('gplus');
+          $(".microArticle a.gminus").removeClass('gminus');
+        }
+        else {
+          $("div.mArticle").show();
+          $(".microArticle a.gplus").addClass('gminus');
+          $(".microArticle a.gplus").removeClass('gplus');
+        }
+
         return false;
       });
-
       // front nav header search_form button
       $(".front .region-navigation.container #search-block-form button").click(function(){
         $( ".main-container .front-search-box input" ).focus();
