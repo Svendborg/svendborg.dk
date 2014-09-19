@@ -78,6 +78,23 @@ class LinkitSearchPluginFile extends LinkitSearchPluginEntity {
   }
 
   /**
+   * Overrides LinkitSearchPluginEntity::createPath().
+   *
+   * If 'Direct download' is enabled, make the link point to the file entity
+   * download endpoint.
+   */
+  function createPath($entity) {
+    if (isset($this->conf['direct_download']) && $this->conf['direct_download']) {
+      $uri = file_entity_download_uri($entity);
+      // Process the uri with the insert pluing.
+      return linkit_get_insert_plugin_processed_path($this->profile, $uri['path'], $uri['options']);
+    }
+    else {
+      return parent::createPath($entity);
+    }
+  }
+
+  /**
    * Overrides LinkitSearchPluginEntity::getQueryInstance().
    */
   function getQueryInstance() {
@@ -103,6 +120,12 @@ class LinkitSearchPluginFile extends LinkitSearchPluginEntity {
       '#title' => t('Group files by scheme'),
       '#type' => 'checkbox',
       '#default_value' => isset($this->conf['group_by_scheme']) ? $this->conf['group_by_scheme'] : '',
+    );
+
+    $form['entity:file']['direct_download'] = array(
+      '#title' => t('Direct download'),
+      '#type' => 'checkbox',
+      '#default_value' => isset($this->conf['direct_download']) ? $this->conf['direct_download'] : '',
     );
 
     $image_extra_info_options = array(
