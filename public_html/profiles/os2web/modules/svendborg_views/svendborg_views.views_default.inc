@@ -270,7 +270,7 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['footer']['area']['field'] = 'area';
   $handler->display->display_options['footer']['area']['content'] = '<button class="btn btn-primary"><a href="http://www.svendborgkultur.dk/">
     Se kulturkalender  </a></button>';
-  $handler->display->display_options['footer']['area']['format'] = 'plain_text';
+  $handler->display->display_options['footer']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sorteringskriterie: Indhold: Kulturkalender Dato -  startdato (field_kulturkalender_dato) */
   $handler->display->display_options['sorts']['field_kulturkalender_dato_value']['id'] = 'field_kulturkalender_dato_value';
@@ -767,7 +767,7 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['header']['area']['content'] = '<div class="col-md-6 col-sm-12 col-xs-12">
 <div class="btn btn-blacknblue filter-link-all col-md-12 col-sm-12 col-xs-12" id="filter-all" data-filter="all">Alle</div>
 </div>';
-  $handler->display->display_options['header']['area']['format'] = 'plain_text';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Felt: Ord i ordforråd: Term ID */
   $handler->display->display_options['fields']['tid']['id'] = 'tid';
   $handler->display->display_options['fields']['tid']['table'] = 'taxonomy_term_data';
@@ -1245,7 +1245,7 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
   $handler->display->display_options['footer']['area']['content'] = '<button class="btn btn-primary">[field_os2web_news_page_type]</button>';
-  $handler->display->display_options['footer']['area']['format'] = 'plain_text';
+  $handler->display->display_options['footer']['area']['format'] = 'full_html';
   $handler->display->display_options['footer']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Indhold: Oprettelsesdato */
@@ -1355,7 +1355,7 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
   $handler->display->display_options['footer']['area']['content'] = '<button class="btn btn-primary">[field_os2web_news_page_type]</button>';
-  $handler->display->display_options['footer']['area']['format'] = 'plain_text';
+  $handler->display->display_options['footer']['area']['format'] = 'full_html';
   $handler->display->display_options['footer']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Indhold: Oprettelsesdato */

@@ -453,7 +453,7 @@ h4,
 .h4,
 body.page-node .field-name-field-os2web-base-field-media .field-label,
 body.page-taxonomy-term.term-is-not-top .field-name-field-os2web-base-field-media .field-label {
-  font-size: 1.3em;
+  font-size: 1.2em;
 }
 h5,
 .h5 {
@@ -6543,8 +6543,8 @@ a:hover {
   width: 100%;
 }
 .call-to-action .inner a {
-  padding: 0 24px 0 64px;
-  font-size: 1.3em;
+  padding: 0 34px 0 64px;
+  font-size: 1.2em;
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
   color: #30353c;
   display: table-cell;
@@ -6562,7 +6562,7 @@ a:hover {
 }
 .call-to-action i {
   position: absolute;
-  right: 25px;
+  right: 20px;
   top: 25.5px;
   background-image: url(../images/sprites.png);
   background-position: 0px -81px;
@@ -6722,6 +6722,14 @@ a:hover {
   text-transform: initial;
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
   font-size: 2.4em;
+}
+.page-search .main-container .region.region-content {
+  background: white;
+  border-radius: 4px 4px;
+  margin-bottom: 20px;
+}
+.page-search .main-container .region.region-content ol.search-results.apachesolr_search-results {
+  list-style: none;
 }
 /**
  * This file is only for really global styles. None specific styles.
@@ -7268,6 +7276,14 @@ fieldset[disabled] .btn-orange.active {
 }
 .panel .panel-body .panel-body-inner {
   padding: 10px 19px;
+  font-weight: 400;
+}
+.panel .panel-body .panel-body-inner .field-name-field-os2web-contact-field-info a {
+  color: #0089cd;
+}
+.panel .panel-body .panel-body-inner .field-name-field-os2web-contact-field-info a:hover,
+.panel .panel-body .panel-body-inner .field-name-field-os2web-contact-field-info a:active {
+  color: #005191;
 }
 .panel .panel-body ul {
   padding: 0;
@@ -7533,28 +7549,31 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-created {
   font-family: 'Open Sans', Geneva, Verdana, sans-serif;
-  font-size: 1.2em;
+  font-size: 1.1em;
   line-height: 1.4em;
 }
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-title {
   font-weight: bold;
-  font-size: 1.2em;
-  line-height: 1.4em;
+  font-size: 18px;
+  line-height: 1.1em;
+}
+.page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-title a {
+  color: #0089cd;
 }
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-field-os2web-base-field-summary {
-  font-weight: bold;
-  font-size: 1.2em;
-  line-height: 1.4em;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.1em;
 }
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-body {
-  font-size: 1.4em;
-  line-height: 1.5em;
+  font-size: 13px;
+  line-height: 1em;
 }
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-field-os2web-base-field-summary,
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-body,
 .page-taxonomy-term .view-os2web-news-lists.view-display-id-panel_pane_2 .views-field-title {
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 #top_menu {
   position: relative;
@@ -8302,7 +8321,7 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 }
 .region-content .taxonomy-term-description a,
 .region-content .field-name-body a {
-  font-weight: bold;
+  font-weight: 400;
   color: #0089cd;
 }
 .region-content .taxonomy-term-description a:hover,
