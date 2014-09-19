@@ -96,9 +96,9 @@
     //}
   }
   ?>
-  <div class="wrap">
-    <?php print render($content['field_os2web_borger_dk_image']);?>
-  </div>
+
+  <?php print render($content['field_os2web_borger_dk_image']);?>
+
   <header>
     <h2<?php print $title_attributes; ?>>
       <?php print $node->title; ?>
