@@ -239,7 +239,7 @@ function svendborg_theme_preprocess_taxonomy_term(&$variables) {
     $spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox');
     if (strtolower($term->name) === 'nyheder') {
       $variables['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
-      $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6');
+      $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
     }
     else {
       $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-3 col-lg-3');

@@ -14,17 +14,17 @@ if(typeof(CKEDITOR) !== 'undefined') {
         /* Bootstrap Styles */
 
         /* Typography */
-        { name : 'span.H1'        , element : 'span', attributes: { 'class': 'h1' } },
-        { name : 'span.H2'        , element : 'span', attributes: { 'class': 'h2' } },
-        { name : 'span.H3'        , element : 'span', attributes: { 'class': 'h3' } },
-        { name : 'span.H4'        , element : 'span', attributes: { 'class': 'h4' } },
-        { name : 'span.H5'        , element : 'span', attributes: { 'class': 'h5' } },
-        { name : 'span.H6'        , element : 'span', attributes: { 'class': 'h6' } },
+        { name : 'Overskift (H2)'        , element : 'h2', attributes: { 'class': 'h2' } },
+        { name : 'Afsnitsoverskift (H3)'        , element : 'h3', attributes: { 'class': 'h3' } },
+        { name : 'Overskrift 4'        , element : 'h4', attributes: { 'class': 'h4' } },
+        { name : 'Overskrift 5'        , element : 'h5', attributes: { 'class': 'h5' } },
+        { name : 'Overskrift 6'        , element : 'h6', attributes: { 'class': 'h6' } },
 
-        { name : 'Paragraph Lead'     , element : 'p', attributes: { 'class': 'lead' } },
+        { name : 'Indledning'     , element : 'p', attributes: { 'class': 'lead' } },
+        { name : 'Afsnit'     , element : 'p', attributes: { } },
 
         {
-            name : 'Unstyled List',
+            name : 'Liste',
             element : 'ul',
             attributes :
             {
@@ -32,7 +32,7 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'List inline',
+            name : 'Liste - horisontal',
             element : 'ul',
             attributes :
             {
@@ -40,7 +40,7 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'Table',
+            name : 'Tabel',
             element : 'table',
             attributes :
             {
@@ -48,7 +48,7 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'Table Striped rows',
+            name : 'Tabel - stribet',
             element : 'table',
             attributes :
             {
@@ -56,7 +56,7 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'Table Bordered',
+            name : 'Tabel - m ramme',
             element : 'table',
             attributes :
             {
@@ -64,7 +64,7 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'Table Hover rows',
+            name : 'Tabel - mouse-over effekt',
             element : 'table',
             attributes :
             {
@@ -72,7 +72,7 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'Table Condensed',
+            name : 'Tabel - lille margin',
             element : 'table',
             attributes :
             {
@@ -80,40 +80,33 @@ if(typeof(CKEDITOR) !== 'undefined') {
             }
         },
         {
-            name : 'Image shap rounded',
-            element : 'table',
+            name : 'Billede - runde hjørner',
+            element : 'img',
             attributes :
             {
                 'class' : 'img-rounded'
             }
         },
         {
-            name : 'Image shap circle',
-            element : 'table',
+            name : 'Billede - rundt',
+            element : 'img',
             attributes :
             {
                 'class' : 'img-circle'
             }
         },
+
         {
-            name : 'Image shap thumbnail',
-            element : 'table',
-            attributes :
-            {
-                'class' : 'img-thumbnail'
-            }
-        },
-        {
-            name : 'Image float left',
-            element : 'table',
+            name : 'Billede - flyder t venstre',
+            element : 'img',
             attributes :
             {
                 'class' : 'pull-left'
             }
         },
         {
-            name : 'Image float right',
-            element : 'table',
+            name : 'Billede - flyder t højre',
+            element : 'img',
             attributes :
             {
                 'class' : 'pull-right'
