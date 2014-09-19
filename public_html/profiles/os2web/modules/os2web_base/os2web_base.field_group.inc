@@ -58,10 +58,9 @@ function os2web_base_field_group_info() {
       0 => 'field_os2web_base_field_contact',
       1 => 'field_list_as_spotboks',
       2 => 'field_os2web_base_field_related',
-      3 => 'field_os2web_base_field_kle_ref',
-      4 => 'field_os2web_base_field_hidlinks',
-      5 => 'field_alternative_display',
-      6 => 'field_os2web_base_field_ext_link',
+      3 => 'field_os2web_base_field_hidlinks',
+      4 => 'field_alternative_display',
+      5 => 'field_os2web_base_field_ext_link',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -91,11 +90,8 @@ function os2web_base_field_group_info() {
     'children' => array(
       0 => 'field_os2web_base_field_contact',
       1 => 'field_os2web_base_field_hidlinks',
-      2 => 'field_os2web_base_field_rotate',
-      3 => 'field_list_as_spotboks',
-      4 => 'field_svendborg_hide_sidebar',
-      5 => 'field_svendborg_hide_contact',
-      6 => 'group_os2web_base_group_hidden',
+      2 => 'field_svendborg_hide_sidebar',
+      3 => 'field_svendborg_hide_contact',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -410,15 +406,12 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_news_tabs';
   $field_group->data = array(
     'label' => 'Indstillinger',
-    'weight' => '3',
+    'weight' => '6',
     'children' => array(
       0 => 'field_os2web_base_field_promote',
-      1 => 'field_os2web_base_field_related',
-      2 => 'field_svendborg_hide_sidebar',
-      3 => 'field_os2web_base_field_contact',
-      4 => 'field_os2web_base_field_hidlinks',
-      5 => 'field_os2web_base_field_spotbox',
-      6 => 'field_os2web_base_field_ext_link',
+      1 => 'field_svendborg_hide_sidebar',
+      2 => 'field_os2web_base_field_contact',
+      3 => 'field_os2web_base_field_hidlinks',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -506,13 +499,12 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_news_tabs';
   $field_group->data = array(
     'label' => 'Emneord',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'field_os2web_base_field_edi_tags',
-      1 => 'field_os2web_base_field_kle_ref',
-      2 => 'field_os2web_base_field_loca_ref',
-      3 => 'field_os2web_base_field_organiz',
-      4 => 'field_os2web_base_field_politics',
+      1 => 'field_os2web_base_field_loca_ref',
+      2 => 'field_os2web_base_field_organiz',
+      3 => 'field_os2web_base_field_politics',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -541,12 +533,10 @@ function os2web_base_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'body',
-      1 => 'field_os2web_base_field_lead_img',
-      2 => 'field_os2web_base_field_struct',
-      3 => 'field_os2web_base_field_summary',
-      4 => 'field_os2web_base_field_media',
-      5 => 'field_os2web_base_field_video',
-      6 => 'title',
+      1 => 'field_os2web_base_field_struct',
+      2 => 'field_os2web_base_field_summary',
+      3 => 'field_os2web_news_page_type',
+      4 => 'title',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -574,9 +564,12 @@ function os2web_base_field_group_info() {
     'label' => 'News',
     'weight' => '0',
     'children' => array(
-      0 => 'group_os2web_base_group_settings',
-      1 => 'group_os2web_base_group_taxono',
-      2 => 'group_os2web_base_group_text',
+      0 => 'group_os2web_news_group_media',
+      1 => 'group_os2web_base_group_settings',
+      2 => 'group_os2web_base_group_taxono',
+      3 => 'group_os2web_base_group_text',
+      4 => 'group_spotbokse',
+      5 => 'group_relationer',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -587,6 +580,35 @@ function os2web_base_field_group_info() {
     ),
   );
   $export['group_os2web_base_news_tabs|node|os2web_base_news|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_os2web_news_group_media|node|os2web_base_news|form';
+  $field_group->group_name = 'group_os2web_news_group_media';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_news';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_os2web_base_news_tabs';
+  $field_group->data = array(
+    'label' => 'Media og filer',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_os2web_base_field_lead_img',
+      1 => 'field_os2web_base_field_media',
+      2 => 'field_os2web_base_field_video',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-os2web-news-group-media field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_os2web_news_group_media|node|os2web_base_news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -617,6 +639,34 @@ function os2web_base_field_group_info() {
     ),
   );
   $export['group_relationer|node|os2web_base_contentpage|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_relationer|node|os2web_base_news|form';
+  $field_group->group_name = 'group_relationer';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_news';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_os2web_base_news_tabs';
+  $field_group->data = array(
+    'label' => 'Relationer',
+    'weight' => '5',
+    'children' => array(
+      0 => 'field_os2web_base_field_related',
+      1 => 'field_os2web_base_field_ext_link',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-relationer field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_relationer|node|os2web_base_news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -673,6 +723,33 @@ function os2web_base_field_group_info() {
     ),
   );
   $export['group_spotbokse|node|os2web_base_contentpage|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_spotbokse|node|os2web_base_news|form';
+  $field_group->group_name = 'group_spotbokse';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_news';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_os2web_base_news_tabs';
+  $field_group->data = array(
+    'label' => 'Spotbokse',
+    'weight' => '4',
+    'children' => array(
+      0 => 'field_os2web_base_field_spotbox',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-spotbokse field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_spotbokse|node|os2web_base_news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
