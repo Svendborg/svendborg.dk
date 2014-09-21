@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Code for the Acadre Postlister feature.
+ */
+
+include_once 'os2web_postlister.features.inc';
+
+/**
+ * os2web_postlister_feeds_after_parse
+ * @return void
+ * @author Henrik Farre <hf@bellcom.dk>
+ **/
+function os2web_postlister_feeds_after_parse(FeedsSource $source, FeedsParserResult $result)
+{
+  $fieldsToConvert = array(
+    'journaldato',
+    'dokumentdato'
+    );
+
+  foreach ($result->items as $key => $item) 
+  {
+    foreach ($item as $itemKey => $itemData) 
+    {
+      if ( in_array( strtolower( $itemKey ), $fieldsToConvert ) )
+      {
+        // From: http://stackoverflow.com/a/15137007
+        $convertedValue = ($itemData - 25569) * 86400;
+        $result->items[$key][$itemKey] = $convertedValue;
+      }
+    }
+  }
+}
