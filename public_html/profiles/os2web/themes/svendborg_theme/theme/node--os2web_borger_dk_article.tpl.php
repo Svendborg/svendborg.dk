@@ -96,9 +96,9 @@
     //}
   }
   ?>
-  <div class="wrap">
-    <?php print render($content['field_os2web_borger_dk_image']);?>
-  </div>
+
+  <?php print render($content['field_os2web_borger_dk_image']);?>
+
   <header>
     <h2<?php print $title_attributes; ?>>
       <?php print $node->title; ?>
@@ -141,8 +141,8 @@
       if (!empty($content_field['body'])) {
         print "<div class='borger_dk-body node-body inner' id='borger_dk-body'>";
         print "<div class='borger_dk_body_intro_text'><span class='intro_text_text'>" . "Læs om " . $node->title .'</span>';
-        print "<div class='intro_text_buttons'><a href='#' class='gplus_all gplus_gminus'>Alle<span class='gplus_button'>+</span></a>";
-        print "<a href='#' class='gminus_all gplus_gminus'>Alle<span class='gminus_button'>-</span></a></div>";
+        print "<div class='intro_text_buttons'><span>Åben/luk alle</span><a href='#' class='gplus_all gplus_gminus'><span class='gplus_button'>+</span></a>";
+        print "<a href='#' class='gminus_all gplus_gminus'><span class='gminus_button'>-</span></a></div>";
 
         print "</div>";
         print render($content_field['body']);
