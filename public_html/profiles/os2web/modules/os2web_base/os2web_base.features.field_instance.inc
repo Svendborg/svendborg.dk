@@ -2890,18 +2890,24 @@ function os2web_base_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
+          'ustream' => 0,
           'youtube' => 0,
         ),
         'allowed_types' => array(
+          'application' => 0,
           'audio' => 0,
-          'document' => 0,
-          'image' => 'image',
+          'document' => 'document',
+          'image' => 0,
           'video' => 0,
         ),
         'browser_plugins' => array(
+          'media_browser_plus--media_browser_my_files' => 'media_browser_plus--media_browser_my_files',
+          'media_browser_plus--media_browser_thumbnails' => 'media_browser_plus--media_browser_thumbnails',
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'media_internet' => 'media_internet',
           'upload' => 'upload',
-          'youtube' => 'youtube',
+          'youtube' => 0,
         ),
         'progress_indicator' => 'throbber',
       ),
