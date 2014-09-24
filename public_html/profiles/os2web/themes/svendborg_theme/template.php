@@ -525,6 +525,5 @@ function svendborg_theme_file_formatter_table($variables) {
       theme('file_link', array('file' => (object) $item)),
     );
   }
-  asort($rows);
   return empty($rows) ? '' : theme('table', array('header' => $header, 'rows' => $rows));
 }
