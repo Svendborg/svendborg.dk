@@ -417,7 +417,7 @@ function svendborg_theme_qt_quicktabs_tabset($vars) {
  * @return array
  *   The renderable array.
  */
-function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-6 col-md-4 col-lg-4') {
+function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-6 col-md-6 col-lg-6') {
   $spotbox_nids = array();
   foreach ($spotboxes as $spotbox) {
     $spotbox_nids[$spotbox['nid']] = $spotbox['nid'];
