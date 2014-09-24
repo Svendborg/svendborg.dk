@@ -199,9 +199,16 @@ function svendborg_theme_preprocess_page(&$variables) {
   if (($node && $spotboxes = field_get_items('node', $node, 'field_os2web_base_field_spotbox')) ||
       ($term && !$term_is_top && $spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox'))) {
 
+    if (empty($variables['page']['sidebar_second'])) {
+      $spotbox_render = drupal_render(_svendborg_theme_get_spotboxes($spotboxes));
+    }
+    else {
+      $spotbox_render = drupal_render(_svendborg_theme_get_spotboxes($spotboxes,'col-xs-6 col-sm-6 col-md-6 col-lg-6'));
+    }
+    
     $variables['page']['content']['os2web_spotbox'] = array(
       'os2web_spotbox' => array(
-        '#markup' => drupal_render(_svendborg_theme_get_spotboxes($spotboxes)),
+        '#markup' => $spotbox_render,
       ),
       '#theme_wrappers' => array('container'),
       '#attributes' => array(
