@@ -203,7 +203,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       $spotbox_render = drupal_render(_svendborg_theme_get_spotboxes($spotboxes));
     }
     else {
-      $spotbox_render = drupal_render(_svendborg_theme_get_spotboxes($spotboxes,'col-xs-6 col-sm-6 col-md-6 col-lg-6'));
+      $spotbox_render = drupal_render(_svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6'));
     }
     
     $variables['page']['content']['os2web_spotbox'] = array(
