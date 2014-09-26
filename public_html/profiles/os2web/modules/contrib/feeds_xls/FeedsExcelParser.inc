@@ -54,7 +54,7 @@ class FeedsExcelParser extends FeedsParser{
         if(empty($source_config['no_headers'])){
           $number_of_rows--;
         }
-        if($number_of_rows > 1){
+        if($number_of_rows >= 1){
           $this->row_counts[] = $number_of_rows;
         }else{
           // We stop at the first empty sheet, to make things simpler.
