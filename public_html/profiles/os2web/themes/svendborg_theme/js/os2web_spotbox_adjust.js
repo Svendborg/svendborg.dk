@@ -17,7 +17,7 @@
     // Be sure to only do it when not on mobile width.
     if ($region_sidebar.length &&
         $(window).width() > 768 &&
-        ($('body').hasClass('page-node') || ($('body').hasClass('page-taxonomy-term') && $('body').hasClass('term-is-not-top')))) {
+        ($('body').hasClass('page-node') || ($('body').hasClass('page-taxonomy-term')))) {
 
       $spotboxes.each(function(i){
         if(check_height()) {
