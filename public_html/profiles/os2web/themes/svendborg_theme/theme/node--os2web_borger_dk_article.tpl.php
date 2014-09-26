@@ -35,13 +35,13 @@
           $content_field[$type] = '';
        }
         // Microarticles : if microarticle is set up to show by admin.
-        if ($microarticle) {
+        if ($microarticle && $type == 'body') {
           // Check if content field is body and field_microarticle_settings
           // is NOT empty.
           // The field_microarticle_setting will be empty when a new
           // article is imported and shown in a form, then node_view
           // will display full body text.
-          if ($type == 'body' && !empty($field_microarticle_settings)) {
+          if (!empty($field_microarticle_settings)) {
             $body_text = $node->body['und']['0']['value'];
             // Link break in body_text: in windows \r\n, linux \n.
             preg_match("/<\/div>\n/", $body_text, $link_break);
@@ -65,11 +65,17 @@
                 }
               }
             }
+            $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
             // Content body shows only visible microarticles/ part of body_text.
             $content_field[$type] = $show_div;
           }
+          else {
+            $show_div = $node->body['und']['0']['value'];
+            $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+            $content_field['body'] = $show_div;
+          }
         }
-        elseif ($type == 'body') {
+        elseif (!$microarticle && $type == 'body') {
           $show_div = $node->body['und']['0']['value'];
           $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
           $content_field['body'] = $show_div;
@@ -90,10 +96,6 @@
     drupal_add_js(drupal_get_path('module', 'os2web_borger_dk') . '/js/os2web_borger_dk.js', 'file');
     drupal_add_css(drupal_get_path('module', 'os2web_borger_dk') . '/css/os2web_borger_dk.css', 'file');
 
-    // Set the page-title if field-value is given.
-   // if (!empty($node->field_os2web_borger_dk_pagetitle['und'][0]['value'])) {
-      //drupal_set_title($node->field_os2web_borger_dk_pagetitle['und'][0]['value']);
-    //}
   }
   ?>
 
