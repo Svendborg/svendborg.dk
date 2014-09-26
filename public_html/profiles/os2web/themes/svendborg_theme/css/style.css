@@ -8533,12 +8533,12 @@ fieldset[disabled] #svendborg_tabs ul.quicktabs-tabs li.active {
 }
 @media (min-width: 767px) {
   #svendborg_tabs ul.quicktabs-tabs li a {
-    width: 55px;
+    width: 60px;
   }
 }
 @media (max-width: 520px) {
   #svendborg_tabs ul.quicktabs-tabs li a {
-    width: 55px;
+    width: 60px;
   }
 }
 #svendborg_tabs ul.quicktabs-tabs li a:focus {

@@ -31,6 +31,20 @@ function os2web_news_page_form_os2web_base_news_node_form_alter(&$form, $form_st
     $options_first = reset($options);
     $form['field_os2web_news_page_type']['und']['#default_value'][] = key($options_first);
   }
+
+  $vocabulary = taxonomy_vocabulary_machine_name_load('os2web_base_tax_promoteto');
+  $terms = taxonomy_get_tree($vocabulary->vid, 0, 1);
+  $first_term = reset($terms);
+  $options = array();
+
+  if (!user_access('promote to all the place')) {
+    foreach ($terms as $tid => $term) {
+      if (user_access('promote to-' . $term->tid)) {
+        $options[$term->tid] = $term->name;
+      }
+    }
+    $form['field_os2web_base_field_promote']['und']['#options'] = $options;
+  }
 }
 
 /**
@@ -47,6 +61,18 @@ function os2web_news_page_permission() {
   foreach ($terms as $tid => $term) {
     $permissions['administer news type-' . $term->tid] = array(
       'title' => t('Administer ') . $term->name . t(' nyhedstype'),
+    );
+  }
+  $vocabulary = taxonomy_vocabulary_machine_name_load('os2web_base_tax_promoteto');
+  $terms = taxonomy_get_tree($vocabulary->vid, 0, 1);
+
+  // A admin permission to promote news to all the place.
+  $permissions['promote to all the place'] = array('title' => t('Forfrem til alle sted'));
+
+  // Foreach promoting place, there is a permission.
+  foreach ($terms as $tid => $term) {
+    $permissions['promote to-' . $term->tid] = array(
+      'title' => t('Forfrem til ') . $term->name,
     );
   }
   return $permissions;
