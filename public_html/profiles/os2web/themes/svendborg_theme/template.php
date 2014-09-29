@@ -249,7 +249,7 @@ function svendborg_theme_preprocess_taxonomy_term(&$variables) {
       $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
     }
     else {
-      $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-3 col-lg-3');
+      $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
     }
   }
   if (isset($term->field_alternative_display['und'][0]['value']) &&

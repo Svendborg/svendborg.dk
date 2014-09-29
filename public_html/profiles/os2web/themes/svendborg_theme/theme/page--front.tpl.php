@@ -66,9 +66,7 @@
       print "<div class='col-md-push-1 col-md-10 col-xs-12 padding-20'><div id='front-news-branding' class='front-news-branding col-md-12 col-sm-12 col-xs-12 carousel slide' data-ride='carousel'>";
       $view = views_get_view('svendborg_news_view');
       $view->set_arguments(array('branding'));
-      $filter = $view->get_item('front', 'filter', 'promote');
-      $filter['value'] = 1;
-      $view->set_item('front', 'filter', 'promote', $filter);
+      $view->set_display('front');
       $view->set_items_per_page(3);
 
       $view->execute();
@@ -144,9 +142,7 @@
 
     $view = views_get_view('svendborg_news_view');
     $view->set_arguments(array('all'));
-    $filter = $view->get_item('front', 'filter', 'promote');
-    $filter['value'] = 1;
-    $view->set_item('front', 'filter', 'promote', $filter);
+    $view->set_display('block_3');
     $view->set_items_per_page(9);
     $view->pre_execute();
     $view->execute();
