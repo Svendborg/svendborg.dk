@@ -10,6 +10,7 @@ dependencies[] = features
 dependencies[] = feeds
 dependencies[] = feeds_xls
 dependencies[] = node
+dependencies[] = os2web_base
 dependencies[] = os2web_taxonomies
 dependencies[] = strongarm
 dependencies[] = taxonomy
