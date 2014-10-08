@@ -15,14 +15,14 @@ function os2web_postlister_views_default_views() {
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'nypostliste';
+  $view->human_name = 'Postlister';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'nypostliste';
+  $handler->display->display_options['title'] = 'Postlister';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'mere';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -278,31 +278,6 @@ function os2web_postlister_views_default_views() {
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filterkriterie: Indhold: Dato (field_os2web_postlistedato) */
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['id'] = 'field_os2web_postlistedato_value';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['table'] = 'field_data_field_os2web_postlistedato';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['field'] = 'field_os2web_postlistedato_value';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['operator'] = '<=';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['operator_id'] = 'field_os2web_postlistedato_value_op';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['label'] = 'Før dato';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['operator'] = 'field_os2web_postlistedato_value_op';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['identifier'] = 'field_os2web_postlistedato_value';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    6 => 0,
-    4 => 0,
-    7 => 0,
-    3 => 0,
-    5 => 0,
-    8 => 0,
-    9 => 0,
-    10 => 0,
-  );
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['form_type'] = 'date_popup';
-  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['year_range'] = '-3:+0';
-  /* Filterkriterie: Indhold: Dato (field_os2web_postlistedato) */
   $handler->display->display_options['filters']['field_os2web_postlistedato_value_1']['id'] = 'field_os2web_postlistedato_value_1';
   $handler->display->display_options['filters']['field_os2web_postlistedato_value_1']['table'] = 'field_data_field_os2web_postlistedato';
   $handler->display->display_options['filters']['field_os2web_postlistedato_value_1']['field'] = 'field_os2web_postlistedato_value';
@@ -327,6 +302,31 @@ function os2web_postlister_views_default_views() {
   );
   $handler->display->display_options['filters']['field_os2web_postlistedato_value_1']['form_type'] = 'date_popup';
   $handler->display->display_options['filters']['field_os2web_postlistedato_value_1']['year_range'] = '-5:+0';
+  /* Filterkriterie: Indhold: Dato (field_os2web_postlistedato) */
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['id'] = 'field_os2web_postlistedato_value';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['table'] = 'field_data_field_os2web_postlistedato';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['field'] = 'field_os2web_postlistedato_value';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['operator'] = '<=';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['operator_id'] = 'field_os2web_postlistedato_value_op';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['label'] = 'Før dato';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['operator'] = 'field_os2web_postlistedato_value_op';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['identifier'] = 'field_os2web_postlistedato_value';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    6 => 0,
+    4 => 0,
+    7 => 0,
+    3 => 0,
+    5 => 0,
+    8 => 0,
+    9 => 0,
+    10 => 0,
+  );
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['form_type'] = 'date_popup';
+  $handler->display->display_options['filters']['field_os2web_postlistedato_value']['year_range'] = '-3:+0';
   $handler->display->display_options['path'] = 'kommunen/postlister';
 
   /* Display: Bilag */
@@ -540,7 +540,7 @@ function os2web_postlister_views_default_views() {
   );
   $translatables['nypostliste'] = array(
     t('Master'),
-    t('nypostliste'),
+    t('Postlister'),
     t('mere'),
     t('Find'),
     t('Nulstil'),
@@ -572,8 +572,8 @@ function os2web_postlister_views_default_views() {
     t('<span class="glyphicon glyphicon-remove"></span>'),
     t('<h3>[field_os2web_base_field_organiz]</h3><p> - Ingen post at offentliggøre [edit_node] [delete_node]</p>'),
     t('Direktørområde'),
-    t('Før dato'),
     t('Efter dato'),
+    t('Før dato'),
     t('Bilag'),
     t('Rediger'),
     t('Slet'),

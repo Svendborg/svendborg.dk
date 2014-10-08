@@ -8346,6 +8346,9 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
   margin-top: -135px;
   display: block;
 }
+.view-nypostliste .view-grouping-header {
+  display: none;
+}
 #nyheder-carousel-large {
   background-color: #fff;
   border-radius: 3px 3px;
