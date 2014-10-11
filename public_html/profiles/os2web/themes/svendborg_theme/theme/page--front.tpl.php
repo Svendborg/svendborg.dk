@@ -99,7 +99,7 @@
 
         // If you want to access the image, use the URI instead of the filename !
         //$public_filename = file_create_url( $image["uri"] );
-        $style = 'svendborg_content_image'; 
+        $style = 'svendborg_content_image';
         $public_filename = image_style_url($style, $image["uri"]);
         // Either output the IMG tag directly,
         $path = drupal_get_path_alias('node/'.$node->nid);
@@ -149,7 +149,7 @@
 
     $results = $view->result;
 
-      print '<div id="front-carousel-small" class="carousel slide" data-ride="carousel" data-interval="false">
+      print '<div id="front-carousel-small" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators col-md-12 col-sm-12 col-xs-12">
         <li data-target="#front-carousel-small" data-slide-to="0" class="active"></li>
