@@ -8719,7 +8719,7 @@ h2.menu-footer a.Kommunen {
 @media all and (min-width: 769px) {
   .front-buttons {
     margin-top: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
   }
 }
 .front-indholsdmenu {
@@ -8740,8 +8740,8 @@ h2.menu-footer a.Kommunen {
   background-position: 0px -546px;
   width: 135px;
   height: 135px;
-  font-size: 14px;
-  padding: 90px 30px 25px 29px;
+  font-size: 15px;
+  padding: 93px 25px 25px 25px;
   margin-top: 50px;
 }
 .front-indholsdmenu a.Borger {
@@ -8749,24 +8749,26 @@ h2.menu-footer a.Kommunen {
   background-position: 0px -1141px;
   width: 182px;
   height: 180px;
-  padding: 120px 55px 29px 55px;
+  padding: 127px 55px 29px 55px;
   font-size: 20px;
+  font-weight: 600;
 }
 .front-indholsdmenu a.Erhverv {
   background-image: url(../images/sprites.png);
   background-position: 0px -961px;
   width: 182px;
   height: 180px;
-  padding: 120px 50px 29px 50px;
+  padding: 127px 50px 29px 50px;
   font-size: 20px;
+  font-weight: 600;
 }
 .front-indholsdmenu a.Politik {
   background-image: url(../images/sprites.png);
   background-position: 0px -413px;
   width: 134px;
   height: 133px;
-  font-size: 14px;
-  padding: 90px 45px 23px 45px;
+  font-size: 15px;
+  padding: 93px 45px 23px 45px;
   margin-top: 50px;
 }
 @media all and (max-width: 768px) {
@@ -8780,6 +8782,9 @@ h2.menu-footer a.Kommunen {
   .front-indholsdmenu h2.Politik a {
     margin-top: 0;
   }
+}
+.front-search-box {
+  margin-bottom: 15px;
 }
 .front-search-box input {
   height: 58px;
@@ -8811,6 +8816,9 @@ h2.menu-footer a.Kommunen {
 #front-carousel-large .title {
   font-size: 30px;
 }
+#front-news-branding {
+  margin: 20px 0;
+}
 #front-news-branding ol.carousel-indicators {
   right: 0;
   text-align: right;
@@ -8828,6 +8836,10 @@ h2.menu-footer a.Kommunen {
 #front-news-branding ol.carousel-indicators li.active {
   background-color: #7ebb00;
 }
+.front-seperator-first {
+  clear: both;
+  height: 24px;
+}
 .front-seperator {
   clear: both;
   height: 45px;
@@ -8835,15 +8847,18 @@ h2.menu-footer a.Kommunen {
 #front-carousel-small {
   background-color: transparent !important;
 }
+#front-carousel-small.carousel {
+  padding: 0px;
+}
 #front-carousel-small ol {
-  bottom: -35px;
+  bottom: -40px;
   text-align: center;
   width: 100%;
 }
 #front-carousel-small ol li {
   height: 18px;
   width: 18px;
-  border: 3px solid #e4e3e0;
+  border: 3px solid #fff;
   margin: 1px;
 }
 #front-carousel-small ol li.active {
@@ -8856,7 +8871,7 @@ h2.menu-footer a.Kommunen {
   position: absolute;
   bottom: 0;
   background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0));
-  height: 45px;
+  height: 30px;
   width: 100%;
   z-index: 300;
 }
@@ -8912,13 +8927,13 @@ h2.menu-footer a.Kommunen {
 .front-s-news .front-s-news-inner .front-s-news-item .front-s-news-item-text {
   position: relative;
   text-align: center;
-  min-height: 80px;
+  min-height: 70px;
 }
 .front-s-news .front-s-news-inner .front-s-news-item .front-s-news-item-text .bubble {
   position: absolute;
   top: 5px;
   width: 100%;
-  min-height: 80px;
+  min-height: 70px;
   display: table;
 }
 .front-s-news .front-s-news-inner .front-s-news-item .front-s-news-item-text .bubble span {
@@ -8931,6 +8946,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-s-news .front-s-news-inner .front-s-news-item .front-s-news-item-text .bubble span a {
   color: #30353c;
+  font-size: 18px;
   text-decoration: none;
 }
 .front-s-news .front-s-news-inner .front-s-news-item .front-s-news-item-text .bubble span a:hover {
@@ -8948,7 +8964,6 @@ h2.menu-footer a.Kommunen {
 }
 .front-news-bottom .front-news-bottom-inner span {
   font-size: 26px;
-  font-weight: bold;
 }
 .front-news-bottom .front-news-bottom-inner span a {
   font-size: 14px;

@@ -63,7 +63,7 @@
       print "</div>";
 
       // Branding news view
-      print "<div class='col-md-push-1 col-md-10 col-xs-12 padding-20'><div id='front-news-branding' class='front-news-branding col-md-12 col-sm-12 col-xs-12 carousel slide' data-ride='carousel'>";
+      print "<div class='col-md-push-1 col-md-10 col-xs-12'><div id='front-news-branding' class='front-news-branding col-md-12 col-sm-12 col-xs-12 carousel slide' data-ride='carousel'>";
       $view = views_get_view('svendborg_news_view');
       $view->set_arguments(array('branding'));
       $view->set_display('front');
@@ -126,7 +126,7 @@
       print '</div>';
 
       print "</div></div>";
-      print '<div class="front-seperator"></div>';
+      print '<div class="front-seperator-first"></div>';
     ?>
 
   </div>
