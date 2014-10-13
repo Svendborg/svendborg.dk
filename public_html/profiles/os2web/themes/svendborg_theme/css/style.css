@@ -6714,6 +6714,9 @@ a:hover {
 .padding-20 {
   padding: 20px 20px;
 }
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
 .content-img-header img {
   border-radius: 4px 4px 0 0;
 }
@@ -8341,6 +8344,9 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 .wrap img {
   max-width: 100%;
 }
+.wrap hr {
+  border-color: #30353c;
+}
 .link_here {
   padding-top: 135px;
   margin-top: -135px;
@@ -8530,18 +8536,29 @@ fieldset[disabled] #svendborg_tabs ul.quicktabs-tabs li.active {
   color: #fff;
   display: inline-block;
   word-break: break-word;
+  width: 60px;
 }
 #svendborg_tabs ul.quicktabs-tabs li a:hover {
   text-decoration: none;
 }
-@media (min-width: 767px) {
+@media (min-width: 421px) and (max-width: 765px) {
   #svendborg_tabs ul.quicktabs-tabs li a {
-    width: 60px;
+    width: 65px;
   }
 }
-@media (max-width: 520px) {
+@media (min-width: 766px) and (max-width: 1000px) {
   #svendborg_tabs ul.quicktabs-tabs li a {
-    width: 60px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 420px) {
+  #svendborg_tabs ul.quicktabs-tabs li a {
+    font-size: 13px;
+  }
+}
+@media (min-width: 1001px) {
+  #svendborg_tabs ul.quicktabs-tabs li a {
+    width: 65px;
   }
 }
 #svendborg_tabs ul.quicktabs-tabs li a:focus {
@@ -8574,9 +8591,6 @@ fieldset[disabled] #svendborg_tabs ul.quicktabs-tabs li.active {
 }
 #svendborg_tabs .views-row .quicktabs-nyheder-row {
   min-height: 67px;
-}
-.nyheder-content .view-svendborg-news-view.view-id-svendborg_news_view .views-row {
-  margin-bottom: 20px;
 }
 #block-views-news-filter-block .panel {
   margin-bottom: 0;

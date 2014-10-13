@@ -129,14 +129,21 @@
         color: #fff;
         display: inline-block;
         word-break: break-word;
+        width: 60px;
         &:hover{
           text-decoration: none;
         }
-        @media (min-width:767px) {
-          width: 60px;
+        @media (min-width:421px) and (max-width:765px) {
+          width: 65px;
         }
-        @media (max-width:520px) {
-          width: 60px;
+        @media (min-width:766px) and (max-width:1000px) {
+          font-size: 13px;
+        }
+        @media (max-width:420px) {
+          font-size: 13px;
+        }
+        @media (min-width:1001px) {
+          width: 65px;
         }
         &:focus {
           outline: none;
@@ -174,12 +181,7 @@
     }
   }
 }
-.nyheder-content .view-svendborg-news-view.view-id-svendborg_news_view {
-  .views-row {
-  //  width: 48%;
-    margin-bottom: 20px;
-  }
-}
+
 //filter buttons
 #block-views-news-filter-block {
   .panel {

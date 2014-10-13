@@ -18,17 +18,17 @@
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes . " all"; ?> clearfix"<?php print $attributes; ?> date-filter="<?php print $top_parent_term->tid ?>">
   <?php if(!$page) : ?>
 
-    <div class=" ">
+    <div class="margin-bottom-20">
     <div class="front-s-news-item front-s-news-item-">
       <?php if(isset($content['field_os2web_base_field_lead_img'])) : ?>
             <div class="front-s-news-item-img">
               <?php
                 $img = field_get_items('node',$node,'field_os2web_base_field_lead_img');
                 $image = $img[0];
-                $style = 'svendborg_content_image'; 
+                $style = 'svendborg_content_image';
                 $public_filename = image_style_url($style, $image["uri"]);
                 $path = drupal_get_path_alias('node/'.$node->nid);
-                echo '<a href="' . $path . '" title="'.$node->title.'">';
+                echo '<a href="/' . $path . '" title="'.$node->title.'">';
                 print $html = '<img title = "'.$image["title"].'" src="'.$public_filename.'""/></a>';
               ?>
               <?php //print render($content['field_os2web_base_field_lead_img']); ?>
