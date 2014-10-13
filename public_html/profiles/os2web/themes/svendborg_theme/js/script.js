@@ -135,7 +135,7 @@
 
     var links = $('.region-content a');
     $(links).each(function() {
-      if (!$(this).attr('href') && $(this).attr('id')) {
+      if (!$(this).attr('href') && $(this).attr('id') && $(this).attr('id') !== 'main-content') {
         $(this).addClass('link_here');
       }
     });
