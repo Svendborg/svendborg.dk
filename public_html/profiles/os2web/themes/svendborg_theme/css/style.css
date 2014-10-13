@@ -6741,6 +6741,12 @@ a:hover {
 .node-postliste_import-form .vertical-tabs {
   display: none;
 }
+@media (max-width: 480px) {
+  .hide-for-mobile {
+    display: none;
+    visibility: hidden;
+  }
+}
 /**
  * This file is only for really global styles. None specific styles.
  */
@@ -6749,7 +6755,7 @@ h6 {
   font-weight: bold;
 }
 body {
-  background: url(../images/skateboard.jpg) no-repeat fixed;
+  background: url(../images/underside.jpg) no-repeat fixed;
   background-size: cover;
 }
 body .form-control {

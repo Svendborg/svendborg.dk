@@ -7,7 +7,7 @@
  * @see template_preprocess_feedback_form_display()
  */
 ?>
-<div id="block-cittaslow-block">
+<div id="block-cittaslow-block" class="hide-for-mobile">
   <span class="cittaslow-link">
     cittaslow
   </span>
