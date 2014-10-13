@@ -104,12 +104,12 @@
         // Either output the IMG tag directly,
         $path = drupal_get_path_alias('node/'.$node->nid);
         echo '<a href="' . $path . '" title="'.$node->title.'">';
-        print '<div class="row-no-padding col-md-8 col-sm-8 col-xs-12">';
+        print '<div class="row-no-padding col-md-7 col-sm-8 col-xs-12">';
 
         print $html = '<img title = "'.$image["title"].'" src="'.$public_filename.'""/>';
         print "</div>";
         print
-          '<div class="carousel-title col-md-4 col-sm-4 col-xs-12">';
+          '<div class="carousel-title col-md-5 col-sm-4 col-xs-12">';
 
           print '<div class="title col-md-12">';
           print $node->title;
