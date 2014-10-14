@@ -7354,6 +7354,9 @@ fieldset[disabled] .btn-orange.active {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff496e7e', endColorstr='#ff194254', GradientType=0);
 }
+.panel.panel-blacknblue .panel-body .panel-body-inner {
+  padding-bottom: 19px;
+}
 .panel-blacknblue.with-arrow > .panel-body:before {
   background-image: url(../images/sprites.png);
   background-position: 0px -14px;
@@ -7848,6 +7851,12 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 .region-sidebar-first .block-menu-block li.last a {
   border-radius: 0 0 4px 4px;
+}
+.block-facetapi {
+  background-color: #FFF;
+}
+.block-facetapi ul {
+  padding-left: 18px;
 }
 .page-node-edit .region-content section,
 .page-node-add .region-content section {
