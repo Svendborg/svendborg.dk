@@ -69,7 +69,7 @@
 
 <?php if($page): ?>
 <div class="row">
-    <div class="col-md-12 col-sm-12 clearfix">
+    <div class="col-md-12 col-sm-12 row-no-padding clearfix">
 
     <?php if(!$term_display_alternative) :?>
     <?php

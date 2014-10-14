@@ -15,7 +15,7 @@ function svendborg_image_styles_image_default_styles() {
     'name' => 'svendborg_content_image',
     'label' => 'svendborg_content_image',
     'effects' => array(
-      11 => array(
+      12 => array(
         'label' => 'EPSA Image Crop',
         'help' => '',
         'dimensions callback' => 'epsacrop_crop_dimensions',
@@ -24,8 +24,8 @@ function svendborg_image_styles_image_default_styles() {
         'module' => 'epsacrop',
         'name' => 'epsacrop_crop',
         'data' => array(
-          'width' => 900,
-          'height' => 419,
+          'width' => 918,
+          'height' => 432,
           'anchor' => 'center-center',
           'jcrop_settings' => array(
             'aspect_ratio' => '',
@@ -36,7 +36,7 @@ function svendborg_image_styles_image_default_styles() {
         ),
         'weight' => -10,
       ),
-      9 => array(
+      13 => array(
         'label' => 'Skalér',
         'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
@@ -46,7 +46,7 @@ function svendborg_image_styles_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 900,
+          'width' => 918,
           'height' => '',
           'upscale' => 1,
         ),

@@ -12,7 +12,7 @@
           $('.header_svendborg header').removeClass('container');
           $('.main-container').css('padding-top','114px');
           $('#fixed-navbar').addClass('row');
-
+          $('img#front-logo').attr('src', Drupal.settings.basePath + Drupal.settings.pathToTheme + '/images/svendborg_logo.png');
        }
         else {
           $('.header_svendborg header').removeClass('navbar-fixed-top');
@@ -20,6 +20,7 @@
           $('.header_svendborg header').addClass('container');
           $('.main-container').css('padding-top','0');
           $('#fixed-navbar').removeClass('row');
+          $('img#front-logo').attr('src', Drupal.settings.basePath + Drupal.settings.pathToTheme + '/images/footer_logo.png');
         }
     });
 
@@ -57,7 +58,7 @@
           check_button();
         });
         $(".filter-link-all").click(function() {
-    
+
           $container.isotope({ filter: '.all' });
           button = $(this).attr('id');
           check_button();
@@ -134,7 +135,7 @@
 
     var links = $('.region-content a');
     $(links).each(function() {
-      if (!$(this).attr('href') && $(this).attr('id')) {
+      if (!$(this).attr('href') && $(this).attr('id') && $(this).attr('id') !== 'main-content') {
         $(this).addClass('link_here');
       }
     });
@@ -143,6 +144,7 @@
 
 Drupal.behaviors.feedbackForm = {
   attach: function (context) {
+    $('#block-feedback-form').addClass('hidden-xs');
     $('#block-feedback-form', context).once('feedback', function () {
       var $block = $(this);
       $block.find('span.feedback-link')

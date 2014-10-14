@@ -1,7 +1,7 @@
 .front-buttons {
   @media all and (min-width:769px) {
     margin-top:  20px;
-    margin-bottom:  40px;
+    margin-bottom:  35px;
   }
 }
 .front-indholsdmenu {
@@ -19,24 +19,26 @@
     &.Kommunen {
       .sprite(@front-kommune);
 
-      font-size: 14px;
-      padding: 90px 30px 25px 29px;
+      font-size: 15px;
+      padding: 93px 25px 25px 25px;
       margin-top: 50px;
     }
     &.Borger {
       .sprite(@front-borger);
-      padding: 120px 55px 29px 55px;
+      padding: 127px 55px 29px 55px;
       font-size: 20px;
+      font-weight: 600;
     }
     &.Erhverv {
       .sprite(@front-erhverv);
-      padding: 120px 50px 29px 50px;
+      padding: 127px 50px 29px 50px;
       font-size: 20px;
+      font-weight: 600;
     }
     &.Politik {
       .sprite(@front-politik);
-      font-size: 14px;
-      padding: 90px 45px 23px 45px;
+      font-size: 15px;
+      padding: 93px 45px 23px 45px;
       margin-top: 50px;
     }
   }
@@ -55,6 +57,7 @@
 
 }
 .front-search-box {
+  margin-bottom: 13px;
   input {
     height: 58px;
     font-size: 24px;
@@ -75,7 +78,7 @@
   .carousel-title {
     margin-top:  20px;
     a.btn {
-      margin: 20px 0;
+      margin: 20px 0 0 0;
       padding: 5px 15px;
       font-size: 14px;
     }
@@ -89,6 +92,7 @@
   }
 }
 #front-news-branding {
+  margin: 20px 0;
   ol.carousel-indicators {
     right: 0;
     text-align: right;
@@ -106,21 +110,54 @@
       }
     }
   }
+  .front-branding-img {
+    @media (min-width: 768px) {
+      &:before {
+        content: " ";
+        display: table;
+        z-index: 40;
+        position: absolute;
+        right: 0px;
+        top: 43%;
+        margin-left: -@spotbox-arrow-width / 2;
+        .sprite(@spotbox-arrow-right);
+      }
+    }
+    @media (max-width: 767px) {
+      &:before {
+        content: " ";
+        display: table;
+        z-index: 40;
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        margin-left: -@spotbox-arrow-width / 2;
+        .sprite(@spotbox-arrow);
+      }
+    }
+  }
+}
+.front-seperator-first {
+  clear: both;
+  height: 24px
 }
 .front-seperator {
   clear: both;
   height: 45px;
 }
 #front-carousel-small {
+  &.carousel {
+    padding: 0px;
+  }
   background-color: transparent !important;
   ol {
-    bottom:  -35px;
+    bottom:  -40px;
     text-align: center;
     width: 100%;
     li {
       height: 18px;
       width: 18px;
-      border: 3px solid #e4e3e0;
+      border: 3px solid #fff;
       margin: 1px;
       &.active {
         background-color: #7ebb00;
@@ -137,7 +174,7 @@
   position: absolute;
   bottom: 0;
   background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-  height: 45px;
+  height: 30px;
   width: 100%;
   z-index: 300
 }
@@ -164,15 +201,11 @@
           content: " ";
           display: table;
           z-index: 40;
-
           position: absolute;
           bottom: -1px;
           left: 50%;
-
           margin-left: -@spotbox-arrow-width / 2;
-
           .sprite(@spotbox-arrow);
-
         }
       }
       @media all and (min-width:600px) {
@@ -188,13 +221,14 @@
       .front-s-news-item-text {
         position: relative;
         text-align: center;
-        min-height: 80px;
+        min-height: 70px;
         .bubble {
-          .bubble(5px, 80px);
+          .bubble(5px, 70px);
           span {
             font-size: 20px;
             a {
               color: #30353c;
+              font-size: 18px;
               text-decoration: none;
               &:hover {
                 text-decoration: underline;
@@ -216,7 +250,6 @@
     margin: 20px 0;
     span {
       font-size: 26px;
-      font-weight: bold;
       a {
         font-size: 14px;
         padding: 7px 30px;

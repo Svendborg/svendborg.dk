@@ -72,7 +72,7 @@ print "<h2 class='menu-footer " . $menu_item['link']['link_title']. "'>
         <div class="col-md-9 col-sm-6 col-xs-12 col-md-pull-3 col-sm-pull-6">
           <div class='footer-logo'>
             <img id="footer-logo" src="/<?php print drupal_get_path('theme','svendborg_theme'); ?>/images/footer_logo.png" title="<?php print $page['site_name'] ?>" />
-                      
+
           </div>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 footer-address">

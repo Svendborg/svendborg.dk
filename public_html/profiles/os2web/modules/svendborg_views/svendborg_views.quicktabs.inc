@@ -20,34 +20,34 @@ function svendborg_views_quicktabs_default_quicktabs() {
   $quicktabs->title = 'Nyhed quicktabs';
   $quicktabs->tabs = array(
     0 => array(
-      'vid' => 'svendborg_news_view',
-      'display' => 'block_1',
-      'args' => 'udbud',
-      'title' => 'Udbud',
-      'weight' => '-100',
-      'type' => 'view',
-    ),
-    1 => array(
       'vid' => 'culture_calendar',
       'display' => 'block',
       'args' => 'Kulturkalender',
       'title' => 'Kultur- kalender',
+      'weight' => '-100',
+      'type' => 'view',
+    ),
+    1 => array(
+      'vid' => 'svendborg_news_view',
+      'display' => 'block_2',
+      'args' => 'Byrådsmøde',
+      'title' => 'Byråds- møde',
       'weight' => '-99',
       'type' => 'view',
     ),
     2 => array(
       'vid' => 'svendborg_news_view',
-      'display' => 'block_1',
-      'args' => 'Høring',
-      'title' => 'Høring',
+      'display' => 'block_4',
+      'args' => 'Høringer',
+      'title' => 'Høring/ afgørelse',
       'weight' => '-98',
       'type' => 'view',
     ),
     3 => array(
       'vid' => 'svendborg_news_view',
-      'display' => 'block_2',
-      'args' => 'Byrådsmøde',
-      'title' => 'Byråds- møde',
+      'display' => 'block_1',
+      'args' => 'udbud',
+      'title' => 'Udbud',
       'weight' => '-97',
       'type' => 'view',
     ),
@@ -59,7 +59,7 @@ function svendborg_views_quicktabs_default_quicktabs() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Byråds- møde');
-  t('Høring');
+  t('Høring/ afgørelse');
   t('Kultur- kalender');
   t('Nyhed quicktabs');
   t('Udbud');

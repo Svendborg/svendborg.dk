@@ -1,6 +1,5 @@
 <?php
-  $portalkategori = field_get_items('node',$node,'field_os2web_base_field_struct');
-  //$term = taxonomy_term_load($portalkategori[0]['tid']);
+  $portalkategori = field_get_items('node', $node, 'field_os2web_base_field_struct');
 
   //this will be your top parent term if any was found
   $top_parent_term = null;
@@ -16,22 +15,21 @@
   }
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes . " all"; ?> clearfix"<?php print $attributes; ?> date-filter="<?php print $top_parent_term->tid ?>">
-  <?php if(!$page) : ?>
+  <?php if (!$page) : ?>
 
-    <div class=" ">
+    <div class="margin-bottom-20">
     <div class="front-s-news-item front-s-news-item-">
-      <?php if(isset($content['field_os2web_base_field_lead_img'])) : ?>
+      <?php if (isset($content['field_os2web_base_field_lead_img'])) : ?>
             <div class="front-s-news-item-img">
               <?php
-                $img = field_get_items('node',$node,'field_os2web_base_field_lead_img');
+                $img = field_get_items('node', $node, 'field_os2web_base_field_lead_img');
                 $image = $img[0];
-                $style = 'svendborg_content_image'; 
+                $style = 'svendborg_content_image';
                 $public_filename = image_style_url($style, $image["uri"]);
-                $path = drupal_get_path_alias('node/'.$node->nid);
-                echo '<a href="' . $path . '" title="'.$node->title.'">';
-                print $html = '<img title = "'.$image["title"].'" src="'.$public_filename.'""/></a>';
+                $path = drupal_get_path_alias('node/' . $node->nid);
+                print '<a href="/' . $path . '" alt="' . $node->title . '">';
+                print $html = '<img title = "' . $image["title"] . '" src="' . $public_filename . '"/></a>';
               ?>
-              <?php //print render($content['field_os2web_base_field_lead_img']); ?>
             </div>
       <?php endif; ?>
             <div class="front-s-news-item-text clearfix">
@@ -43,7 +41,9 @@
                  </div>
 
                 <div class="col-md-10 col-sm-10 col-xs-10">
-                      <div><a class="news-title" href="<?php global $base_url; print$base_url. $node_url; ?>"><?php print $node->title; ?></a></div>
+                      <div>
+                        <a class="news-title" href="<?php global $base_url; print $base_url . $node_url; ?>"><?php print $node->title; ?></a>
+                      </div>
                       <div>
                           <p><?php print render($content['field_os2web_base_field_summary']); ?></p>
                       </div>
@@ -54,17 +54,16 @@
     </div>
   <?php endif; ?>
 
-    <?php
-      // Hide comments, tags, and links now so that we can render them later.
-      hide($content['comments']);
-      hide($content['links']);
-      hide($content['field_tags']);
-      hide($content['field_os2web_base_field_image']);
-      hide($content['field_os2web_base_field_lead_img']);
-    ?>
+  <?php
+    // Hide comments, tags, and links now so that we can render them later.
+    hide($content['comments']);
+    hide($content['links']);
+    hide($content['field_tags']);
+    hide($content['field_os2web_base_field_image']);
+    hide($content['field_os2web_base_field_lead_img']);
+  ?>
 
   <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
-
     <?php hide($content['field_tags']); ?>
     <?php hide($content['links']); ?>
   <?php endif; ?>

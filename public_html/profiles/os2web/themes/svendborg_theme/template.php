@@ -186,7 +186,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       }
       $variables['page']['sidebar_second']['os2web_news_lists'] = array('#markup' => $view->render());
     }
-    if($term_is_top) {
+    if($term_is_top && $term->vocabulary_machine_name == "os2web_base_tax_site_structure") {
       $variables['page']['sidebar_first'] = array();
     }
     if ($term && strtolower($term->name) === "nyheder") {
@@ -205,7 +205,7 @@ function svendborg_theme_preprocess_page(&$variables) {
     else {
       $spotbox_render = drupal_render(_svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6'));
     }
-    
+
     $variables['page']['content']['os2web_spotbox'] = array(
       'os2web_spotbox' => array(
         '#markup' => $spotbox_render,
@@ -227,6 +227,8 @@ function svendborg_theme_preprocess_page(&$variables) {
     ),
   ), 'google_font_svendborg_theme');
 
+  // Pass the theme path to js.
+  drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . path_to_theme() . '" });', 'inline');
 }
 
 /**
