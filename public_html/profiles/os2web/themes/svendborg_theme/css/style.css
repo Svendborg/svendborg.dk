@@ -8835,18 +8835,35 @@ h2.menu-footer a.Kommunen {
 #front-news-branding ol.carousel-indicators li.active {
   background-color: #7ebb00;
 }
-#front-news-branding .front-branding-img:before {
-  content: " ";
-  display: table;
-  z-index: 40;
-  position: absolute;
-  right: 0px;
-  top: 43%;
-  margin-left: -17.5px;
-  background-image: url(../images/sprites.png);
-  background-position: 0px -273px;
-  width: 17px;
-  height: 35px;
+@media (min-width: 768px) {
+  #front-news-branding .front-branding-img:before {
+    content: " ";
+    display: table;
+    z-index: 40;
+    position: absolute;
+    right: 0px;
+    top: 43%;
+    margin-left: -17.5px;
+    background-image: url(../images/sprites.png);
+    background-position: 0px -273px;
+    width: 17px;
+    height: 35px;
+  }
+}
+@media (max-width: 767px) {
+  #front-news-branding .front-branding-img:before {
+    content: " ";
+    display: table;
+    z-index: 40;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    margin-left: -17.5px;
+    background-image: url(../images/sprites.png);
+    background-position: 0px -126px;
+    width: 35px;
+    height: 17px;
+  }
 }
 .front-seperator-first {
   clear: both;

@@ -111,15 +111,29 @@
     }
   }
   .front-branding-img {
-    &:before {
-      content: " ";
-      display: table;
-      z-index: 40;
-      position: absolute;
-      right: 0px;
-      top: 43%;
-      margin-left: -@spotbox-arrow-width / 2;
-      .sprite(@spotbox-arrow-right);
+    @media (min-width: 768px) {
+      &:before {
+        content: " ";
+        display: table;
+        z-index: 40;
+        position: absolute;
+        right: 0px;
+        top: 43%;
+        margin-left: -@spotbox-arrow-width / 2;
+        .sprite(@spotbox-arrow-right);
+      }
+    }
+    @media (max-width: 767px) {
+      &:before {
+        content: " ";
+        display: table;
+        z-index: 40;
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        margin-left: -@spotbox-arrow-width / 2;
+        .sprite(@spotbox-arrow);
+      }
     }
   }
 }
@@ -187,15 +201,11 @@
           content: " ";
           display: table;
           z-index: 40;
-
           position: absolute;
           bottom: -1px;
           left: 50%;
-
           margin-left: -@spotbox-arrow-width / 2;
-
           .sprite(@spotbox-arrow);
-
         }
       }
       @media all and (min-width:600px) {
