@@ -149,19 +149,19 @@
         <div class="carousel-inner">
         ';
 
-  $samll_news_carousel = array();
+  $small_news_carousel = array();
   foreach ($results as $key => $item) {
     if ($key < 3) {
-      $samll_news_carousel[0][] = $item;
+      $small_news_carousel[0][] = $item;
     }
     elseif ($key >= 3 && $key <= 5) {
-      $samll_news_carousel[1][] = $item;
+      $small_news_carousel[1][] = $item;
     }
     elseif ($key >= 6) {
-      $samll_news_carousel[2][] = $item;
+      $small_news_carousel[2][] = $item;
     }
   }
-  foreach ($samll_news_carousel as $key => $items) {
+  foreach ($small_news_carousel as $key => $items) {
     if ($key == 0) {
       print '<div class="item active">';
     }
