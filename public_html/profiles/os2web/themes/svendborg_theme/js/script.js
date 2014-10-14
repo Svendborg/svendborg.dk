@@ -12,7 +12,7 @@
           $('.header_svendborg header').removeClass('container');
           $('.main-container').css('padding-top','114px');
           $('#fixed-navbar').addClass('row');
-          $('img#front-logo').attr('src', '/sites/default/files/svendborg_logo.png');
+          $('img#front-logo').attr('src', Drupal.settings.basePath + Drupal.settings.pathToTheme + '/images/svendborg_logo.png');
        }
         else {
           $('.header_svendborg header').removeClass('navbar-fixed-top');
@@ -20,7 +20,7 @@
           $('.header_svendborg header').addClass('container');
           $('.main-container').css('padding-top','0');
           $('#fixed-navbar').removeClass('row');
-          $('img#front-logo').attr('src', '/profiles/os2web/themes/svendborg_theme/images/footer_logo.png');
+          $('img#front-logo').attr('src', Drupal.settings.basePath + Drupal.settings.pathToTheme + '/images/footer_logo.png');
         }
     });
 

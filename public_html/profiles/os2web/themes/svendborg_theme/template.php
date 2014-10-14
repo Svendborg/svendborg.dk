@@ -227,6 +227,8 @@ function svendborg_theme_preprocess_page(&$variables) {
     ),
   ), 'google_font_svendborg_theme');
 
+  // Pass the theme path to js.
+  drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . path_to_theme() . '" });', 'inline');
 }
 
 /**
