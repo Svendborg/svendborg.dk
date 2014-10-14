@@ -1599,7 +1599,7 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['table'] = 'field_data_field_os2web_base_field_promote';
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['field'] = 'field_os2web_base_field_promote_tid';
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['value'] = array(
-    6927 => '6927',
+    6955 => '6955',
   );
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['group'] = 3;
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['type'] = 'select';
@@ -1688,7 +1688,7 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['table'] = 'field_data_field_os2web_base_field_promote';
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['field'] = 'field_os2web_base_field_promote_tid';
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['value'] = array(
-    6927 => '6927',
+    6955 => '6955',
   );
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['group'] = 3;
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['type'] = 'select';
