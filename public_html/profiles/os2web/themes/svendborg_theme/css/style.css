@@ -6732,6 +6732,7 @@ a:hover {
 }
 .page-search .main-container .region.region-content ol.search-results.apachesolr_search-results {
   list-style: none;
+  padding-left: 0;
 }
 .node-postliste_import-form #edit-feeds .help,
 .node-postliste_import-form #edit-feeds .form-item-feeds-FeedsExcelParser-no-headers,
