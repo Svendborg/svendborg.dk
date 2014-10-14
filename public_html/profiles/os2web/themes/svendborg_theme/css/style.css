@@ -6741,12 +6741,6 @@ a:hover {
 .node-postliste_import-form .vertical-tabs {
   display: none;
 }
-@media (max-width: 480px) {
-  .hide-for-mobile {
-    display: none;
-    visibility: hidden;
-  }
-}
 /**
  * This file is only for really global styles. None specific styles.
  */

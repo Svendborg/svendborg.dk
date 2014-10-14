@@ -144,7 +144,7 @@
 
 Drupal.behaviors.feedbackForm = {
   attach: function (context) {
-    $('#block-feedback-form').addClass('hide-for-mobile')
+    $('#block-feedback-form').addClass('hidden-xs');
     $('#block-feedback-form', context).once('feedback', function () {
       var $block = $(this);
       $block.find('span.feedback-link')
