@@ -8363,12 +8363,25 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 #borger_dk-body h2 {
   border-top: none;
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
-  font-size: 1.46em !important;
+  font-size: 1.2em !important;
   margin-bottom: 2px;
   padding-top: 1px;
 }
-div.microArticle a {
-  color: #333333;
+div.microArticle,
+body.page-node article #borger_dk-body .microArticle {
+  background-color: #E2E1DC;
+}
+div.microArticle a,
+body.page-node article #borger_dk-body .microArticle a {
+  color: #0089cd;
+}
+div.microArticle a:hover,
+body.page-node article #borger_dk-body .microArticle a:hover {
+  color: #005191;
+}
+div.microArticle ul,
+body.page-node article #borger_dk-body .microArticle ul {
+  padding-left: 16px;
 }
 .os2web_borger_dk_selfservi {
   clear: both;
@@ -8378,16 +8391,23 @@ div.microArticle a {
 }
 .os2web_borger_dk_selfservi h3 {
   color: #333333;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: none;
 }
 .os2web_borger_dk_selfservi ul {
   padding-left: 18px;
 }
-.os2web_borger_dk_selfservi ul li a,
-.os2web_borger_dk_selfservi a:link {
+.os2web_borger_dk_selfservi a,
+.os2web_borger_dk_selfservi a:link,
+.os2web_borger_dk_selfservi ul li a {
   color: #0089cd;
   font-size: 14px;
-  /*list-style-type: disc;
-  text-decoration: underline;*/
+}
+.os2web_borger_dk_selfservi a:hover,
+.os2web_borger_dk_selfservi a:link:hover,
+.os2web_borger_dk_selfservi ul li a:hover {
+  color: #005191;
 }
 .borger_dk-field_os2web-borger-dk-pre_text,
 .borger_dk-field_os2web-borger-dk-post_text {
@@ -8409,6 +8429,11 @@ div.microArticle a {
 .borger_dk-field_os2web-borger-dk-shortlist a {
   color: #0089cd;
 }
+.borger_dk-field_os2web-borger-dk-recommend a:hover,
+.borger_dk-field_os2web-borger-dk-legislati a:hover,
+.borger_dk-field_os2web-borger-dk-shortlist a:hover {
+  color: #005191;
+}
 .borger_dk-field_os2web-borger-dk-recommend h3,
 .borger_dk-field_os2web-borger-dk-legislati h3,
 .borger_dk-field_os2web-borger-dk-shortlist h3 {
@@ -8425,6 +8450,11 @@ div.microArticle a {
   font-weight: 400;
   border-top: 1px solid #dfded7;
   padding-top: 10px;
+}
+.borger_dk-field_os2web-borger-dk-recommend ul,
+.borger_dk-field_os2web-borger-dk-legislati ul,
+.borger_dk-field_os2web-borger-dk-shortlist ul {
+  padding-left: 18px;
 }
 .borger_dk-field_os2web-borger-dk-byline {
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;

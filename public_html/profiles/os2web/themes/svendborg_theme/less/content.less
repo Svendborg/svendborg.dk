@@ -326,13 +326,16 @@ body.page-taxonomy-term.term-is-not-top {
 #borger_dk-body h2 {
   border-top: none;
   font-family: @headings-font-family;
-  font-size: @font-size-h2 !important;
+  font-size: @font-size-h4 !important;
   margin-bottom: 2px;
   padding-top: 1px;
 }
 
-div.microArticle a {
-  color: @gray-dark;
+div.microArticle,
+body.page-node article #borger_dk-body .microArticle {
+	background-color: #E2E1DC;
+	a {color: @link-color;&:hover {color: @link-hover-color}}
+	ul { padding-left: @padding-large-horizontal}
 }
 
 
@@ -343,16 +346,15 @@ div.microArticle a {
   background-color: transparent;
   border-radius: none;
  h3 {
-  color: @gray-dark;}
+  color: @gray-dark;
+  margin-top: @padding-large-vertical;
+  margin-bottom: @padding-small-vertical;
+  border-bottom: none;}
   ul { padding-left: 18px;}
-}
-
-.os2web_borger_dk_selfservi ul li a, .os2web_borger_dk_selfservi a:link{
-  color: @link-color;
+  a,a:link, ul li a {  color: @link-color;
   font-size: @font-size-base;
-  /*list-style-type: disc;
-  text-decoration: underline;*/
-}
+  &:hover {color: @link-hover-color}
+}}
 
 .borger_dk-field_os2web-borger-dk-pre_text,
 .borger_dk-field_os2web-borger-dk-post_text {
@@ -371,7 +373,8 @@ div.microArticle a {
   background-color: #FFF;
   border-radius: none;
   padding:0;
-a {color: @link-color}
+a {color: @link-color; &:hover {color: @link-hover-color}}
+
 h3 {
   border-bottom:none;
   font-family: @headings-font-family;
@@ -382,6 +385,7 @@ h4 {font-family: @headings-font-family;
   font-weight: @headings-font-weight;
   border-top: 1px solid @brand-warmgray;
   padding-top: 10px;}
+  ul { padding-left: 18px;}
 }
 
 .borger_dk-field_os2web-borger-dk-byline {
