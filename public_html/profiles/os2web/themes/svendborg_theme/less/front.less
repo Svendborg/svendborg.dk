@@ -110,6 +110,18 @@
       }
     }
   }
+  .front-branding-img {
+    &:before {
+      content: " ";
+      display: table;
+      z-index: 40;
+      position: absolute;
+      right: 0px;
+      top: 43%;
+      margin-left: -@spotbox-arrow-width / 2;
+      .sprite(@spotbox-arrow-right);
+    }
+  }
 }
 .front-seperator-first {
   clear: both;

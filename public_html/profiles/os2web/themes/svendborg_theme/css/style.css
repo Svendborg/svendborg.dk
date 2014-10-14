@@ -6565,7 +6565,7 @@ a:hover {
   right: 20px;
   top: 25.5px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -81px;
+  background-position: 0px -42px;
   width: 8px;
   height: 13px;
 }
@@ -6674,7 +6674,7 @@ a:hover {
   text-align: center;
   color: #fff;
   background-image: url(../images/sprites.png);
-  background-position: 0px -273px;
+  background-position: 0px -308px;
   width: 43px;
   height: 43px;
 }
@@ -6791,7 +6791,7 @@ body .form-control {
 }
 #block-feedback-form h2 span.feedback-link {
   background-image: url(../images/sprites.png);
-  background-position: 0px -316px;
+  background-position: 0px -351px;
   width: 29px;
   height: 97px;
   font-size: 0;
@@ -6883,7 +6883,7 @@ fieldset[disabled] #block-feedback-form #feedback-submit.btn-default.active {
 }
 #block-cittaslow-block span.cittaslow-link {
   background-image: url(../images/sprites.png);
-  background-position: 0px -821px;
+  background-position: 0px -716px;
   width: 72px;
   height: 140px;
   font-size: 0;
@@ -7261,7 +7261,7 @@ fieldset[disabled] .btn-orange.active {
   left: 50%;
   margin-left: -7px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -14px;
+  background-position: 0px 0px;
   width: 14px;
   height: 7px;
 }
@@ -7277,7 +7277,7 @@ fieldset[disabled] .btn-orange.active {
   left: 48%;
   margin-left: -7px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -94px;
+  background-position: 0px -110px;
   width: 31px;
   height: 16px;
 }
@@ -7336,14 +7336,14 @@ fieldset[disabled] .btn-orange.active {
 }
 .panel-primary.with-arrow > .panel-body:before {
   background-image: url(../images/sprites.png);
-  background-position: 0px -94px;
+  background-position: 0px -110px;
   width: 31px;
   height: 16px;
 }
 .large-arrow.panel-primary.with-arrow > .panel-body:before {
   margin-left: -15.5px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -94px;
+  background-position: 0px -110px;
   width: 31px;
   height: 16px;
 }
@@ -7356,7 +7356,7 @@ fieldset[disabled] .btn-orange.active {
 }
 .panel-blacknblue.with-arrow > .panel-body:before {
   background-image: url(../images/sprites.png);
-  background-position: 0px -7px;
+  background-position: 0px -14px;
   width: 14px;
   height: 7px;
 }
@@ -7418,7 +7418,7 @@ fieldset[disabled] .btn-orange.active {
 }
 .dropdown.like-panel > a .caret-background i {
   background-image: url(../images/sprites.png);
-  background-position: 0px -110px;
+  background-position: 0px -94px;
   width: 14px;
   height: 16px;
   margin: 0 auto;
@@ -7747,7 +7747,7 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 .breadcrumb li i {
   background-image: url(../images/sprites.png);
-  background-position: 0px -55px;
+  background-position: 0px -81px;
   width: 8px;
   height: 13px;
   display: block;
@@ -7772,7 +7772,7 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 .breadcrumb li.last i {
   background-image: url(../images/sprites.png);
-  background-position: 0px -42px;
+  background-position: 0px -68px;
   width: 8px;
   height: 13px;
 }
@@ -7794,7 +7794,7 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   left: 50%;
   margin-left: -7px;
   background-image: url(../images/sprites.png);
-  background-position: 0px 0px;
+  background-position: 0px -7px;
   width: 14px;
   height: 7px;
 }
@@ -7839,7 +7839,7 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   margin-top: -8px;
   margin-left: 11px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -68px;
+  background-position: 0px -55px;
   width: 8px;
   height: 13px;
 }
@@ -8105,7 +8105,7 @@ body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article .borge
 body.page-node div.node-os2web-base-news .borger_dk_body_intro_text .gplus_button,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news .borger_dk_body_intro_text .gplus_button {
   background-image: url(../images/sprites.png);
-  background-position: 0px -166px;
+  background-position: 0px -143px;
   width: 23px;
   height: 23px;
   display: inline-block;
@@ -8119,7 +8119,7 @@ body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article .borge
 body.page-node div.node-os2web-base-news .borger_dk_body_intro_text .gminus_button,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news .borger_dk_body_intro_text .gminus_button {
   background-image: url(../images/sprites.png);
-  background-position: 0px -143px;
+  background-position: 0px -166px;
   width: 23px;
   height: 23px;
   display: inline-block;
@@ -8176,7 +8176,7 @@ body.page-node div.node-os2web-base-news #borger_dk-body a.gplus,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news #borger_dk-body a.gplus {
   display: inline-block;
   background-image: url(../images/sprites.png);
-  background-position: 0px -166px;
+  background-position: 0px -143px;
   width: 23px;
   height: 23px;
   font-size: 0;
@@ -8191,7 +8191,7 @@ body.page-node div.node-os2web-base-news #borger_dk-body a.gminus,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news #borger_dk-body a.gminus {
   display: inline-block;
   background-image: url(../images/sprites.png);
-  background-position: 0px -143px;
+  background-position: 0px -166px;
   width: 23px;
   height: 23px;
   font-size: 0;
@@ -8508,7 +8508,7 @@ fieldset[disabled] #svendborg_tabs ul.quicktabs-tabs li.active {
   left: 50%;
   margin-left: -17.5px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -94px;
+  background-position: 0px -110px;
   width: 31px;
   height: 16px;
 }
@@ -8736,7 +8736,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Kommunen {
   background-image: url(../images/sprites.png);
-  background-position: 0px -546px;
+  background-position: 0px -581px;
   width: 135px;
   height: 135px;
   font-size: 15px;
@@ -8745,7 +8745,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Borger {
   background-image: url(../images/sprites.png);
-  background-position: 0px -1141px;
+  background-position: 0px -1176px;
   width: 182px;
   height: 180px;
   padding: 127px 55px 29px 55px;
@@ -8754,7 +8754,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Erhverv {
   background-image: url(../images/sprites.png);
-  background-position: 0px -961px;
+  background-position: 0px -996px;
   width: 182px;
   height: 180px;
   padding: 127px 50px 29px 50px;
@@ -8763,7 +8763,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Politik {
   background-image: url(../images/sprites.png);
-  background-position: 0px -413px;
+  background-position: 0px -448px;
   width: 134px;
   height: 133px;
   font-size: 15px;
@@ -8834,6 +8834,19 @@ h2.menu-footer a.Kommunen {
 }
 #front-news-branding ol.carousel-indicators li.active {
   background-color: #7ebb00;
+}
+#front-news-branding .front-branding-img:before {
+  content: " ";
+  display: table;
+  z-index: 40;
+  position: absolute;
+  right: 0px;
+  top: 43%;
+  margin-left: -17.5px;
+  background-image: url(../images/sprites.png);
+  background-position: 0px -273px;
+  width: 17px;
+  height: 35px;
 }
 .front-seperator-first {
   clear: both;
