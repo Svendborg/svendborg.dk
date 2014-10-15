@@ -140,8 +140,7 @@
   </div>
   <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
   <footer>
-    <div class="addthis_sharing_toolbox"></div>
-      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
       <?php print render($content['field_tags']); ?>
     <?php print render($content['links']); ?>
   </footer>
