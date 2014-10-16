@@ -14,7 +14,8 @@ function svendborg_theme_preprocess_page(&$variables) {
     $term = taxonomy_term_load(arg(2));
     $term_name = $term->vocabulary_machine_name;
     unset($variables['page']['content']['system_main']['no_content']);
-    // There will not be nodes and other normal term content on terms "os2web_base_tax_site_structure" pages.
+    // There will not be nodes and other normal term content on terms
+    // "os2web_base_tax_site_structure" pages.
     if ($term_name == "os2web_base_tax_site_structure") {
       unset($variables['page']['content']['system_main']['nodes']);
       unset($variables['page']['content']['system_main']['pager']);
@@ -27,7 +28,9 @@ function svendborg_theme_preprocess_page(&$variables) {
       $view->set_items_per_page(20);
       $view->pre_execute();
       $view->execute();
-      $variables['page']['content']['system_main'] = array('#markup' => '<h2>' .$term->name .'</h2>' . $view->render());
+      $variables['page']['content']['system_main'] = array(
+        '#markup' => '<h2>' . $term->name . '</h2>' . $view->render(),
+      );
     }
 
     // Variable that defines that this term is the top of the hieraki.
@@ -48,17 +51,6 @@ function svendborg_theme_preprocess_page(&$variables) {
     if ($hide_sidebar_field[0]['value'] == '1') {
       $variables['page']['sidebar_second'] = array();
       $sidebar_second_hidden = TRUE;
-    }
-  }
-
-  // If the current item is NOT in indholdsmenu, clean the sidebar_first array.
-  // Dont show sidebar on nodes if they are not in menu.
-  if ($node) {
-    $menu_trail = menu_get_active_trail();
-    $active = end($menu_trail);
-    if ($active['menu_name'] !== 'menu-indholdsmenu') {
-      //$variables['page']['sidebar_first'] = array();
-      //$sidebar_first_hidden = TRUE;
     }
   }
 
@@ -124,7 +116,7 @@ function svendborg_theme_preprocess_page(&$variables) {
     }
   }
 
-  // External related links
+  // External related links.
   if (($node && $ext_links = field_get_items('node', $node, 'field_os2web_base_field_ext_link')) ||
       ($term && $ext_links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_ext_link'))) {
     foreach ($ext_links as $link) {
@@ -186,7 +178,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       }
       $variables['page']['sidebar_second']['os2web_news_lists'] = array('#markup' => $view->render());
     }
-    if($term_is_top && $term->vocabulary_machine_name == "os2web_base_tax_site_structure") {
+    if ($term_is_top && $term->vocabulary_machine_name == "os2web_base_tax_site_structure") {
       $variables['page']['sidebar_first'] = array();
     }
     if ($term && strtolower($term->name) === "nyheder") {
@@ -212,7 +204,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       ),
       '#theme_wrappers' => array('container'),
       '#attributes' => array(
-        'class' => array('row', 'spotboxes')
+        'class' => array('row', 'spotboxes'),
       ),
     );
   }
@@ -294,7 +286,7 @@ function svendborg_theme_preprocess_html(&$variables) {
     ),
     '#weight' => '-99999',
   );
-  // Add header meta tag for IE to head
+  // Add header meta tag for IE to head.
   drupal_add_html_head($meta_ie_render_engine, 'meta_ie_render_engine');
 }
 /**
@@ -308,6 +300,7 @@ function svendborg_theme_preprocess_node(&$vars) {
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
 }
+
 /**
  * Implements theme_breadcrumb().
  *
@@ -418,12 +411,14 @@ function svendborg_theme_qt_quicktabs_tabset($vars) {
 }
 
 /**
- * Implements theme_form_element()
+ * Implements theme_form_element().
  */
 function svendborg_theme_form_element(&$variables) {
-  // Because the feeds module, puts the upload filechooser in the form element[#description]
-  // it is not shown. As bootstrap tries to put all '#description's in tooltips.
-  // This workaround puts the the description from file fields in the field suffix.
+  // Because the feeds module, puts the upload filechooser in the form
+  // element[#description] it is not shown. As bootstrap tries to put all
+  // '#description's in tooltips.
+  // This workaround puts the the description from file fields in the field
+  // suffix.
   // This should probarbly be fixed in the feeds module, but, until then..
   // @see https://www.drupal.org/node/2308343
   if ($variables['element']['#type'] == 'file' && isset($variables['element']['#description'])) {
@@ -504,7 +499,6 @@ function _svendborg_theme_term_is_top($term_tid) {
 
 /**
  * Overrides file_link, add target= '_blank', file open in a new window.
- *
  */
 function svendborg_theme_file_link($variables) {
   $file = $variables['file'];
@@ -526,7 +520,7 @@ function svendborg_theme_file_link($variables) {
     $link_text = $file->description;
     $options['attributes']['title'] = check_plain($file->filename);
   }
-  //open files of particular mime types in new window
+  // Open files of particular mime types in new window.
   $new_window_mimetypes = array('application/pdf','text/plain');
   if (in_array($file->filemime, $new_window_mimetypes)) {
     $options['attributes']['target'] = '_blank';
@@ -534,6 +528,9 @@ function svendborg_theme_file_link($variables) {
   return '<span class="file">' . $icon . ' ' . l($link_text, $url, $options) . '</span>';
 }
 
+/**
+ * Implements theme_file_formatter_table().
+ */
 function svendborg_theme_file_formatter_table($variables) {
   $header = array(t('Attachment'));
   $rows = array();
