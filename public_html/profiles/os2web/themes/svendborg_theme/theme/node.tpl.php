@@ -137,10 +137,11 @@
         print $view->render('block'); 
       }
     ?>
+	  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
   </div>
   <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
   <footer>
-    <?php print render($content['field_tags']); ?>
+      <?php print render($content['field_tags']); ?>
     <?php print render($content['links']); ?>
   </footer>
   <?php endif; ?>
