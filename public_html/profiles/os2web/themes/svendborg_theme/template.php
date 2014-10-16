@@ -309,15 +309,15 @@ function svendborg_theme_preprocess_node(&$vars) {
 function svendborg_theme_breadcrumb($variables) {
   $breadcrumbs = $variables['breadcrumb'];
 
-  // After disabling the Crumbs module, some taxonomies where dublicated in the
-  // active trail, and then have dubs in breadcrumb.
-  //
-  // EIDT: WEIRD brødkrumme hack. Problem have maybe resolved itself.
-  // if (arg(0) == 'taxonomy' && arg(1) == 'term' && is_numeric(arg(2))) {
-  //   array_pop($breadcrumbs);
-  // }
-
   if (!empty($breadcrumbs)) {
+    // The facets integrate with the breadcrumbs, we don't want this.
+    if (arg(0) == 'search' && isset($_GET['f'])) {
+      // And since every facet adds a level to the breadcrumb, we do this.
+      for ($i = 0; $i < count($_GET['f']); $i++) {
+        array_pop($breadcrumbs);
+      }
+    }
+
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
     $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
