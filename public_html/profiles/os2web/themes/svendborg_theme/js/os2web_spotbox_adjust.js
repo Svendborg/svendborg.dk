@@ -12,27 +12,38 @@
     var $region_sidebar = $('.region-sidebar-second'),
         $spotboxes = $('.node-os2web-spotbox-box'),
         $region_content = $('.region-content'),
+        $qty = $spotboxes.length,
         $spotboxes_height = $spotboxes.outerHeight();
 
     // Be sure to only do it when not on mobile width.
     if ($region_sidebar.length &&
         $(window).width() > 768 &&
         ($('body').hasClass('page-node') || ($('body').hasClass('page-taxonomy-term')))) {
-
       $spotboxes.each(function(i){
-        if(check_height()) {
+
+        if (check_height($qty)) {
           var $spotbox = $(this);
           spotbox_change_place($spotbox);
         }
       });
     }
 
-    function check_height() {
+    function check_height($qty) {
       var sidebar_height = $region_sidebar.outerHeight(),
           content_height = $region_content.outerHeight();
-
+      var $diff = (content_height - sidebar_height) / $spotboxes_height;
       // Return true if the difference is more than 1.5 time of spotbox's height.
-      if ((content_height - sidebar_height) / $spotboxes_height > 1.5) {
+      if ($diff > 1.5 && $diff < 2) {
+        if (($('.region-content').hasClass('col-md-6') || $('.region-content').hasClass('col-xs-6')
+          || $('.region-content').hasClass('col-sm-6')) && $qty % 2 == 0) {
+          return false;
+        }
+        else {
+          return true;
+        }
+
+      }
+      else if ($diff > 2) {
         return true;
       }
       else {
