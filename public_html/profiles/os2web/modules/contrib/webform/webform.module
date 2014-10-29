@@ -2008,6 +2008,7 @@ function webform_mail($key, &$message, $params) {
   $message['headers'] = array_merge($message['headers'], $params['headers']);
   $message['subject'] = $params['subject'];
   $message['body'][] = $params['message'];
+  $message['headers']['Sender'] = $message['headers']['Return-Path'] = $message['headers']['Errors-To'] = $message['headers']['Reply-To'] = $params['email']['from_address'];
 }
 
 /**
