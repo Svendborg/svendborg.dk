@@ -128,22 +128,28 @@
       hide($content['field_tags']);
       hide($content['field_os2web_base_field_image']);
       hide($content['field_os2web_base_field_lead_img']);
+      print render($content['body']);
+      // Addthis share toolbox.
+      print '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
+      <!-- Go to www.addthis.com/dashboard to customize your tools -->
+      <div class="addthis_sharing_toolbox"></div>';
       print render($content);
 
       if (user_is_logged_in()) {
         $view = views_get_view('redaktoerinfo');
         $view->set_arguments(array($node->nid));
         $view->execute();
-        print $view->render('block'); 
+        print $view->render('block');
       }
     ?>
-	  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
+
   </div>
   <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
   <footer>
-      <?php print render($content['field_tags']); ?>
+    <?php print render($content['field_tags']); ?>
     <?php print render($content['links']); ?>
   </footer>
   <?php endif; ?>
   <?php print render($content['comments']); ?>
 </article>
+

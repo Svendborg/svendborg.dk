@@ -108,10 +108,9 @@
   </header>
   <div class="wrap">
     <?php print render($title_suffix); ?>
-  
     <?php
       print "<div class='borger_dk-region-div3'>";
-   
+
       if (!empty($content_field['field_os2web_borger_dk_header'])) {
         print "<div class='borger_dk_header_text field-item' id='borger_dk_header_text'>";
         print render($content_field['field_os2web_borger_dk_header']);
@@ -157,13 +156,11 @@
         print '</div>';
         print "<div class='panel-separator'></div>";
       }
-  
       if (!empty($content['field_os2web_borger_dk_legislati'])) {
         print "<div class='borger_dk-field_os2web-borger-dk-legislati'>";
         print render($content['field_os2web_borger_dk_legislati']);
         print "</div>";
       }
-
       print "<div class='borger_dk-region-div4 inner'>";
 
       if (!empty($content_field['field_os2web_borger_dk_recommend'])) {
@@ -171,7 +168,7 @@
         print     render($content_field['field_os2web_borger_dk_recommend']);
         print   "</div>";
         print   "<div class='panel-separator'></div>";
-  
+
       }
       if (!empty($content_field['field_os2web_borger_dk_shortlist'])) {
         print   "<div class='borger_dk-field_os2web-borger-dk-shortlist'> ";
@@ -188,14 +185,20 @@
 
       //      print render($content);
     ?>
+
+      <!-- Go to www.addthis.com/dashboard to customize your tools -->
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async="async"></script>
+      <!-- Go to www.addthis.com/dashboard to customize your tools -->
+      <div class="addthis_sharing_toolbox"></div>
+
     </div>
-    <div class="nyheder-seperator"></div>
+
     <?php
       if (user_is_logged_in()) {
         $view = views_get_view('redaktoerinfo');
         $view->set_arguments(array($node->nid));
         $view->execute();
-        print $view->render('block'); 
+        print $view->render('block');
       }
     ?>
   </div>
