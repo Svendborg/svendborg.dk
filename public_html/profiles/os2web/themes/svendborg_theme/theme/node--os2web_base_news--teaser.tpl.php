@@ -32,15 +32,15 @@
               ?>
             </div>
       <?php endif; ?>
-            <div class="front-s-news-item-text clearfix">
-                <div class="col-md-2 col-sm-2 col-xs-2">
+            <div class="front-s-news-item-text clearfix row">
+                <div class="col-md-3 col-sm-3 col-xs-2">
                      <div class="news-text-date">
                        <span class="news-date-day"><?php print date('j', $created); ?></span>
-                       <span class="news-date-month"><?php print date('M', $created); ?></span>
+                       <span class="news-date-month"><?php $m = date('M', $created); print t($m);?></span>
                      </div>
                  </div>
 
-                <div class="col-md-10 col-sm-10 col-xs-10">
+                <div class="col-md-9 col-sm-9 col-xs-10 row">
                       <div>
                         <a class="news-title" href="<?php global $base_url; print $base_url . $node_url; ?>"><?php print $node->title; ?></a>
                       </div>
