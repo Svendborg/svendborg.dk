@@ -55,7 +55,7 @@ function svendborg_views_get_front_large_carousel() {
   print '<!-- Indicators -->
           <ol class="carousel-indicators col-md-12 col-sm-12 col-xs-12">';
   foreach ($results as $key => $item) {
-    print '<li data-target="#front-news-branding" data-slide-to="0"';
+    print '<li data-target="#front-news-branding" data-slide-to="' . $key . '"';
     if ($key == 0) {
       print 'class="active"></li>';
     }
