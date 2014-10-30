@@ -131,7 +131,6 @@
       print render($content['body']);
       // Addthis share toolbox.
       print '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
-      <!-- Go to www.addthis.com/dashboard to customize your tools -->
       <div class="addthis_sharing_toolbox"></div>';
       print render($content);
 
