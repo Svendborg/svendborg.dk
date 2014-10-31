@@ -44,7 +44,7 @@
         }
 
       }
-      else if ($diff > 2.5) {
+      else if ($diff > 2.8) {
         return true;
       }
       else {
