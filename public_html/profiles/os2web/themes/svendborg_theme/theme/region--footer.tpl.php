@@ -77,7 +77,7 @@ print "<h2 class='menu-footer " . $menu_item['link']['link_title']. "'>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 footer-address">
           <span>Ramsherred 5 ∙ 5700 Svendborg ∙ Telefon 62 23 30 00 ∙ </span>
-          <a href="/kontakt" title="Kontakt kommunen">Kontakt kommunen</a>
+          <a href="/kontakt" title="Kontakt kommunen">Kontakt og åbningstider her</a>
         </div>
         </div>
       </div>

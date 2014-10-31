@@ -6675,8 +6675,8 @@ a:hover {
   color: #fff;
   background-image: url(../images/sprites.png);
   background-position: 0px -308px;
-  width: 43px;
-  height: 43px;
+  width: 51px;
+  height: 51px;
 }
 .news-text-date .news-date-inner {
   width: 20px;
@@ -6687,12 +6687,12 @@ a:hover {
   float: right;
   width: 100%;
   padding-left: 1px;
-  margin-top: 10px;
-  line-height: 10px;
+  margin-top: 12px;
+  line-height: 12px;
 }
 .news-text-date .news-date-month {
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
   float: right;
   width: 100%;
 }
@@ -6796,7 +6796,7 @@ body .form-control {
 }
 #block-feedback-form h2 span.feedback-link {
   background-image: url(../images/sprites.png);
-  background-position: 0px -351px;
+  background-position: 0px -359px;
   width: 29px;
   height: 97px;
   font-size: 0;
@@ -6888,7 +6888,7 @@ fieldset[disabled] #block-feedback-form #feedback-submit.btn-default.active {
 }
 #block-cittaslow-block span.cittaslow-link {
   background-image: url(../images/sprites.png);
-  background-position: 0px -716px;
+  background-position: 0px -724px;
   width: 72px;
   height: 140px;
   font-size: 0;
@@ -8858,7 +8858,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Kommunen {
   background-image: url(../images/sprites.png);
-  background-position: 0px -581px;
+  background-position: 0px -589px;
   width: 135px;
   height: 135px;
   font-size: 15px;
@@ -8867,7 +8867,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Borger {
   background-image: url(../images/sprites.png);
-  background-position: 0px -1176px;
+  background-position: 0px -1184px;
   width: 182px;
   height: 180px;
   padding: 127px 55px 29px 55px;
@@ -8876,7 +8876,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Erhverv {
   background-image: url(../images/sprites.png);
-  background-position: 0px -996px;
+  background-position: 0px -1004px;
   width: 182px;
   height: 180px;
   padding: 127px 50px 29px 50px;
@@ -8885,7 +8885,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-indholsdmenu a.Politik {
   background-image: url(../images/sprites.png);
-  background-position: 0px -448px;
+  background-position: 0px -456px;
   width: 134px;
   height: 133px;
   font-size: 15px;
@@ -8989,7 +8989,7 @@ h2.menu-footer a.Kommunen {
 }
 .front-seperator-first {
   clear: both;
-  height: 24px;
+  height: 34px;
 }
 .front-seperator {
   clear: both;
