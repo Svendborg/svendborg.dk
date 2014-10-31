@@ -27,6 +27,7 @@ regions[content_bottom] = 'Content bottom'
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/style.css
+stylesheets[print][] = css/print.css
 
 
 ;;;;;;;;;;;;;;;;;;;;;
