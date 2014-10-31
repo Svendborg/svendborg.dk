@@ -24,6 +24,7 @@
         if (check_height($qty)) {
           var $spotbox = $(this);
           spotbox_change_place($spotbox);
+          $qty -= 1;
         }
       });
     }
@@ -43,7 +44,7 @@
         }
 
       }
-      else if ($diff > 2) {
+      else if ($diff > 2.5) {
         return true;
       }
       else {
