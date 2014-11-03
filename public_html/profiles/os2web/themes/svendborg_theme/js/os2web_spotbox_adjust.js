@@ -30,26 +30,50 @@
     }
 
     function check_height($qty) {
+
       var sidebar_height = $region_sidebar.outerHeight(),
           content_height = $region_content.outerHeight();
       var $diff = (content_height - sidebar_height) / $spotboxes_height;
-      // Return true if the difference is more than 1.5 time of spotbox's height.
-      if ($diff > 1.5 && $diff < 2) {
-        if (($('.region-content').hasClass('col-md-6') || $('.region-content').hasClass('col-xs-6')
-          || $('.region-content').hasClass('col-sm-6')) && $qty % 2 == 0) {
-          return false;
+
+      // Region content is 9 columns.
+      if ($('.region-content').hasClass('col-md-9') || $('.region-content').hasClass('col-sm-9')) {
+        if ($qty % 3 != 0) {
+          if ($diff < 1.3) {
+            return false;
+          }
+          else {
+            return true;
+          }
         }
         else {
-          return true;
+          if ($diff < 3.5) {
+            return false;
+          }
+          else {
+            return true;
+          }
         }
+      }
+      // Region content is 6 columns.
+      if ($('.region-content').hasClass('col-md-6') || $('.region-content').hasClass('col-sm-6')) {
+        if ($qty % 2 != 0) {
+          if ($diff < 1.3) {
+            return false;
+          }
+          else {
+            return true;
+          }
+        }
+        else {
+          if ($diff < 2.5) {
+            return false;
+          }
+          else {
+            return true;
+          }
+        }
+      }
 
-      }
-      else if ($diff > 2.8) {
-        return true;
-      }
-      else {
-        return false;
-      }
     }
 
     function spotbox_change_place($spotbox) {
