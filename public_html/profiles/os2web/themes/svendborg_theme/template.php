@@ -222,14 +222,16 @@ function svendborg_theme_preprocess_page(&$variables) {
   // Pass the theme path to js.
   drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . path_to_theme() . '" });', 'inline');
 
-  // Frontpage big menu.
-  $variables['page']['front_big_menu'] = _svendborg_theme_get_front_big_menu_buttons();
+  if (drupal_is_front_page()) {
+    // Frontpage big menu.
+    $variables['page']['front_big_menu'] = _svendborg_theme_get_front_big_menu_buttons();
 
-  // Frontpage large carousel.
-  $variables['page']['front_large_carousel'] = _svendborg_theme_get_front_large_carousel();
+    // Frontpage large carousel.
+    $variables['page']['front_large_carousel'] = _svendborg_theme_get_front_large_carousel();
 
-  // Frontpage small carousel.
-  $variables['page']['front_small_carousel'] = _svendborg_theme_get_front_small_carousel();
+    // Frontpage small carousel.
+    $variables['page']['front_small_carousel'] = _svendborg_theme_get_front_small_carousel();
+  }
 }
 
 /**
