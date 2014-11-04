@@ -14,7 +14,7 @@
     }
   }
 ?>
-<article id="node-<?php print $node->nid; ?>" class="<?php print $classes . " all"; ?> clearfix"<?php print $attributes; ?> date-filter="<?php print $top_parent_term->tid ?>">
+<article id="node-<?php print $node->nid; ?>" class="<?php print $classes . " all"; ?> clearfix"<?php print $attributes; ?> date-filter="<?php if (isset($top_parent_term)) print $top_parent_term->tid ?>">
   <?php if (!$page) : ?>
 
     <div class="margin-bottom-20">

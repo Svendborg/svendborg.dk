@@ -240,7 +240,7 @@ function svendborg_theme_preprocess_page(&$variables) {
 function svendborg_theme_preprocess_taxonomy_term(&$variables) {
 
   $term = taxonomy_term_load($variables['tid']);
-
+  $variables['term_display_alternative'] = FALSE;
   // Get wether this is a top term, and provide a variable for the templates.
   $term_is_top = _svendborg_theme_term_is_top($term->tid);
   $variables['term_is_top'] = $term_is_top;

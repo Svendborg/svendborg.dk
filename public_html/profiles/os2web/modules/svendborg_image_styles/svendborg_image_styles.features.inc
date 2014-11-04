@@ -15,7 +15,7 @@ function svendborg_image_styles_image_default_styles() {
     'name' => 'svendborg_content_image',
     'label' => 'svendborg_content_image',
     'effects' => array(
-      12 => array(
+      18 => array(
         'label' => 'EPSA Image Crop',
         'help' => '',
         'dimensions callback' => 'epsacrop_crop_dimensions',
@@ -36,21 +36,20 @@ function svendborg_image_styles_image_default_styles() {
         ),
         'weight' => -10,
       ),
-      13 => array(
-        'label' => 'Skalér',
-        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
-        'effect callback' => 'image_scale_effect',
-        'dimensions callback' => 'image_scale_dimensions',
-        'form callback' => 'image_scale_form',
-        'summary theme' => 'image_scale_summary',
+      21 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
         'module' => 'image',
-        'name' => 'image_scale',
+        'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 918,
-          'height' => '',
-          'upscale' => 1,
+          'height' => 432,
         ),
-        'weight' => -9,
+        'weight' => 2,
       ),
     ),
   );
@@ -60,7 +59,7 @@ function svendborg_image_styles_image_default_styles() {
     'name' => 'svendborg_spotbox',
     'label' => 'svendborg_spotbox',
     'effects' => array(
-      13 => array(
+      12 => array(
         'label' => 'EPSA Image Crop',
         'help' => '',
         'dimensions callback' => 'epsacrop_crop_dimensions',
@@ -80,6 +79,21 @@ function svendborg_image_styles_image_default_styles() {
           ),
         ),
         'weight' => 1,
+      ),
+      22 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 272,
+          'height' => 126,
+        ),
+        'weight' => 2,
       ),
     ),
   );

@@ -1,13 +1,8 @@
 <div class="front-main-container-wrapper">
 
   <div class="row">
-    <!-- taxonomy-term--tid.tpl.php-->
     <div class="region region-content col-md-8 col-sm-8 col-xs-12">
-      <?php if ($tabs): ?>
-        <div class="tabs">
-          <?php print render($tabs); ?>
-        </div>
-      <?php endif; ?>
+
       <h1>Nyheder og aktuelt</h1>
     <?php
 

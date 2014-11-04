@@ -128,6 +128,10 @@
       hide($content['field_tags']);
       hide($content['field_os2web_base_field_image']);
       hide($content['field_os2web_base_field_lead_img']);
+      hide($content['field_svendborg_hide_sidebar']);
+      hide($content['field_svendborg_hide_contact']);
+
+      print render($content['field_os2web_base_field_summary']);
       print render($content['body']);
       // Addthis share toolbox.
       print '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
