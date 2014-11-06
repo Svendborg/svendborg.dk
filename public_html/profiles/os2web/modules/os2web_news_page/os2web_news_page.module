@@ -77,3 +77,27 @@ function os2web_news_page_permission() {
   }
   return $permissions;
 }
+
+function os2web_news_page_menu() {
+  $items['aktulet_news/ajax/view/%/%'] = array(
+    'page callback' => 'os2web_news_page_ajax_view',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array(3, 4),
+  );
+  return $items;
+}
+
+function os2web_news_page_ajax_view($term_id, $item = 5) {
+  print '
+      <div class="row ' . $term_id. '">';
+
+  $view = views_get_view('svendborg_news_view');
+  $view->set_display('block');
+  $view->set_arguments(array('nyhed', $term_id));
+  if ($item) {
+    $view->set_items_per_page($item);
+  }
+  $view->execute();
+  print $view->render('block');
+  print '</div>';
+}
