@@ -81,7 +81,7 @@ function os2web_news_page_permission() {
 function os2web_news_page_menu() {
   $items['aktulet_news/ajax/view/%/%'] = array(
     'page callback' => 'os2web_news_page_ajax_view',
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('access content'),
     'page arguments' => array(3, 4),
   );
   return $items;
