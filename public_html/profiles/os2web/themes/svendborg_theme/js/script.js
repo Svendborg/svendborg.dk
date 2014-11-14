@@ -6,62 +6,74 @@
     var button = 'filter-all';
     var button_class = "btn-primary";
     var button_normal = "btn-blacknblue";
+    var $container = $("#nyheder-content-isotoper .view-content");
+    check_button(button);
+
+    function check_button(button){
+      $('.filter-link').removeClass(button_class);
+      $('.filter-link').addClass(button_normal);
+      $('#'+button).addClass(button_class);
+      $('#'+button).removeClass(button_normal);
+    }
 
     // filter buttons.
     $('.filter-link').click(function(event){
+      $(this).addClass(button_class);
       button = $(this).attr('id');
+      check_button(button);
       var filterValue = $( this ).attr('data-filter');
-      jQuery.get("/aktulet_news/ajax/view/"+filterValue+'/'+5, function(data){
+      jQuery.get("/aktulet_news/ajax/view/"+filterValue+'/'+20, function(data){
         $('#nyheder-content-isotoper').html(data);
-        load_again();
+        load_content();
       });
     });
 
-    var $container = $("#nyheder-content-isotoper .view-content");
+    $container = $("#nyheder-content-isotoper .view-content");
+
     // Initial masonry
     if ($container.length) {
-      load_again();
-
-      function load_again() {
-        $container.imagesLoaded(function(){
-
-          $container = $("#nyheder-content-isotoper .view-content");
-
-          $container.masonry({
-            columnWidth: '.switch-elements',
-          });
-
-
-          function check_button(){
-            $('.filter-link').removeClass(button_class);
-            $(".filter-link-all").removeClass(button_class);
-            $('.filter-link').addClass(button_normal);
-            $(".filter-link-all").addClass(button_normal);
-            $('#'+button).addClass(button_class);
-            $('#'+button).removeClass(button_normal);
-          }
-          check_button();
-          $container.infinitescroll({
-            // selector for the paged navigation
-            navSelector  : '.pagination',
-            // selector for the NEXT link (to page 2)
-            nextSelector : '.pagination li.next a',
-            // selector for all items you'll retrieve
-            itemSelector : '.switch-elements',
-            loading: {
-              finishedMsg: 'Der er ikke flere.',
-              img: 'http://i.imgur.com/qkKy8.gif'
-            },
-            debug: true,
-          },
-          function(newElements) {
-            var $newElems = $(newElements);
-            $container.masonry( 'appended', $newElems, function(){$newElems.fadeIn('slow');});
-          }
-          );
-        });
-      }
+      load_content();
     }
+    function load_content() {
+      $container = $("#nyheder-content-isotoper .view-content");
+
+      $container.imagesLoaded(function(){
+
+        $container.masonry({
+          columnWidth: '.switch-elements',
+        });
+
+        $container.infinitescroll({
+          state : {
+            currPage: 0
+          },
+          // selector for the paged navigation
+          navSelector  : '.pagination',
+          // selector for the NEXT link (to page 2)
+          nextSelector : '.pagination li.next a',
+          // selector for all items you'll retrieve
+          itemSelector : '.switch-elements',
+          loading: {
+            //finishedMsg: 'Der er ikke flere.',
+            //img: 'http://i.imgur.com/qkKy8.gif'
+          },
+          debug: false,
+        },
+        function(newElements) {
+          var $newElems = $(newElements).hide();
+          $newElems.imagesLoaded(function(){
+            $newElems.fadeIn(); // fade in when ready
+            $container.masonry( 'appended', $newElems);
+            Drupal.attachBehaviors();
+          });
+            /*setTimeout(function() {
+              $container.masonry( 'insert', $newElems);
+            }, 500);*/
+        }
+        );
+      });
+    }
+
 
     // Navbar scroll
     $(window).bind('scroll', function() {

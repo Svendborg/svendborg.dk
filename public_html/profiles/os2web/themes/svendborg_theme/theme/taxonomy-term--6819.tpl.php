@@ -78,7 +78,7 @@
       $view = views_get_view('svendborg_news_view');
       $view->set_display('block');
       $view->set_arguments(array('nyhed', 'all'));
-      $view->set_items_per_page(5);
+      //$view->set_items_per_page(20);
       $view->execute();
       print $view->render('block');
 
