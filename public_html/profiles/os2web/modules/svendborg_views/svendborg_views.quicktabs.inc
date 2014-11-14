@@ -38,7 +38,7 @@ function svendborg_views_quicktabs_default_quicktabs() {
     2 => array(
       'vid' => 'svendborg_news_view',
       'display' => 'block_4',
-      'args' => 'Høringer',
+      'args' => '4055',
       'title' => 'Høring/ afgørelse',
       'weight' => '-98',
       'type' => 'view',
