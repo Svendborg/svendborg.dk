@@ -46,14 +46,6 @@ function svendborg_theme_preprocess_page(&$variables) {
   $sidebar_second_hidden = FALSE;
   $sidebar_first_hidden = FALSE;
 
-  // If node has hidden the sidebar, set content to null.
-  if ($node && $hide_sidebar_field = field_get_items('node', $node, 'field_svendborg_hide_sidebar')) {
-    if ($hide_sidebar_field[0]['value'] == '1') {
-      $variables['page']['sidebar_second'] = array();
-      $sidebar_second_hidden = TRUE;
-    }
-  }
-
   // Get all the nodes selvbetjeningslinks and give them to the template.
   if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
       ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_selfserv'))) {
@@ -181,9 +173,6 @@ function svendborg_theme_preprocess_page(&$variables) {
     if ($term_is_top && $term->vocabulary_machine_name == "os2web_base_tax_site_structure") {
       $variables['page']['sidebar_first'] = array();
     }
-    if ($term && strtolower($term->name) === "nyheder") {
-      $variables['page']['sidebar_second'] = array();
-    }
   }
 
   // Spotbox handling. Find all spotboxes for this node, and add them to
@@ -207,6 +196,14 @@ function svendborg_theme_preprocess_page(&$variables) {
         'class' => array('row', 'spotboxes'),
       ),
     );
+  }
+  // If node has hidden the sidebar, set content to null.
+  if (($node && $hide_sidebar_field = field_get_items('node', $node, 'field_svendborg_hide_sidebar')) ||
+      ($term && $hide_sidebar_field = field_get_items('taxonomy_term', $term, 'field_svendborg_hide_sidebar'))) {
+    if ($hide_sidebar_field[0]['value']) {
+      $variables['page']['sidebar_second'] = array();
+      $sidebar_second_hidden = TRUE;
+    }
   }
 
   // Add out fonts from Google Fonts API.

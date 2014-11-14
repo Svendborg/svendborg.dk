@@ -43,6 +43,12 @@
  */
 ?>
 <article id="taxonomy-term-<?php print $term->tid; ?>" class="<?php print $classes; ?> clearfix">
+  <?php
+    hide($content['field_svendborg_hide_sidebar']);
+    hide($content['field_list_as_spotboks']);
+    hide($content['field_os2web_base_field_hidlinks']);
+    hide($content['field_alternative_display']);
+  ?>
   <?php if (!$page): ?>
     <h2><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
   <?php endif; ?>

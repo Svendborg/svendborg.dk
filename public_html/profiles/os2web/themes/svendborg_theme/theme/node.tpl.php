@@ -130,6 +130,7 @@
       hide($content['field_os2web_base_field_lead_img']);
       hide($content['field_svendborg_hide_sidebar']);
       hide($content['field_svendborg_hide_contact']);
+      hide($content['field_os2web_base_field_hidlinks']);
 
       print render($content['field_os2web_base_field_summary']);
       print render($content['body']);
