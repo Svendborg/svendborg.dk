@@ -244,9 +244,9 @@ function svendborg_theme_preprocess_taxonomy_term(&$variables) {
 
   // Provide the spotboxes to Nyheder page or top terms. These pages does not
   // use the right sidebar so we need them in taxonomy-term.tpl
-  if (isset($term->tid) && (strtolower($term->name) === 'nyheder' || $term_is_top)) {
+  if (isset($term->tid) && ($term->tid == 6819 || $term_is_top)) {
     if ($spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox')) {
-      if (strtolower($term->tid) == 6819) {
+      if ($term->tid == 6819) {
         $variables['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
         $variables['news_term_branding'] = _svendborg_theme_get_large_carousel();
         $variables['news_term_content'] = _svendborg_theme_get_term_news_content();
