@@ -142,6 +142,7 @@
       if (user_is_logged_in()) {
         $view = views_get_view('redaktoerinfo');
         $view->set_arguments(array($node->nid));
+        $view->pre_execute();
         $view->execute();
         print $view->render('block');
       }
