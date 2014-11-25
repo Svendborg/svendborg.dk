@@ -237,7 +237,7 @@ function svendborg_theme_preprocess_page(&$variables) {
     $variables['page']['front_big_menu'] = _svendborg_theme_get_front_big_menu_buttons();
 
     // Frontpage large carousel.
-    $variables['page']['front_large_carousel'] = _svendborg_theme_get_front_large_carousel();
+    $variables['page']['front_large_carousel'] = _svendborg_theme_get_large_carousel();
 
     // Frontpage small carousel.
     $variables['page']['front_small_carousel'] = _svendborg_theme_get_front_small_carousel();
@@ -258,19 +258,24 @@ function svendborg_theme_preprocess_taxonomy_term(&$variables) {
   // Provide the spotboxes to Nyheder page or top terms. These pages does not
   // use the right sidebar so we need them in taxonomy-term.tpl
   if (isset($term->tid) && (strtolower($term->name) === 'nyheder' || $term_is_top)) {
-    $spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox');
-    if (strtolower($term->name) === 'nyheder') {
-      $variables['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
-      $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
-    }
-    else {
-      $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
+    if ($spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox')) {
+      if (strtolower($term->tid) == 6819) {
+        $variables['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
+        $variables['news_term_branding'] = _svendborg_theme_get_large_carousel();
+        $variables['news_term_content'] = _svendborg_theme_get_term_news_content();
+        $variables['news_term_right_sidebar'] = _svendborg_theme_get_term_news_filer_and_quicktabs();
+        $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6');
+      }
+      else {
+        $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
+      }
     }
   }
   if (isset($term->field_alternative_display['und'][0]['value']) &&
         $term->field_alternative_display['und'][0]['value'] == 1) {
     $variables['term_display_alternative'] = TRUE;
   }
+
 }
 
 /**
@@ -318,10 +323,34 @@ function svendborg_theme_preprocess_node(&$vars) {
   // Add css class "node--NODETYPE--VIEWMODE" to nodes.
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
 
+  $term_class = get_the_classes($vars['nid']);
+  if ($term_class != '') {
+    $vars['classes_array'][] = $vars['top_parent_term'] = $term_class;
+  }
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
 }
+/**
+ * Retrieve the top term tid for node class array.
+ */
+function get_the_classes($nid) {
+  $top_parent_term = '';
+  $node = node_load($nid);
+  if ($portalkategori = field_get_items('node', $node, 'field_os2web_base_field_struct')) {
 
+    // This will be your top parent term if any was found.
+    $parent_terms = taxonomy_get_parents_all($portalkategori[0]['tid']);
+
+    foreach ($parent_terms as $parent) {
+      $parent_parents = taxonomy_get_parents_all($parent->tid);
+      if ($parent_parents != FALSE) {
+        // This is top parent term.
+        $top_parent_term = $parent->tid;
+      }
+    }
+  }
+  return $top_parent_term;
+}
 /**
  * Implements theme_breadcrumb().
  *
@@ -474,7 +503,7 @@ function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-
 }
 
 /**
- * Helper function to retrive the correct array to display selfservicelinks.
+ * Helper function to retrieve the correct array to display selfservicelinks.
  *
  * @param array $links
  *   Associated array of links with indexes 'nid'.
@@ -572,24 +601,27 @@ function _svendborg_theme_get_front_big_menu_buttons() {
   foreach ($tree as $key => $menu_item) {
     $title = $menu_item['link']['link_title'];
     $path = drupal_get_path_alias($menu_item['link']['link_path']);
-    switch($title) {
+    switch ($title) {
       case 'Kommunen':
-        $menu_links[0] = array('mlid' => array('title' => $title,'path' => $path));
+        $menu_links[0] = array('mlid' => array('title' => $title, 'path' => $path));
         break;
+
       case 'Borger':
-        $menu_links[1] = array('mlid' => array('title' => $title,'path' => $path));
+        $menu_links[1] = array('mlid' => array('title' => $title, 'path' => $path));
         break;
+
       case 'Erhverv':
-        $menu_links[2] = array('mlid' => array('title' => $title,'path' => $path));
+        $menu_links[2] = array('mlid' => array('title' => $title, 'path' => $path));
         break;
+
       case 'Politik':
-        $menu_links[3] = array('mlid' => array('title' => $title,'path' => $path));
+        $menu_links[3] = array('mlid' => array('title' => $title, 'path' => $path));
         break;
     }
   }
   ksort($menu_links);
   foreach ($menu_links as $menus) {
-    foreach($menus as $key =>$menu_item) {
+    foreach ($menus as $key => $menu_item) {
       $front_big_menu .= '<div class="menu-' . $key . ' front-indholsdmenu col-md-3 col-sm-3 col-xs-12">';
       $front_big_menu .= '<h2 class="menu-front ' . $menu_item['title'] . '">';
       $front_big_menu .= '<a title="' . $menu_item['title'] . '" href="' . $menu_item['path'] . '" class="' . $menu_item['title'] . '">' . $menu_item['title'] . '</a>';
@@ -598,37 +630,53 @@ function _svendborg_theme_get_front_big_menu_buttons() {
   }
   return $front_big_menu;
 }
-
-function _svendborg_theme_get_front_large_carousel() {
-  $front_large_carousel = '';
-  // Branding news view
+/**
+ * Retrieve large carousel.
+ */
+function _svendborg_theme_get_large_carousel() {
+  $large_carousel = '';
+  // Branding news view.
   $view = views_get_view('svendborg_news_view');
   $view->set_arguments(array('branding'));
-  $view->set_display('front');
+  if (!drupal_is_front_page()) {
+    $filter = $view->get_item('front', 'filter', 'promote');
+    $filter['value'] = 1;
+    $view->set_item('front', 'filter', 'promote', $filter);
+  }
+  else {
+    $view->set_display('front');
+  }
   $view->set_items_per_page(3);
+  $view->pre_execute();
   $view->execute();
 
   $results = $view->result;
 
-  $front_large_carousel .= '<ol class="carousel-indicators col-md-12 col-sm-12 col-xs-12">';
+  $large_carousel .= '<ol class="carousel-indicators col-md-12 col-sm-12 col-xs-12">';
   foreach ($results as $key => $item) {
-    $front_large_carousel .= '<li data-target="#front-news-branding" data-slide-to="' . $key . '"';
-    if ($key == 0) {
-      $front_large_carousel .= 'class="active"></li>';
+    $large_carousel .= '<li data-target="';
+    if (drupal_is_front_page()) {
+      $large_carousel .= '#front-news-branding" data-slide-to="' . $key . '"';
     }
     else {
-      $front_large_carousel .= '></li>';
+      $large_carousel .= '#nyheder-carousel-large" data-slide-to="' . $key . '"';
+    }
+    if ($key == 0) {
+      $large_carousel .= 'class="active"></li>';
+    }
+    else {
+      $large_carousel .= '></li>';
     }
   }
-  $front_large_carousel .= '</ol>';
-  $front_large_carousel .= '<div class="carousel-inner" id="front-carousel-large" >';
+  $large_carousel .= '</ol>';
+  $large_carousel .= '<div class="carousel-inner" id="front-carousel-large" >';
 
   foreach ($results as $key => $item) {
     if ($key == 0) {
-      $front_large_carousel .= '<div class="item active">';
+      $large_carousel .= '<div class="item active">';
     }
     else {
-      $front_large_carousel .= '<div class="item">';
+      $large_carousel .= '<div class="item">';
     }
     $node = node_load($item->nid);
     $img = field_get_items('node', $node, 'field_os2web_base_field_lead_img');
@@ -638,27 +686,44 @@ function _svendborg_theme_get_front_large_carousel() {
     $style = 'svendborg_content_image';
     $public_filename = image_style_url($style, $image["uri"]);
     $path = drupal_get_path_alias('node/' . $node->nid);
-    $front_large_carousel .= '<a href="' . $path . '" title="' . $node->title . '">';
-    $front_large_carousel .= '<div class="row-no-padding col-md-7 col-sm-8 col-xs-12 front-branding-img">';
+    $large_carousel .= '<a href="' . $path . '" title="' . $node->title . '">';
+    if (drupal_is_front_page()) {
+      $classes = 'col-md-7 col-sm-8 col-xs-12';
+    }
+    else {
+      $classes = 'col-md-8 col-sm-12 col-xs-12';
+    }
+    $large_carousel .= '<div class="row-no-padding ' . $classes;
+    if (drupal_is_front_page()) {
+      $large_carousel .= ' front-branding-img';
+    }
+    $large_carousel .= '">';
+    $large_carousel .= '<img title = "' . $image["title"] . '" src="' . $public_filename . '"/>';
+    $large_carousel .= '</div>';
+    if (drupal_is_front_page()) {
+      $classes = 'col-md-5 col-sm-4 col-xs-12';
+    }
+    else {
+      $classes = 'col-md-4 col-sm-12 col-xs-12';
+    }
+    $large_carousel .= '<div class="carousel-title ' . $classes . '">';
 
-    $front_large_carousel .= '<img title = "' . $image["title"] . '" src="' . $public_filename . '"/>';
-    $front_large_carousel .= '</div>';
-    $front_large_carousel .= '<div class="carousel-title col-md-5 col-sm-4 col-xs-12">';
+    $large_carousel .= '<div class="title col-md-12">';
+    $large_carousel .= $node->title;
+    $large_carousel .= '</div>';
 
-    $front_large_carousel .= '<div class="title col-md-12">';
-    $front_large_carousel .= $node->title;
-    $front_large_carousel .= '</div>';
-
-    $front_large_carousel .= '<div class="col-md-12">';
-    $front_large_carousel .= '<a href="' . $path . '" title="' . $node->title . '" class="btn btn-primary">L&aelig;s mere</a>';
-    $front_large_carousel .= '</div></div>';
-    $front_large_carousel .= '</a>';
-    $front_large_carousel .= '</div>';
+    $large_carousel .= '<div class="col-md-12">';
+    $large_carousel .= '<a href="' . $path . '" title="' . $node->title . '" class="btn btn-primary">L&aelig;s mere</a>';
+    $large_carousel .= '</div></div>';
+    $large_carousel .= '</a>';
+    $large_carousel .= '</div>';
   }
-  $front_large_carousel .= '</div>';
-  return $front_large_carousel;
+  $large_carousel .= '</div>';
+  return $large_carousel;
 }
-
+/**
+ * Retrieve small carousel.
+ */
 function _svendborg_theme_get_front_small_carousel() {
   $front_small_carousel = '';
   $view = views_get_view('svendborg_news_view');
@@ -705,7 +770,7 @@ function _svendborg_theme_get_front_small_carousel() {
     else {
       $front_small_carousel .= '<div class="item">';
     }
-    foreach ($items as $i=> $item) {
+    foreach ($items as $i => $item) {
       $node = node_load($item->nid);
       $img = field_get_items('node', $node, 'field_os2web_base_field_lead_img');
       $image = $img[0];
@@ -738,4 +803,46 @@ function _svendborg_theme_get_front_small_carousel() {
 
   $front_small_carousel .= '<div class="front-seperator"></div>';
   return $front_small_carousel;
+}
+/**
+ * Retrieve the news term filter and quicktabs.
+ */
+function _svendborg_theme_get_term_news_filer_and_quicktabs() {
+  $news_term_right_sidebar = '';
+  // Filter.
+  $block = block_load('views', 'news_filter-block');
+  $output = _block_get_renderable_array(_block_render_blocks(array($block)));
+  $news_term_right_sidebar .= drupal_render($output);
+
+  // Menu block.
+  $block = block_load('menu_block', '4');
+  $output = _block_get_renderable_array(_block_render_blocks(array($block)));
+  $news_term_right_sidebar .= drupal_render($output);
+
+  $news_term_right_sidebar .= '<div class="nyheder-seperator"></div>';
+
+  // Quick tabs.
+  $news_term_right_sidebar .= ' <div id="svendborg_tabs">';
+  $block_tab = block_load('quicktabs', 'nyhed_quicktabs');
+  $output = _block_get_renderable_array(_block_render_blocks(array($block_tab)));
+  $news_term_right_sidebar .= drupal_render($output);
+  $news_term_right_sidebar .= '</div>';
+
+  $news_term_right_sidebar .= '<div class="nyheder-seperator"></div>';
+
+  return $news_term_right_sidebar;
+
+}
+/**
+ * Retrieve news term content view.
+ */
+function _svendborg_theme_get_term_news_content() {
+  $content = '';
+  $view = views_get_view('svendborg_news_view');
+  $view->set_display('block');
+  $view->set_arguments(array('nyhed', 'all'));
+  $view->pre_execute();
+  $view->execute();
+  $content .= $view->render('block');
+  return $content;
 }
