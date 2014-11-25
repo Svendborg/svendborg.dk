@@ -245,17 +245,16 @@ function svendborg_theme_preprocess_taxonomy_term(&$variables) {
   // Provide the spotboxes to Nyheder page or top terms. These pages does not
   // use the right sidebar so we need them in taxonomy-term.tpl
   if (isset($term->tid) && ($term->tid == 6819 || $term_is_top)) {
-    if ($spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox')) {
-      if ($term->tid == 6819) {
-        $variables['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
-        $variables['news_term_branding'] = _svendborg_theme_get_large_carousel();
-        $variables['news_term_content'] = _svendborg_theme_get_term_news_content();
-        $variables['news_term_right_sidebar'] = _svendborg_theme_get_term_news_filer_and_quicktabs();
-        $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6');
-      }
-      else {
-        $variables['os2web_spotboxes'] = _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4');
-      }
+    $spotboxes = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_spotbox');
+    if ($term->tid == 6819) {
+      $variables['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
+      $variables['news_term_branding'] = _svendborg_theme_get_large_carousel();
+      $variables['news_term_content'] = _svendborg_theme_get_term_news_content();
+      $variables['news_term_right_sidebar'] = _svendborg_theme_get_term_news_filer_and_quicktabs();
+      $variables['os2web_spotboxes'] = ($spotboxes) ?  _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6') : '';
+    }
+    else {
+      $variables['os2web_spotboxes'] = ($spotboxes) ? _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4') : '';
     }
   }
   if (isset($term->field_alternative_display['und'][0]['value']) &&
