@@ -326,6 +326,10 @@ function svendborg_theme_preprocess_node(&$vars) {
   if ($term_class != '') {
     $vars['classes_array'][] = $vars['top_parent_term'] = $term_class;
   }
+  $vars['author_node_info'] = '';
+  if (user_is_logged_in()) {
+    $vars['author_node_info'] = _svendborg_theme_get_author_view($vars['nid']);
+  }
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
 }
@@ -840,6 +844,17 @@ function _svendborg_theme_get_term_news_content() {
   $view = views_get_view('svendborg_news_view');
   $view->set_display('block');
   $view->set_arguments(array('nyhed', 'all'));
+  $view->pre_execute();
+  $view->execute();
+  $content .= $view->render('block');
+  return $content;
+}
+
+function _svendborg_theme_get_author_view($nid) {
+  $content = '';
+  $view = views_get_view('redaktoerinfo');
+  $view->set_display('block');
+  $view->set_arguments(array($nid));
   $view->pre_execute();
   $view->execute();
   $content .= $view->render('block');
