@@ -2,5 +2,6 @@ logs
 sessions
 tmp
 site
-
+production-to-test.sh
+production-to-preprod.sh
 public_html/sites/svendborg.local
