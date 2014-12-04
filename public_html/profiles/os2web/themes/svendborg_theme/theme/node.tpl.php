@@ -130,6 +130,7 @@
       hide($content['field_os2web_base_field_lead_img']);
       hide($content['field_svendborg_hide_sidebar']);
       hide($content['field_svendborg_hide_contact']);
+      hide($content['field_os2web_base_field_hidlinks']);
 
       print render($content['field_os2web_base_field_summary']);
       print render($content['body']);
@@ -138,12 +139,8 @@
       <div class="addthis_sharing_toolbox"></div>';
       print render($content);
 
-      if (user_is_logged_in()) {
-        $view = views_get_view('redaktoerinfo');
-        $view->set_arguments(array($node->nid));
-        $view->execute();
-        print $view->render('block');
-      }
+      print $author_node_info;
+
     ?>
 
   </div>

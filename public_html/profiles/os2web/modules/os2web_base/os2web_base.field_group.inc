@@ -61,6 +61,7 @@ function os2web_base_field_group_info() {
       3 => 'field_os2web_base_field_hidlinks',
       4 => 'field_alternative_display',
       5 => 'field_os2web_base_field_ext_link',
+      6 => 'field_svendborg_hide_sidebar',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -146,16 +147,12 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Hentet fra kommunens sagssystem',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(),
-    'format_type' => 'fieldset',
+    'format_type' => 'hidden',
     'format_settings' => array(
-      'label' => 'Hentet fra kommunens sagssystem',
-      'instance_settings' => array(
-        'classes' => 'attached-documents',
-        'description' => '',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => array(),
     ),
   );
   $export['group_os2web_base_group_document|node|os2web_base_contentpage|default'] = $field_group;
