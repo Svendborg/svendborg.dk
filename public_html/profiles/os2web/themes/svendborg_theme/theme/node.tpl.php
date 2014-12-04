@@ -139,12 +139,8 @@
       <div class="addthis_sharing_toolbox"></div>';
       print render($content);
 
-      if (user_is_logged_in()) {
-        $view = views_get_view('redaktoerinfo');
-        $view->set_arguments(array($node->nid));
-        $view->execute();
-        print $view->render('block');
-      }
+      print $author_node_info;
+
     ?>
 
   </div>
