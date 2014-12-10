@@ -50,7 +50,7 @@
     hide($content['field_alternative_display']);
   ?>
   <?php if (!$page): ?>
-    <h2><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
+    <h1><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h1>
   <?php endif; ?>
 
   <?php if ($page && !$term_is_top) : ?>
@@ -58,7 +58,7 @@
     <?php if (isset($content['field_os2web_base_field_image'])): ?>
       <?php print render($content['field_os2web_base_field_image']); ?>
     <?php endif; ?>
-    <h2><?php print $term_name; ?></h2>
+    <h1 class="page-header"><?php print $term_name; ?></h1>
   </header>
 
   <?php
@@ -100,7 +100,7 @@
         <?php endif; ?>
       </header>
       <div class="padding-20">
-        <h2><?php print $term_name; ?></h2>
+        <h1><?php print $term_name; ?></h1>
         <?php print render($content) ?>
       </div>
     </div>
