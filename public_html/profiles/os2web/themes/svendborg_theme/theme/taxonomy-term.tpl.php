@@ -58,7 +58,7 @@
     <?php if (isset($content['field_os2web_base_field_image'])): ?>
       <?php print render($content['field_os2web_base_field_image']); ?>
     <?php endif; ?>
-    <h2><?php print $term_name; ?></h2>
+    <h1><?php print $term_name; ?></h1>
   </header>
 
   <?php
