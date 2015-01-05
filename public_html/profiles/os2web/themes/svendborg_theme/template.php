@@ -29,7 +29,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       $view->pre_execute();
       $view->execute();
       $variables['page']['content']['system_main'] = array(
-        '#markup' => '<h2>' . $term->name . '</h2>' . $view->render(),
+        '#markup' => '<h1>' . $term->name . '</h1>' . $view->render(),
       );
     }
 
