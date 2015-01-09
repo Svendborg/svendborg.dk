@@ -61,7 +61,7 @@ function webform_inmobile_settings_form() {
 
   $form['number'] = array(
     '#title' => t('Phonenumber'),
-    '#descripiton' => t('Must contains country code prefix: +45'),
+    '#description' => t('Must contains country code prefix: +45'),
     '#type' => 'textfield',
   );
 
@@ -122,7 +122,7 @@ function webform_inmobile_webform_submission_insert($node, $submission) {
  */
 function webform_inmobile_form() {
   $args = func_get_args();
-  $nid = isset($args[2]) ? $args[2] : 0;
+  $nid = isset($args[2]) ? $args[2]->nid : 0;
 
   $form = array();
 
@@ -135,7 +135,7 @@ function webform_inmobile_form() {
 
   $form['number'] = array(
     '#title' => t('Phonenumber'),
-    '#descripiton' => t('Must contains country code prefix: +45'),
+    '#description' => t('Must contains country code prefix: +45'),
     '#type' => 'textfield',
     '#default_value' => variable_get('webform_inmobile_' . $nid . '_number', ''),
   );
