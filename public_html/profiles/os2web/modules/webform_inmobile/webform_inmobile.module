@@ -9,8 +9,8 @@
  */
 function webform_inmobile_menu() {
   $items['node/%webform_menu/webform/inmobile_sms'] = array(
-    'title' => 'Inmobile SMS',
-    'description' => 'Inmobile SMS',
+    'title' => 'SMS',
+    'description' => 'SMS',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('webform_inmobile_form', 1),
     'type' => MENU_LOCAL_TASK,
