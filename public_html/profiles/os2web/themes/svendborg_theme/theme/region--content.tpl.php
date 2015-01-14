@@ -33,7 +33,7 @@
     <?php print render($page['title_prefix']); ?>
 
     <?php if (!empty($page['title']) && !isset($page['page']['term_is_top'])): ?>
-      <h1 class="page-header"><?php print $page['title']; ?></h1>
+      <h1 class="page-header region-<?php print $region; ?>"><?php print $page['title']; ?></h1>
     <?php endif; ?>
 
     <?php print render($page['title_suffix']); ?>

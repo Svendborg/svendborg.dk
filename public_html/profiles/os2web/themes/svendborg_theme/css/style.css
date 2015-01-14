@@ -7885,6 +7885,30 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 body.page-node h1.page-header,
 body.page-taxonomy-term.term-is-not-top h1.page-header {
+  padding: 15px;
+  margin: 0;
+  margin-top: 14px;
+  font-size: 2.4em;
+  font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
+  text-transform: initial;
+  color: #30353c;
+  font-weight: 600;
+}
+body.page-node h1.page-header a,
+body.page-taxonomy-term.term-is-not-top h1.page-header a {
+  color: #30353c;
+  text-transform: initial;
+  font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
+  font-size: 2.4em;
+}
+@media (max-width: 460px) {
+  body.page-node h1.page-header a,
+  body.page-taxonomy-term.term-is-not-top h1.page-header a {
+    font-size: 1.3em;
+  }
+}
+body.page-node h1.page-header.region-content,
+body.page-taxonomy-term.term-is-not-top h1.page-header.region-content {
   display: none;
 }
 body.page-node article,
@@ -7958,7 +7982,13 @@ body.page-taxonomy-term.term-is-not-top article header h2,
 body.page-node div.node-os2web-borger-dk-article header h2,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h2,
 body.page-node div.node-os2web-base-news header h2,
-body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2 {
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2,
+body.page-node article header h1,
+body.page-taxonomy-term.term-is-not-top article header h1,
+body.page-node div.node-os2web-borger-dk-article header h1,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h1,
+body.page-node div.node-os2web-base-news header h1,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h1 {
   margin: 0;
   margin-top: 14px;
   font-size: 2.4em;
@@ -7972,7 +8002,13 @@ body.page-taxonomy-term.term-is-not-top article header h2 a,
 body.page-node div.node-os2web-borger-dk-article header h2 a,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h2 a,
 body.page-node div.node-os2web-base-news header h2 a,
-body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2 a {
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2 a,
+body.page-node article header h1 a,
+body.page-taxonomy-term.term-is-not-top article header h1 a,
+body.page-node div.node-os2web-borger-dk-article header h1 a,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h1 a,
+body.page-node div.node-os2web-base-news header h1 a,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h1 a {
   color: #30353c;
   text-transform: initial;
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
@@ -7984,9 +8020,23 @@ body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2 a {
   body.page-node div.node-os2web-borger-dk-article header h2 a,
   body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h2 a,
   body.page-node div.node-os2web-base-news header h2 a,
-  body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2 a {
+  body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h2 a,
+  body.page-node article header h1 a,
+  body.page-taxonomy-term.term-is-not-top article header h1 a,
+  body.page-node div.node-os2web-borger-dk-article header h1 a,
+  body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h1 a,
+  body.page-node div.node-os2web-base-news header h1 a,
+  body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h1 a {
     font-size: 1.3em;
   }
+}
+body.page-node article header h1,
+body.page-taxonomy-term.term-is-not-top article header h1,
+body.page-node div.node-os2web-borger-dk-article header h1,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article header h1,
+body.page-node div.node-os2web-base-news header h1,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news header h1 {
+  padding: 14px;
 }
 body.page-node article .wrap,
 body.page-taxonomy-term.term-is-not-top article .wrap,

@@ -102,9 +102,9 @@
   <?php print render($content['field_os2web_borger_dk_image']);?>
 
   <header>
-    <h2<?php print $title_attributes; ?>>
+    <h1<?php print $title_attributes; ?>>
       <?php print $node->title; ?>
-    </h2>
+    </h1>
   </header>
   <div class="wrap">
     <?php print render($title_suffix); ?>

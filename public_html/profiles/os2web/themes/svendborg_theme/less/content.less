@@ -19,6 +19,24 @@
 body.page-node,
 body.page-taxonomy-term.term-is-not-top {
   h1.page-header {
+      padding: 15px;
+      margin: 0;
+      margin-top: 14px;
+      font-size: @font-size-h1;
+      font-family: @headings-font-family;
+      text-transform: initial;
+      color: @text-color;
+      font-weight: 600;
+      a{
+        color: @text-color;
+        text-transform: initial;
+        font-family: @headings-font-family;
+        font-size: @font-size-h1;
+        @media (max-width:460px) {
+          font-size: 1.3em;
+        }
+      }  }
+    h1.page-header.region-content {
     display: none;
   }
   article,
@@ -44,7 +62,7 @@ body.page-taxonomy-term.term-is-not-top {
       line-height: 1.6em;
     }
 
-    header h2 {
+    header h2, header h1 {
       margin: 0;
       margin-top: 14px;
       font-size: @font-size-h1;
@@ -62,7 +80,7 @@ body.page-taxonomy-term.term-is-not-top {
         }
       }
     }
-
+	header h1 {padding: 14px;}
     .wrap,
     header h2,
     #borger_dk_header {
