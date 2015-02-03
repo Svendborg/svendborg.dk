@@ -7337,20 +7337,20 @@ fieldset[disabled] .btn-orange.active {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff85c500', endColorstr='#ff589000', GradientType=0);
 }
 .large-arrow.panel-primary.with-arrow > .panel-body {
-  padding-top: 19px;
+  padding-top: 10px;
 }
 .panel-primary.with-arrow > .panel-body:before {
   background-image: url(../images/sprites.png);
-  background-position: 0px -110px;
-  width: 31px;
-  height: 16px;
+  background-position: 0px -7px;
+  width: 14px;
+  height: 7px;
 }
 .large-arrow.panel-primary.with-arrow > .panel-body:before {
-  margin-left: -15.5px;
+  margin-left: -7px;
   background-image: url(../images/sprites.png);
-  background-position: 0px -110px;
-  width: 31px;
-  height: 16px;
+  background-position: 0px -7px;
+  width: 14px;
+  height: 7px;
 }
 .panel-blacknblue > .panel-heading,
 .like-panel.like-panel-blacknblue {

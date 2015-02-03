@@ -49,7 +49,17 @@ function svendborg_theme_preprocess_page(&$variables) {
   // Get all the nodes selvbetjeningslinks and give them to the template.
   if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
       ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_selfserv'))) {
-    $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links);
+    $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links, $node);
+  }
+
+  // Get borger.dk legislation links and give them to the template.
+  if (($node && $item = field_get_items('node', $node, 'field_os2web_borger_dk_legislati'))) {
+    $variables['page']['os2web_borger_dk_legislation'] = _svendborg_theme_get_borger_dk_legislation($item);
+  }
+
+  // Get borger.dk recommended links and give them to the template.
+  if (($node && $item = field_get_items('node', $node, 'field_os2web_borger_dk_recommend'))) {
+    $variables['page']['os2web_borger_dk_recommend'] = _svendborg_theme_get_borger_dk_recommend($item);
   }
 
   // Get all related links to this node.
@@ -332,6 +342,18 @@ function svendborg_theme_preprocess_node(&$vars) {
   }
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
+  if ($vars['type'] == 'os2web_borger_dk_article') {
+
+    $content_fields = _svendborg_theme_get_borger_dk_content($vars['node']);
+      //dpm($content_fields);
+    foreach ($content_fields as $type => $value) {
+      if (empty($value) || !isset($value)) {
+        $vars[$type] = '';
+      }
+    }
+    $vars['content_body'] = $content_fields['body'];
+    $vars['content_body'] = $content_fields['body'];
+  }
 }
 /**
  * Retrieve the top term tid for node class array.
@@ -510,11 +532,13 @@ function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-
  *
  * @param array $links
  *   Associated array of links with indexes 'nid'.
+ *   object $node
+ *   The node object.
  *
  * @return array
  *   Array of links with URL and Title.
  */
-function _svendborg_theme_get_selfservicelinks($links) {
+function _svendborg_theme_get_selfservicelinks($links, $node = NULL) {
   $selfservicelinks = array();
   foreach ($links as $link) {
     $selfservicelink = node_load($link['nid']);
@@ -529,6 +553,26 @@ function _svendborg_theme_get_selfservicelinks($links) {
       }
     }
   }
+  // Borger.dk artiles selfservice links.
+  if (isset($node) && $node->type == 'os2web_borger_dk_article') {
+    if ($borger_dk_links = field_get_items('node', $node, 'field_os2web_borger_dk_selfservi')) {
+      $doc = new DOMDocument('1.0', 'UTF-8');
+      $doc->strictErrorChecking = FALSE;
+      $doc->loadHTML('<?xml encoding="UTF-8">' . $borger_dk_links[0]['value']);
+      $xml = simplexml_import_dom($doc);
+      $count = 0;
+      foreach ($xml->body->ul->li as $li) {
+        $url = (string) $li->a->attributes()->href;
+        $title = (string) $li->a;
+        $selfservicelinks[$node->nid . '_' . $count] = array(
+          'url' => $url,
+          'title' => $title,
+        );
+        $count++;
+      }
+    }
+  }
+
   return $selfservicelinks;
 }
 
@@ -849,7 +893,9 @@ function _svendborg_theme_get_term_news_content() {
   $content .= $view->render('block');
   return $content;
 }
-
+/**
+ * Retrieve author view.
+ */
 function _svendborg_theme_get_author_view($nid) {
   $content = '';
   $view = views_get_view('redaktoerinfo');
@@ -859,4 +905,149 @@ function _svendborg_theme_get_author_view($nid) {
   $view->execute();
   $content .= $view->render('block');
   return $content;
+}
+
+/**
+ * Helper: retrieve os2web_borger_dk_article content.
+ */
+function _svendborg_theme_get_borger_dk_content($node) {
+  $content_field = array();
+  if ($node->type == 'os2web_borger_dk_article') {
+    $fields = $node->os2web_borger_dk_article['field_settings'];
+    // First get admin display settings.
+    $admin_display_fields = variable_get('os2web_borger_dk_display');
+    $locked_os2web_types = array('field_os2web_borger_dk_borgerurl' => 1);
+    // We get admin microarticle display settings.
+    $microarticle = variable_get('os2web_borger_dk_microarticle_active', FALSE);
+    if ($microarticle) {
+      $field_microarticle_settings = $node->os2web_borger_dk_microarticle['field_microarticle_settings'];
+    }
+
+    foreach ($admin_display_fields as $type => $value) {
+      if ($type == 'title' || $type == 'field_os2web_base_field_selfserv') {
+        continue;
+      }
+      $item = field_get_items('node', $node, $type);
+      // If ADMIN set this field to display.
+
+      if ($admin_display_fields[$type]) {
+        $arr = $item[0];
+
+        if ($item && $type != 'title' && $type != 'field_os2web_borger_dk_image') {
+          $content_field[$type] = $item['0']['value'];
+        }
+        elseif ($item && $type == 'field_os2web_borger_dk_image') {
+          $filepath = $item['0']['uri'];
+          $alt = $item['0']['alt'];
+          $content_field[$type] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
+        }
+        else {
+          $content_field[$type] = '';
+        }
+        // Microarticles : if microarticle is set up to show by admin.
+        if ($microarticle && $type == 'body') {
+          // Check if content field is body and field_microarticle_settings
+          // is NOT empty.
+          // The field_microarticle_setting will be empty when a new
+          // article is imported and shown in a form, then node_view
+          // will display full body text.
+          if (!empty($field_microarticle_settings)) {
+            $body_text = $item['0']['value'];
+            // Link break in body_text: in windows \r\n, linux \n.
+            preg_match("/<\/div>\n/", $body_text, $link_break);
+            if (isset($link_break[0])) {
+              $div = preg_split("/\n<\/div>\n/", $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
+            }
+            else {
+              $div = preg_split('/\r\n<[\/]div>\r\n/', $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
+            }
+            $show_div = '';
+            foreach ($div as $key => $text) {
+              $microno = $key + 1;
+              $checkboxno = 'os2web_borger_dk_micro_' . $microno;
+              // The last div is a link break \n or \r\n.
+              if ($div[$key] != $div[(count($div) - 1)]) {
+                // If editor set this microarticle to be visible,(TRUE)
+                if ($field_microarticle_settings[$microno] != 0) {
+                  $show_div .= $div[$key];
+                  $show_div .= "\n</div>";
+                  $show_div .= "\n";
+                }
+              }
+            }
+            $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+            // Content body shows only visible microarticles/ part of body_text.
+            $content_field['body'] = $show_div;
+          }
+          else {
+            $show_div = $item['0']['value'];
+            $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+            $content_field['body'] = $show_div;
+          }
+        }
+        elseif (!$microarticle && $type == 'body') {
+          $show_div = $item['0']['value'];
+          $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+          $content_field['body'] = $show_div;
+        }
+
+        // End of microarticles.
+        // If EDITOR set this field to be hidden.
+        if ($fields[$type] == '0') {
+            $content_field[$type] = '';
+        }
+      }
+
+      // If ADMIN set this field to be hidden.
+      else {
+          $content_field[$type] = '';
+      }
+    }
+  }
+  return $content_field;
+}
+
+/**
+ * Helper: retrieve os2web_borger_dk_article legislation in sidebar_second.
+ */
+function _svendborg_theme_get_borger_dk_legislation($item) {
+  $legislation_links = array();
+  $doc = new DOMDocument('1.0', 'UTF-8');
+  $doc->strictErrorChecking = FALSE;
+  $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
+  $xml = simplexml_import_dom($doc);
+  $count = 0;
+  foreach ($xml->body->ul->li as $li) {
+    $url = (string) $li->a->attributes()->href;
+    $title = (string) $li->a;
+    $legislation_links[] = array(
+      'url' => $url,
+      'title' => $title,
+    );
+    $count++;
+  }
+  return $legislation_links;
+}
+
+/**
+ * Helper: retrieve os2web_borger_dk_article recommended in sidebar_second.
+ */
+function _svendborg_theme_get_borger_dk_recommend($item) {
+  $recommended_links = array();
+  $doc = new DOMDocument('1.0', 'UTF-8');
+  $doc->strictErrorChecking = FALSE;
+  $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
+  $xml = simplexml_import_dom($doc);
+  $count = 0;
+
+  foreach ($xml->body->ul->li as $li) {
+    $url = (string) $li->a->attributes()->href;
+    $title = (string) $li->a;
+    $recommended_links[] = array(
+      'url' => $url,
+      'title' => $title,
+    );
+    $count++;
+  }
+  return $recommended_links;
 }
