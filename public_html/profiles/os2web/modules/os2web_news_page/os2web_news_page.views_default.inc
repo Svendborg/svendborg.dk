@@ -1189,6 +1189,8 @@ function os2web_news_page_views_default_views() {
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['text'] = 'Svendborg Kommune';
   $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
   /* Felt: Indhold: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
@@ -1282,6 +1284,7 @@ function os2web_news_page_views_default_views() {
     t('forfatter'),
     t('Oprettelsesdato'),
     t('Navn'),
+    t('Svendborg Kommune'),
     t('Nid'),
     t('Alle'),
     t('Feed'),

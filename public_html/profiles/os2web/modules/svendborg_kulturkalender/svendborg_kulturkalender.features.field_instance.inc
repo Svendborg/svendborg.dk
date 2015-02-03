@@ -36,6 +36,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 0,
       ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -102,6 +108,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         ),
         'type' => 'text_default',
         'weight' => 12,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -202,6 +214,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         'type' => 'date_default',
         'weight' => 6,
       ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -261,6 +279,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         ),
         'type' => 'text_default',
         'weight' => 1,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -356,6 +380,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         ),
         'type' => 'text_default',
         'weight' => 7,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -456,6 +486,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         'type' => 'number_integer',
         'weight' => 8,
       ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -508,6 +544,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         ),
         'type' => 'link_default',
         'weight' => 5,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -579,6 +621,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         ),
         'type' => 'text_default',
         'weight' => 3,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -675,6 +723,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 11,
       ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -769,6 +823,12 @@ function svendborg_kulturkalender_field_default_field_instances() {
         ),
         'type' => 'text_default',
         'weight' => 10,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
