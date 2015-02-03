@@ -197,6 +197,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       ),
     );
   }
+
   // If node has hidden the sidebar, set content to null.
   if (($node && $hide_sidebar_field = field_get_items('node', $node, 'field_svendborg_hide_sidebar')) ||
       ($term && $hide_sidebar_field = field_get_items('taxonomy_term', $term, 'field_svendborg_hide_sidebar'))) {
@@ -332,6 +333,17 @@ function svendborg_theme_preprocess_node(&$vars) {
   }
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
+
+  $node = $vars['node'];
+
+  if ($node && $webform = field_get_items('node', $node, 'field_os2web_base_field_webform')) {
+    $vars['content']['os2web_webform'] = array(
+      'os2web_webform' => array(
+        '#markup' => _svendborg_theme_get_webform($webform[0]['nid']),
+      ),
+      '#theme_wrappers' => array('container'),
+    );
+  }
 }
 /**
  * Retrieve the top term tid for node class array.
@@ -859,4 +871,29 @@ function _svendborg_theme_get_author_view($nid) {
   $view->execute();
   $content .= $view->render('block');
   return $content;
+}
+
+/**
+ * Helper. Returns almost the same as render(node_view()) for a webform.
+ *
+ * Instead of a fully loaded render array, though, it returns markup, without
+ * too many wrappers and such.
+ */
+function _svendborg_theme_get_webform($nid) {
+  $webform_node = node_load($nid);
+
+  $submission = (object) array();
+  $enabled = TRUE;
+  $preview = FALSE;
+  $webform_id = 'webform_client_form_' . $nid;
+
+  $form = drupal_get_form($webform_id, $webform_node, $submission, $enabled, $preview);
+
+  $text = '<h3>' . $webform_node->title . '</h3>';
+
+  if ($body = field_get_items('node', $webform_node, 'body')) {
+    $text .= $body[0]['safe_value'];
+  }
+
+  return $text . drupal_render($form);
 }
