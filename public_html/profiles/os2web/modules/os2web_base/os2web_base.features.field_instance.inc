@@ -554,7 +554,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 14,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -602,7 +602,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 16,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -648,7 +648,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 8,
       ),
       'spotbox' => array(
         'label' => 'above',
@@ -710,7 +710,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -872,7 +872,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 15,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -920,7 +920,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 17,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -1040,7 +1040,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 18,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -1088,7 +1088,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -1134,7 +1134,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'spotbox' => array(
         'label' => 'above',
@@ -1174,7 +1174,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -1220,7 +1220,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'related_block' => array(
         'label' => 'above',
@@ -1309,6 +1309,46 @@ function os2web_base_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-os2web_base_contentpage-field_os2web_base_field_webform'
+  $field_instances['node-os2web_base_contentpage-field_os2web_base_field_webform'] = array(
+    'bundle' => 'os2web_base_contentpage',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
+      'spotbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_os2web_base_field_webform',
+    'label' => 'Webform',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'node_reference',
+      'settings' => array(
+        'autocomplete_match' => 'contains',
+        'autocomplete_path' => 'node_reference/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'node_reference_autocomplete',
+      'weight' => 15,
+    ),
+  );
+
   // Exported field_instance: 'node-os2web_base_contentpage-field_svendborg_hide_contact'
   $field_instances['node-os2web_base_contentpage-field_svendborg_hide_contact'] = array(
     'bundle' => 'os2web_base_contentpage',
@@ -1324,7 +1364,7 @@ function os2web_base_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'spotbox' => array(
         'label' => 'above',
@@ -5508,6 +5548,7 @@ function os2web_base_field_default_field_instances() {
   t('Vises før indholdet af iframe');
   t('Vist navn');
   t('Vælg billede');
+  t('Webform');
   t('iFrame URL');
 
   return $field_instances;

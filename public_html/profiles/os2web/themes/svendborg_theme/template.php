@@ -207,6 +207,7 @@ function svendborg_theme_preprocess_page(&$variables) {
       ),
     );
   }
+
   // If node has hidden the sidebar, set content to null.
   if (($node && $hide_sidebar_field = field_get_items('node', $node, 'field_svendborg_hide_sidebar')) ||
       ($term && $hide_sidebar_field = field_get_items('taxonomy_term', $term, 'field_svendborg_hide_sidebar'))) {
@@ -226,18 +227,18 @@ function svendborg_theme_preprocess_page(&$variables) {
     ),
   ), 'google_font_svendborg_theme');
 
-  // Add google site verification
-  drupal_add_html_head(array(
-    '#tag' => 'meta',
-    '#type' => 'html_tag',
-    '#attributes' => array(
+  // Add google site verification.
+  drupal_add_html_head(
+    array(
+      '#tag' => 'meta',
+      '#type' => 'html_tag',
+      '#attributes' => array(
         'name' => 'google-site-verification',
-        'content' => 'RERf3yjIX_1JFNkt2dpPZvqH_XeG8eum3P4PHXIpqqM'
-      )
+        'content' => 'RERf3yjIX_1JFNkt2dpPZvqH_XeG8eum3P4PHXIpqqM',
+      ),
     ),
     'meta_keywords'
   );
-
 
   // Pass the theme path to js.
   drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . path_to_theme() . '" });', 'inline');
@@ -274,7 +275,7 @@ function svendborg_theme_preprocess_taxonomy_term(&$variables) {
       $variables['news_term_branding'] = _svendborg_theme_get_large_carousel();
       $variables['news_term_content'] = _svendborg_theme_get_term_news_content();
       $variables['news_term_right_sidebar'] = _svendborg_theme_get_term_news_filer_and_quicktabs();
-      $variables['os2web_spotboxes'] = ($spotboxes) ?  _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6') : '';
+      $variables['os2web_spotboxes'] = ($spotboxes) ? _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-6 col-md-6 col-lg-6') : '';
     }
     else {
       $variables['os2web_spotboxes'] = ($spotboxes) ? _svendborg_theme_get_spotboxes($spotboxes, 'col-xs-6 col-sm-4 col-md-4 col-lg-4') : '';
@@ -342,17 +343,30 @@ function svendborg_theme_preprocess_node(&$vars) {
   }
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
-  if ($vars['type'] == 'os2web_borger_dk_article') {
 
+  // Borger.dk article content display with settings,
+  if ($vars['type'] == 'os2web_borger_dk_article') {
     $content_fields = _svendborg_theme_get_borger_dk_content($vars['node']);
-      //dpm($content_fields);
     foreach ($content_fields as $type => $value) {
+      // If field is disabled to display, set $vars field to empty.
       if (empty($value) || !isset($value)) {
         $vars[$type] = '';
       }
     }
+    // Microartilce settings.
     $vars['content_body'] = $content_fields['body'];
     $vars['content_body'] = $content_fields['body'];
+  }
+
+  $node = $vars['node'];
+
+  if ($node && $webform = field_get_items('node', $node, 'field_os2web_base_field_webform')) {
+    $vars['content']['os2web_webform'] = array(
+      'os2web_webform' => array(
+        '#markup' => _svendborg_theme_get_webform($webform[0]['nid']),
+      ),
+      '#theme_wrappers' => array('container'),
+    );
   }
 }
 /**
@@ -939,7 +953,10 @@ function _svendborg_theme_get_borger_dk_content($node) {
         elseif ($item && $type == 'field_os2web_borger_dk_image') {
           $filepath = $item['0']['uri'];
           $alt = $item['0']['alt'];
-          $content_field[$type] = theme('image', array('path' => $filepath, 'alt' => $alt, 'title' => $alt));
+          $content_field[$type] = theme('image', array(
+                                                       'path' => $filepath,
+                                                       'alt' => $alt,
+                                                       'title' => $alt));
         }
         else {
           $content_field[$type] = '';
@@ -975,32 +992,32 @@ function _svendborg_theme_get_borger_dk_content($node) {
                 }
               }
             }
-            $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+            $show_div = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $show_div);
             // Content body shows only visible microarticles/ part of body_text.
             $content_field['body'] = $show_div;
           }
           else {
             $show_div = $item['0']['value'];
-            $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+            $show_div = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $show_div);
             $content_field['body'] = $show_div;
           }
         }
         elseif (!$microarticle && $type == 'body') {
           $show_div = $item['0']['value'];
-          $show_div = str_replace("</h2>","</h2><a href='#' class='gplus'>+</a>",$show_div);
+          $show_div = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $show_div);
           $content_field['body'] = $show_div;
         }
 
         // End of microarticles.
         // If EDITOR set this field to be hidden.
         if ($fields[$type] == '0') {
-            $content_field[$type] = '';
+          $content_field[$type] = '';
         }
       }
 
       // If ADMIN set this field to be hidden.
       else {
-          $content_field[$type] = '';
+        $content_field[$type] = '';
       }
     }
   }
@@ -1050,4 +1067,29 @@ function _svendborg_theme_get_borger_dk_recommend($item) {
     $count++;
   }
   return $recommended_links;
+}
+
+/**
+ * Helper. Returns almost the same as render(node_view()) for a webform.
+ *
+ * Instead of a fully loaded render array, though, it returns markup, without
+ * too many wrappers and such.
+ */
+function _svendborg_theme_get_webform($nid) {
+  $webform_node = node_load($nid);
+
+  $submission = (object) array();
+  $enabled = TRUE;
+  $preview = FALSE;
+  $webform_id = 'webform_client_form_' . $nid;
+
+  $form = drupal_get_form($webform_id, $webform_node, $submission, $enabled, $preview);
+
+  $text = '<h3>' . $webform_node->title . '</h3>';
+
+  if ($body = field_get_items('node', $webform_node, 'body')) {
+    $text .= $body[0]['safe_value'];
+  }
+
+  return $text . drupal_render($form);
 }
