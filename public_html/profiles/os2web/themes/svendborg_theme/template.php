@@ -365,7 +365,6 @@ function svendborg_theme_preprocess_node(&$vars) {
       'os2web_webform' => array(
         '#markup' => _svendborg_theme_get_webform($webform[0]['nid']),
       ),
-      '#theme_wrappers' => array('container'),
     );
   }
 }
