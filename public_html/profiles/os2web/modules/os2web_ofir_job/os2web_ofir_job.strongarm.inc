@@ -14,7 +14,7 @@ function os2web_ofir_job_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_os2web_ofir_job';
-  $strongarm->value = 'edit-display';
+  $strongarm->value = 'edit-auto-nodetitle';
   $export['additional_settings__active_tab_os2web_ofir_job'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -57,17 +57,32 @@ function os2web_ofir_job_strongarm() {
       'meeting_detail_view' => array(
         'custom_settings' => FALSE,
       ),
+      'os2web_meetings_meeting_detail_view' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'spotbox' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '4',
         ),
         'workbench_access' => array(
           'weight' => '0',
+        ),
+        'metatags' => array(
+          'weight' => '7',
+        ),
+        'redirect' => array(
+          'weight' => '5',
         ),
       ),
       'display' => array(),
@@ -118,6 +133,13 @@ function os2web_ofir_job_strongarm() {
   $strongarm->name = 'node_submitted_os2web_ofir_job';
   $strongarm->value = 0;
   $export['node_submitted_os2web_ofir_job'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_os2web_ofir_job_pattern';
+  $strongarm->value = 'kommunen/job/[node:title]';
+  $export['pathauto_node_os2web_ofir_job_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

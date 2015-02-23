@@ -183,7 +183,7 @@ function os2web_ofir_job_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_os2web_ofir_job_period',
-      'label' => 'Ansøgninsfrist',
+      'label' => 'Ansøgningsfrist',
       'required' => 0,
       'settings' => array(
         'default_value' => 'blank',
@@ -284,7 +284,7 @@ function os2web_ofir_job_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Ansøgninsfrist');
+  t('Ansøgningsfrist');
   t('Beskrivelse');
   t('Logo');
 
