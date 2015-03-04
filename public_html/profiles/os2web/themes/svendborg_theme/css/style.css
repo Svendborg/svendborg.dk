@@ -6019,9 +6019,11 @@ select,
   max-width: 100%;
   width: auto;
 }
+select.error,
 input.error {
   color: #a94442;
   border-color: #ebccd1;
+  background-color: #f2dede;
 }
 fieldset legend.panel-heading {
   float: left;

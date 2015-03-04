@@ -120,6 +120,17 @@ function svendborg_theme_preprocess_page(&$variables) {
     }
   }
 
+  // If this is a node with an embedded webform.
+  // We need to load it here, in order to get messages loaded.
+  if ($node && $webform = field_get_items('node', $node, 'field_os2web_base_field_webform')) {
+    $variables['node']->content['os2web_webform'] = array(
+      'os2web_webform' => array(
+        '#markup' => _svendborg_theme_get_webform($webform[0]['nid']),
+      ),
+      '#theme_wrappers' => array('container'),
+    );
+  }
+
   if (!empty($related_links)) {
     // Provide the related links to the templates.
     $variables['page']['related_links'] = $related_links;
@@ -333,17 +344,6 @@ function svendborg_theme_preprocess_node(&$vars) {
   }
   // Make "node--NODETYPE--VIEWMODE.tpl.php" templates available for nodes.
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
-
-  $node = $vars['node'];
-
-  if ($node && $webform = field_get_items('node', $node, 'field_os2web_base_field_webform')) {
-    $vars['content']['os2web_webform'] = array(
-      'os2web_webform' => array(
-        '#markup' => _svendborg_theme_get_webform($webform[0]['nid']),
-      ),
-      '#theme_wrappers' => array('container'),
-    );
-  }
 }
 /**
  * Retrieve the top term tid for node class array.
