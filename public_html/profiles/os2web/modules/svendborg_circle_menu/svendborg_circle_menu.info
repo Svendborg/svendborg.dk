@@ -4,3 +4,4 @@ core = 7.x
 package = Svendborg
 version = 7.x-1.0
 project = svendborg_circle_menu
+scripts[] = svendborg_circle_menu.js

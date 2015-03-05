@@ -29,11 +29,16 @@ function svendborg_circle_menu_settings_form($form, $form_state) {
         '#title' => $menu_item['title'],
         '#type' => 'textfield',
         '#default_value' => variable_get('front_menu_' . $menu_item['title'], $menu_item['title']),
-        '#description' => t('Description text for menu link'),
+        '#description' => t('Tekst for menu link'),
       );
     }
   }
-
+  $form['text_duration_time'] = array(
+    '#title' => 'Tekst varighed i sekunder',
+    '#type' => 'textfield',
+    '#default_value' => variable_get('text_duration_time', '5'),
+    '#description' => t('F.esk. 5 sek'),
+  );
 
   return system_settings_form($form);
 }
@@ -84,5 +89,17 @@ function svendborg_circle_menu_get_menu_link_markup() {
       $front_big_menu .= '</h2></div>';
     }
   }
+  $css = 'div#ToolTipDiv {
+      Position: absolute;
+      border: 1px solid #e5e5e5;
+      background-color: #fff;
+      border-radius: 2px 2px;
+      display: none;
+      padding: 2px 2px;
+    }';
+  $sec = variable_get('text_duration_time', 5);
+  drupal_add_css($css, 'inline');
+  drupal_add_js(array('text_duration_time' => $sec), 'setting');
+  drupal_add_js(drupal_get_path('module', 'svendborg_circle_menu') . 'svendborg_circle_menu.js');
   return $front_big_menu;
 }
