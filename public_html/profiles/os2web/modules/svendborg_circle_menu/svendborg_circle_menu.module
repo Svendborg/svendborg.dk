@@ -100,6 +100,5 @@ function svendborg_circle_menu_get_menu_link_markup() {
   $sec = variable_get('text_duration_time', 5);
   drupal_add_css($css, 'inline');
   drupal_add_js(array('text_duration_time' => $sec), 'setting');
-  drupal_add_js(drupal_get_path('module', 'svendborg_circle_menu') . 'svendborg_circle_menu.js');
   return $front_big_menu;
 }
