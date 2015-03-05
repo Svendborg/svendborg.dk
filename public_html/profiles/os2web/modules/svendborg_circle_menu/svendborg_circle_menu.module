@@ -37,7 +37,9 @@ function svendborg_circle_menu_settings_form($form, $form_state) {
 
   return system_settings_form($form);
 }
-
+/**
+ * Retrive circle menu link.
+ */
 function svendborg_circle_menu_get_menu_link() {
   $front_big_menu = '';
   $tree = menu_tree_all_data('menu-indholdsmenu', $link = NULL, $max_depth = 3);
