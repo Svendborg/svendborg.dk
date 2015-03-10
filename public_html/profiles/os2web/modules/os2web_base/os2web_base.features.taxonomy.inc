@@ -36,7 +36,7 @@ function os2web_base_taxonomy_default_vocabularies() {
       'name' => 'Overordnet placering og sitestruktur',
       'machine_name' => 'os2web_base_tax_site_structure',
       'description' => 'Vælg de steder i hjemmesidens overordnede struktur hvor indholdet skal publiceres.',
-      'hierarchy' => 0,
+      'hierarchy' => 1,
       'module' => 'taxonomy',
       'weight' => -10,
       'rdf_mapping' => array(

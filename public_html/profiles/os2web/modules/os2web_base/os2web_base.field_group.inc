@@ -147,7 +147,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Hentet fra kommunens sagssystem',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(),
     'format_type' => 'hidden',
     'format_settings' => array(
@@ -700,20 +700,23 @@ function os2web_base_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = 'group_os2web_base_group_content';
   $field_group->data = array(
-    'label' => 'Spotbokse',
+    'label' => 'Spotbokse / Webform',
     'weight' => '7',
     'children' => array(
       0 => 'field_os2web_base_field_spotbox',
+      1 => 'field_webform',
+      2 => 'field_os2web_base_field_webform',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
-      'formatter' => 'closed',
+      'label' => 'Spotbokse / Webform',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
         'id' => '',
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'closed',
     ),
   );
   $export['group_spotbokse|node|os2web_base_contentpage|form'] = $field_group;
