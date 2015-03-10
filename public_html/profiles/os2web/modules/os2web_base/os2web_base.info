@@ -136,6 +136,7 @@ features[field_instance][] = node-os2web_base_contentpage-field_os2web_base_fiel
 features[field_instance][] = node-os2web_base_contentpage-field_os2web_base_field_selfserv
 features[field_instance][] = node-os2web_base_contentpage-field_os2web_base_field_spotbox
 features[field_instance][] = node-os2web_base_contentpage-field_os2web_base_field_summary
+features[field_instance][] = node-os2web_base_contentpage-field_os2web_base_field_video
 features[field_instance][] = node-os2web_base_contentpage-field_os2web_base_field_webform
 features[field_instance][] = node-os2web_base_contentpage-field_svendborg_hide_contact
 features[field_instance][] = node-os2web_base_gallery-body

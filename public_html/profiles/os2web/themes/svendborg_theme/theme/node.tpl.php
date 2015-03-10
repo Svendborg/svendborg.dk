@@ -97,12 +97,16 @@
   <?php endif; ?>
   <?php if($page) : ?>
   <header>
-    <?php if ($type == 'os2web_base_news') : ?>
+    <?php if ($type == 'os2web_base_news' || $type == 'os2web_base_contentpage') : ?>
       <?php if(isset($content['field_os2web_base_field_video'])) : ?>
         <?php hide($content['field_os2web_base_field_lead_img']); ?>
         <?php print render($content['field_os2web_base_field_video']); ?>
       <?php else: ?>
-        <?php print render($content['field_os2web_base_field_lead_img']); ?>
+        <?php if ($type == 'os2web_base_news') : ?>
+          <?php print render($content['field_os2web_base_field_lead_img']); ?>
+        <?php else: ?>
+          <?php print render($content['field_os2web_base_field_image']); ?>
+        <?php endif; ?>
       <?php endif; ?>
     <?php else : ?>
       <?php print render($content['field_os2web_base_field_image']); ?>
