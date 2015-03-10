@@ -1,13 +1,13 @@
 name = OS2Web Taxon API Module
 description = Implements calls to taxon
-
-package = OS2Web - Backend
-project = os2web_taxon_api
 core = 7.x
+package = OS2Web - Backend
 version = 7.x-1.0-beta1
-
+project = os2web_taxon_api
 dependencies[] = os2web_taxon_taxonomy
 dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
 features[variable][] = os2web_taxon_taxonomy_button_text
 features[variable][] = os2web_taxon_taxonomy_button_text_wait
 features[variable][] = os2web_taxon_taxonomy_ckeditor_field

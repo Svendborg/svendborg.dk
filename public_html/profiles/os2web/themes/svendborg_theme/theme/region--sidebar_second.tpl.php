@@ -45,10 +45,28 @@
         </div>
       </div>
     <?php endif; ?>
+
+    <?php if(!empty($page['page']['os2web_borger_dk_legislation'])): ?>
+      <div class="panel panel-primary with-arrow">
+        <div class="panel-heading">
+          <h3 class="panel-title"><?php print t('Hvad siger loven'); ?></h3>
+        </div>
+        <div class="panel-body">
+          <ul class="nav">
+          <?php foreach ($page['page']['os2web_borger_dk_legislation'] as $link) : ?>
+            <li>
+              <a href="<?php print $link['url']; ?>"><?php print $link['title']; ?></a>
+            </li>
+          <?php endforeach; ?>
+         </ul>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <?php if(!empty($page['page']['related_links'])) : ?>
       <div class="panel panel-primary with-arrow">
         <div class="panel-heading">
-          <h3 class="panel-title"><?php print t('Relaterede sider'); ?></h3>
+          <h3 class="panel-title"><?php print t('Læs også'); ?></h3>
         </div>
         <div class="panel-body">
           <ul class="nav">
@@ -65,6 +83,7 @@
         </div>
       </div>
     <?php endif; ?>
+
     <?php if ($content_attributes): ?><div<?php print $content_attributes; ?>><?php endif; ?>
     <?php print $content; ?>
     <?php if ($content_attributes): ?></div><?php endif; ?>

@@ -97,12 +97,16 @@
   <?php endif; ?>
   <?php if($page) : ?>
   <header>
-    <?php if ($type == 'os2web_base_news') : ?>
+    <?php if ($type == 'os2web_base_news' || $type == 'os2web_base_contentpage') : ?>
       <?php if(isset($content['field_os2web_base_field_video'])) : ?>
         <?php hide($content['field_os2web_base_field_lead_img']); ?>
         <?php print render($content['field_os2web_base_field_video']); ?>
       <?php else: ?>
-        <?php print render($content['field_os2web_base_field_lead_img']); ?>
+        <?php if ($type == 'os2web_base_news') : ?>
+          <?php print render($content['field_os2web_base_field_lead_img']); ?>
+        <?php else: ?>
+          <?php print render($content['field_os2web_base_field_image']); ?>
+        <?php endif; ?>
       <?php endif; ?>
     <?php else : ?>
       <?php print render($content['field_os2web_base_field_image']); ?>
@@ -134,10 +138,10 @@
 
       print render($content['field_os2web_base_field_summary']);
       print render($content['body']);
+      print render($content);
       // Addthis share toolbox.
       print '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async></script>
       <div class="addthis_sharing_toolbox"></div>';
-      print render($content);
 
       print $author_node_info;
 

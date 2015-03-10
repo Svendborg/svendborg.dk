@@ -102,7 +102,6 @@
         var article = $(this).parent().find('h2');
         var myid = article.attr('id');
         var style = $('div.' + myid).css('display');
-        var path = $(this).css("background-image");
         if (style == 'none') {
           $("div." + myid).show("500");
           $(this).addClass('gminus');
@@ -115,6 +114,7 @@
         }
         return false;
       });
+
       $(".gplus_all").click(function() {
         if ($(".microArticle a").hasClass("gminus")) {
           $("div.mArticle").hide();

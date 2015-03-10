@@ -29,6 +29,23 @@ function os2web_base_date_formats() {
 }
 
 /**
+ * Implements hook_form_alter().
+ */
+function os2web_base_form_alter(&$form, &$form_state, $form_id) {
+  // We need to handle redirect to current page, a bit differently, when
+  // it's a normal contentpage, with a webform embedded.
+  if (strstr($form_id, 'webform_client_form_')) {
+    $current_node = menu_get_object();
+    $webform_node = $form['#node'];
+
+    if ($current_node->type == 'os2web_base_contentpage'
+        && $webform_node->webform['redirect_url'] == '<none>') {
+      $webform_node->webform['redirect_url'] = current_path();
+    }
+  }
+}
+
+/**
  * Implements hook_os2web_help().
  */
 function os2web_base_os2web_help($sections) {

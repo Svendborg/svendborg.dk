@@ -9,20 +9,17 @@
       $(".microArticle h2.mArticle").click(function() {
         var myid = $(this).attr('id');
         var style = $('div.' + myid).css('display');
-        var path = $(this).css("background-image");
         if (style == 'none') {
+          var button = $(this).parent().find('.gplus');
           $("div." + myid).show("500");
-          path = path.replace('foldOut', 'foldIn');
-          $(this).css({
-            'background-image' : path,
-          });
+          button.addClass('gminus');
+          button.removeClass('gplus');
         }
         else {
           $("div." + myid).hide("500");
-          path = path.replace('foldIn', 'foldOut');
-          $(this).css({
-            'background-image' : path,
-          });
+          var button = $(this).parent().find('.gminus');
+          button.addClass('gplus');
+          button.removeClass('gminus');
         }
       });
     }
