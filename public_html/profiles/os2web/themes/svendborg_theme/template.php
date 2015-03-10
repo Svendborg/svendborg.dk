@@ -57,16 +57,12 @@ function svendborg_theme_preprocess_page(&$variables) {
     $variables['page']['os2web_borger_dk_legislation'] = _svendborg_theme_get_borger_dk_legislation($item);
   }
 
-  // Get borger.dk recommended links and give them to the template.
-  if (($node && $item = field_get_items('node', $node, 'field_os2web_borger_dk_recommend'))) {
-    $variables['page']['os2web_borger_dk_recommend'] = _svendborg_theme_get_borger_dk_recommend($item);
-  }
-
   // Get all related links to this node.
   // 1. Get all unique related links from the node.
   $related_links = array();
   if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_related')) ||
       ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_related'))) {
+
     foreach ($links as $link) {
       $link_node = node_load($link['nid']);
       if ($link_node) {
@@ -78,8 +74,21 @@ function svendborg_theme_preprocess_page(&$variables) {
       }
     }
   }
-  // 2. Get all related links related to the KLE number on the node. Only get
+
+  // 2. Get borger.dk recommended links.
+  if (($node && $node->type == 'os2web_borger_dk_article' && $item = field_get_items('node', $node, 'field_os2web_borger_dk_recommend'))) {
+    $borger_dk_related_links = _svendborg_theme_get_borger_dk_recommend($item);
+    foreach ($borger_dk_related_links as $key => $link) {
+      $related_links[$node->nid . '_' . $key] = array(
+        'url' => $link['url'],
+        'title' => $link['title'],
+        'class' => 'ext-link',
+      );
+    }
+  }
+  // 3. Get all related links related to the KLE number on the node. Only get
   // these if the checkbox "Skjul relaterede links" isn't checked.
+  // Check also links nodes are not siblings with the reviewed node.
   if (($node &&
         (!isset($node->field_os2web_base_field_hidlinks['und'][0]['value']) ||
         $node->field_os2web_base_field_hidlinks['und'][0]['value'] == '0') &&
@@ -104,6 +113,14 @@ function svendborg_theme_preprocess_page(&$variables) {
           if (isset($related_links[$link->nid]) || ($node && $node->nid == $link->nid)) {
             continue;
           }
+          // Check the link node is not siblings in menu,
+          // does not have the same parent menu link.
+          if ($node && _svendborg_theme_check_parent_menu_link($node, $link, 'node')) {
+            continue;
+          }
+          elseif ($term && _svendborg_theme_check_parent_menu_link($node, $link, 'term')) {
+            continue;
+          }
           $link_node = node_load($link->nid);
           if ($link_node) {
             $related_links[$link->nid] = array(
@@ -118,7 +135,7 @@ function svendborg_theme_preprocess_page(&$variables) {
     }
   }
 
-  // External related links.
+  // 4. External related links.
   if (($node && $ext_links = field_get_items('node', $node, 'field_os2web_base_field_ext_link')) ||
       ($term && $ext_links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_ext_link'))) {
     foreach ($ext_links as $link) {
@@ -1054,7 +1071,6 @@ function _svendborg_theme_get_borger_dk_recommend($item) {
   $doc->strictErrorChecking = FALSE;
   $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
   $xml = simplexml_import_dom($doc);
-  $count = 0;
 
   foreach ($xml->body->ul->li as $li) {
     $url = (string) $li->a->attributes()->href;
@@ -1063,7 +1079,6 @@ function _svendborg_theme_get_borger_dk_recommend($item) {
       'url' => $url,
       'title' => $title,
     );
-    $count++;
   }
   return $recommended_links;
 }
@@ -1091,4 +1106,40 @@ function _svendborg_theme_get_webform($nid) {
   }
 
   return $text . drupal_render($form);
+}
+/**
+ * Helper. Returns true or false.
+ *
+ * @param object $node
+ *   reviewed node object.
+ *   object $link.
+ *   related link object.
+ *   string $type
+ *   node or term.
+ */
+function _svendborg_theme_check_parent_menu_link($node, $link, $type) {
+  switch ($type) {
+    case 'node':
+      $path = 'node/' . $node->nid;
+      break;
+
+    case 'term':
+      $path = 'taxonomy/term/' . $node->tid;
+  }
+  $node_plid = _svendborg_theme_get_parent_menu_link($path);
+  $link_plid = _svendborg_theme_get_parent_menu_link('node/' . $link->nid);
+
+  if ($node_plid == $link_plid && $node_plid != 0) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+/**
+ * Helper. Get menu links parent plid.
+ */
+function _svendborg_theme_get_parent_menu_link($path) {
+
+  $plid = db_query("SELECT plid FROM {menu_links} WHERE link_path = :link_path", array(':link_path' => $path))->fetchField();
+  return $plid;
 }
