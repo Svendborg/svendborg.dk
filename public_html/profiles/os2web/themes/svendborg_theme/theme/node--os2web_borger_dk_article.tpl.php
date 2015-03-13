@@ -78,9 +78,6 @@
 
       </div>
 
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53274bd66f9bc001" async="async"></script>
-        <div class="addthis_sharing_toolbox"></div>
-
       <?php print $author_node_info; ?>
     </div>
 
