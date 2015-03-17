@@ -8537,6 +8537,12 @@ body.page-node article #borger_dk-body .microArticle ul {
   float: right;
   padding-right: 16px;
 }
+.webform-component input.form-file {
+  padding: 0px 0px;
+}
+.webform-component .btn {
+  line-height: 1.14;
+}
 #nyheder-carousel-large {
   background-color: #fff;
   border-radius: 3px 3px;
