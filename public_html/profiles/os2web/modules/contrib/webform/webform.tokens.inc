@@ -40,12 +40,17 @@ function webform_token_info() {
   );
   $info['tokens']['submission']['url'] = array(
     'name' => t('URL'),
-    'description' => t('Webform tokens related to URLs.'),
+    'description' => t("Webform tokens related to the submission's URL."),
+    'type' => 'url',
+  );
+  $info['tokens']['submission']['edit-url'] = array(
+    'name' => t('Edit URL'),
+    'description' => t("Webform tokens related to the submission's Edit URL."),
     'type' => 'url',
   );
   $info['tokens']['submission']['values'] = array(
     'name' => t('Webform submission values'),
-    'description' => t('Webform tokens from submitted data. Replace the "?" with the "field key", including any parent field keys separated by colons. You may append ":label" for just the label or ":withlabel" for both the label and value together.'),
+    'description' => t('Webform tokens from submitted data. Replace the "?" with the "field key", including any parent field keys separated by colons. You may append ":label" for just the label or ":withlabel" for both the label and value together. Append ":key" for just the key in a key|label pair.'),
     'dynamic' => TRUE,
   );
 
@@ -82,10 +87,10 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'serial':
-          $replacements[$original] = $submission->serial;
+          $replacements[$original] = $submission->serial ? $submission->serial : '';
           break;
         case 'sid':
-          $replacements[$original] = $submission->sid;
+          $replacements[$original] = $submission->sid ? $submission->sid : '';
           break;
         case 'date':
           $replacements[$original] = format_date($submission->submitted, 'medium', '', NULL, $language_code);
@@ -99,10 +104,10 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
           $replacements[$original] = $sanitize ? check_plain($name) : $name;
           break;
         case 'url':
-          $replacements[$original] = url("node/{$node->nid}/submission/{$submission->sid}", $url_options);
+          $replacements[$original] = $submission->sid ? url("node/{$node->nid}/submission/{$submission->sid}", $url_options) : '';
           break;
         case 'edit-url':
-          $replacements[$original] = url("node/{$node->nid}/submission/{$submission->sid}/edit", $url_options);
+          $replacements[$original] = $submission->sid ? url("node/{$node->nid}/submission/{$submission->sid}/edit", $url_options) : '';
           break;
         case 'values':
           $submission_renderable = webform_submission_render($node, $submission, $email, $format, $excluded_components);
@@ -120,6 +125,7 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
         'label',
         'withlabel',
         'nolabel',
+        'key',
       );
 
       foreach ($node->webform['components'] as $cid => $component) {
@@ -131,19 +137,6 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
             // Token not found as a prefix or exact match for this component.
             continue;   // Token loop continue.
           }
-          // Assume an exact match.
-          $modifier = NULL;
-          if (strcmp($name, $parent_token) !== 0) {
-            // Check if this matches the key plus a modifier.
-            $modifier = substr($name, strrpos($name, ':') + 1);
-            // TODO: Allow components to provide additional modifiers per
-            // type, i.e. key, day, hour, minute, etc.
-            if (strcmp($name, $parent_token . ':' . $modifier) !== 0 || !in_array($modifier, $available_modifiers)) {
-              // No match.
-              continue;   // Token loop continue.
-            }
-          }
-
           // Drill down into the renderable to find the element.
           $display_element = $submission_renderable;
           foreach ($parents as $parent) {
@@ -158,8 +151,45 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
           // not displayed when printing the whole renderable.
           $display_element['#access'] = TRUE;
 
+          // For grid components, see if optional option key is present.
+          $matched_token = $parent_token;
+          if ($display_element['#webform_component']['type'] === 'grid') {
+            list($option_key) = explode(':', substr($name, strlen($parent_token) + 1));
+            if (strlen($option_key) && isset($display_element[$option_key]['#value'])) {
+              // Generate a faux select component for this grid question.
+              $select_component = _webform_defaults_select();
+              $select_component['type'] = 'select';
+              $select_component['nid'] = $display_element['#webform_component']['nid'];
+              $select_component['name'] = $display_element['#grid_questions'][$option_key];
+              $select_component['extra']['items'] = $display_element['#webform_component']['extra']['options'];
+              $display_element = _webform_display_select($select_component, $display_element[$option_key]['#value'], $format);
+              $display_element['#webform_component'] = $select_component;
+              $matched_token .= ':' . $option_key;
+            }
+          }
+
+          // Assume no modifier (implied 'nolabel').
+          $modifier = NULL;
+          if (strcmp($name, $matched_token) !== 0) {
+            // Check if this matches the key plus a modifier.
+            $modifier = substr($name, strrpos($name, ':') + 1);
+            // TODO: Allow components to provide additional modifiers per
+            // type, i.e. key, day, hour, minute, etc.
+            if (strcmp($name, $matched_token . ':' . $modifier) !== 0 || !in_array($modifier, $available_modifiers)) {
+              // No match.
+              continue;   // Token loop continue.
+            }
+          }
+
           if ($modifier === 'label') {
             $replacements[$original] = webform_filter_xss($display_element['#title']);
+          }
+          elseif ($modifier === 'key' && $display_element['#webform_component']['type'] === 'select') {
+            $values = array();
+            foreach ($display_element['#value'] as $value) {
+              $values[] = webform_filter_xss($value);
+            }
+            $replacements[$original] = implode(' ', $values);
           }
           else {
             // Remove theme wrappers for the nolabel modifier.
@@ -168,7 +198,7 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
             }
             $replacements[$original] = render($display_element);
           }
-          break;    // Token loop break.
+          // Continue processing tokens in case another modifier is used.
         }
       }
 
@@ -181,8 +211,13 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
     if (($user_tokens = token_find_with_prefix($tokens, 'user')) && $account = user_load($submission->uid)) {
       $replacements += token_generate('user', $user_tokens, array('user' => $account), $options);
     }
-    if ($url_tokens = token_find_with_prefix($tokens, 'url')) {
-      $replacements += token_generate('url', $url_tokens, array('path' => "node/{$node->nid}/submission/{$submission->sid}"), $options);
+    if ($submission->sid) {
+      if ($url_tokens = token_find_with_prefix($tokens, 'url')) {
+        $replacements += token_generate('url', $url_tokens, array('path' => "node/{$node->nid}/submission/{$submission->sid}"), $options);
+      }
+      if ($url_tokens = token_find_with_prefix($tokens, 'edit-url')) {
+        $replacements += token_generate('url', $url_tokens, array('path' => "node/{$node->nid}/submission/{$submission->sid}/edit"), $options);
+      }
     }
   }
 
