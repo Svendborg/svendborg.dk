@@ -8871,6 +8871,7 @@ h2.menu-footer a.Kommunen {
 }
 #footer-contacts .footer-address a {
   font-size: 14px;
+  color: #0089cd;
 }
 @media all and (max-width: 1200px) and (min-width: 970px) {
   #footer-contacts .container {
