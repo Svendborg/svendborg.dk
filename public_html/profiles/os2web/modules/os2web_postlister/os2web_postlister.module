@@ -18,15 +18,23 @@ function os2web_postlister_feeds_after_parse(FeedsSource $source, FeedsParserRes
     'dokumentdato'
     );
 
-  foreach ($result->items as $key => $item) 
+  foreach ($result->items as $key => $item)
   {
-    foreach ($item as $itemKey => $itemData) 
+    foreach ($item as $itemKey => $itemData)
     {
       if ( in_array( strtolower( $itemKey ), $fieldsToConvert ) )
       {
-        // From: http://stackoverflow.com/a/15137007
-        $convertedValue = ($itemData - 25569) * 86400;
-        $result->items[$key][$itemKey] = $convertedValue;
+        // Check if text format is used instead of Excel date format
+        if (strpos($itemData,'-') !== FALSE) {
+          // I don't trust strtotime if I don't know what timezone is
+          list($day,$month,$year) = explode('-', $itemData);
+          $result->items[$key][$itemKey] = mktime(0, 0, 0, $month, $day, $year);
+        }
+        else {
+          // From: http://stackoverflow.com/a/15137007
+          $convertedValue = ($itemData - 25569) * 86400;
+          $result->items[$key][$itemKey] = $convertedValue;
+        }
       }
     }
   }
