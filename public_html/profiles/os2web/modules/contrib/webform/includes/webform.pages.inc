@@ -108,14 +108,17 @@ function webform_configure_form($form, &$form_state, $node) {
     '#default_value' => $node->webform['total_submit_limit'] != -1 ? $node->webform['total_submit_limit'] : '',
     '#parents' => array('total_submit_limit'),
   );
-  $form['submission']['total_submit_limit']['total_submit_interval'] = array(
-    '#type' => 'select',
-    '#options' => array(
+  $interval_options = array(
       '-1' => t('ever'),
+      '60' => t('every minute'),
+      '300' => t('every 5 minutes'),
       '3600' => t('every hour'),
       '86400' => t('every day'),
       '604800' => t('every week'),
-    ),
+    );
+  $form['submission']['total_submit_limit']['total_submit_interval'] = array(
+    '#type' => 'select',
+    '#options' => $interval_options,
     '#default_value' => $node->webform['total_submit_interval'],
     '#parents' => array('total_submit_interval'),
   );
@@ -142,12 +145,7 @@ function webform_configure_form($form, &$form_state, $node) {
   );
   $form['submission']['submit_limit']['submit_interval'] = array(
     '#type' => 'select',
-    '#options' => array(
-      '-1' => t('ever'),
-      '3600' => t('every hour'),
-      '86400' => t('every day'),
-      '604800' => t('every week'),
-    ),
+    '#options' => $interval_options,
     '#default_value' => $node->webform['submit_interval'],
     '#parents' => array('submit_interval'),
   );
@@ -169,7 +167,7 @@ function webform_configure_form($form, &$form_state, $node) {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#description' => t('These permissions affect which roles can submit this webform. It does not prevent access to the webform page. If needing to prevent access to the webform page entirely, use a content access module such as <a href="http://drupal.org/project/taxonomy_access">Taxonomy Access</a> or <a href="http://drupal.org/project/node_privacy_byrole">Node Privacy by Role</a>.'),
-    '#access' => variable_get('webform_submission_access_control', 1),
+    '#access' => webform_variable_get('webform_submission_access_control'),
     '#weight' => 10,
   );
   $user_roles = user_roles();
@@ -333,9 +331,9 @@ function webform_configure_form($form, &$form_state, $node) {
   );
   $form['advanced']['auto_save'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Automatically save as draft between pages'),
+    '#title' => t('Automatically save as draft between pages and when there are validation errors'),
     '#default_value' => $node->webform['auto_save'],
-    '#description' => t('Automatically save partial submissions when users click the "Next" or "Previous" buttons in a multipage form.'),
+    '#description' => t('Automatically save partial submissions when users click the "Next" or "Previous" buttons in a multipage form or when validation errors prevent form submission.'),
   );
   $form['advanced']['submit_notice'] = array(
     '#type' => 'checkbox',
@@ -417,11 +415,7 @@ function webform_configure_form_validate($form, &$form_state) {
   }
 
   // Serial number must be a positive integer greater than any existing serial number.
-  $query = db_select('webform_submissions', 'ws')
-    ->condition('nid', $form['#node']->nid);
-  $query->addExpression('MAX(serial)', 'serial');
-  $max_serial = (int) $query->execute()->fetchField();
-  $next_min = $max_serial + 1;
+  $next_min = _webform_submission_serial_next_value_used($form['#node']->nid);
   if ((int) $form['advanced']['next_serial']['#value'] < $next_min) {
     form_error($form['advanced']['next_serial'], t('The next submission number must be at least %min (greater than any existing serial number).', array('%min' => $next_min)));
   }
@@ -520,6 +514,29 @@ function webform_configure_form_submit($form, &$form_state) {
 function webform_configure_form_submit_save($form, &$form_state) {
   node_save($form['#node']);
   drupal_set_message(t('The form settings have been updated.'));
+
+  $node = &$form['#node'];
+  if (!$node->webform['block'] && function_exists('block_load') && 
+      ($block = block_load('webform', 'client-block-' . $node->nid)) &&
+      !empty($block->bid)) {
+    // An existing block for this not-currently-available block was already configured.
+    // See https://www.drupal.org/node/2365825
+    // The core block module contains a bug which causes it to not remove blocks
+    // which are no longer available in code. Therefore, to prevent the block from
+    // being processed, it must be removed manually here.
+    // Remove the block for all themes.
+    db_delete('block')
+      ->condition('module', 'webform')
+      ->condition('delta', $block->delta)
+      ->execute();
+    // Remove any roles associated with the block
+    db_delete('block_role')
+      ->condition('module', 'webform')
+      ->condition('delta', $block->delta)
+      ->execute();
+    drupal_set_message(t('The block %info was deleted.', array('%info' => t('Webform: !title', array('!title' => $node->title)))));
+    cache_clear_all();
+  }
 }
 
 /**

@@ -8537,6 +8537,50 @@ body.page-node article #borger_dk-body .microArticle ul {
   float: right;
   padding-right: 16px;
 }
+.webform-client-form .webform-component input.form-file {
+  padding: 0px 0px;
+}
+.webform-client-form .webform-component .btn {
+  line-height: 1.14;
+}
+.webform-client-form .webform-component .gul {
+  padding: 6px 12px;
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+  border: 1px solid #faebcc;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+.webform-client-form .webform-component .groen {
+  padding: 6px 12px;
+  background-color: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+.webform-client-form .webform-component .blaa {
+  padding: 6px 12px;
+  background-color: #d9edf7;
+  color: #31708f;
+  border: 1px solid #bce8f1;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+.webform-client-form .webform-component .graa {
+  padding: 6px 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+.webform-client-form .webform-component-fieldset legend.panel-heading {
+  display: none;
+}
 #nyheder-carousel-large {
   background-color: #fff;
   border-radius: 3px 3px;
@@ -8871,6 +8915,7 @@ h2.menu-footer a.Kommunen {
 }
 #footer-contacts .footer-address a {
   font-size: 14px;
+  color: #0089cd;
 }
 @media all and (max-width: 1200px) and (min-width: 970px) {
   #footer-contacts .container {
