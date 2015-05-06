@@ -4,7 +4,13 @@
  * @file
  * Code for the OS2web - Borger.dk feature.
  */
+
 include_once 'os2web_borger_dk.features.inc';
+/**
+ * Text formats
+ */
+define('BORGERDK_TEXT_FORMAT_PLAIN', variable_get('os2web_borger_dk_articles_text_format_plain', 'plain_text'));
+define('BORGERDK_TEXT_FORMAT_HTML', variable_get('os2web_borger_dk_articles_text_format_html', 'full_html'));
 
 /**
  * Implements hook_menu().
@@ -19,7 +25,7 @@ function os2web_borger_dk_menu() {
     'page callback' => 'system_admin_menu_block_page',
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer os2web borgerdk article settings'),
   );
 
   $items['admin/config/os2web_borger_dk/settings'] = array(
@@ -27,37 +33,42 @@ function os2web_borger_dk_menu() {
     'description' => 'General settings for the OS2Web borger.dk',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('os2web_borger_dk_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer os2web borgerdk article settings'),
     'file' => 'os2web_borger_dk.admin.inc',
   );
-//
-//  $items['admin/borgerdk/debug'] = array(
-//    'title' => 'OS2web Borger.dk Debug',
-//    'description' => 'Debug OS2Web Borger.dk Articles',
-//    'page callback' => 'drupal_get_form',
-//    'page arguments' => array('os2web_borger_dk_articles_debug_form'),
-//    'access arguments' => array('administer site configuration'),
-//  );
 
   $items['import/os2web_borger_dk/autocomplete'] = array(
     'page callback' => '_os2web_borger_dk_autocomplete_callback',
     'page arguments' => array(3),
-    //'access arguments' => array('create os2web_borger_dk_article content'),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
 
   return $items;
 }
-
-function os2web_borger_dk_articles_debug_form($form, $form_state) {
-  $form['delete_menu'] = array(
-    '#type' => 'submit',
-    '#value' => 'Debug Cron Borger.dk-Menu now',
-    '#submit' => array('os2web_borger_dk_debug_form_submit')
+/**
+ * Implements hook_permission().
+ */
+function os2web_borger_dk_permission() {
+  return array(
+    'administer os2web borgerdk article settings' => array(
+      'title' => t('Administer OS2Web Borger.dk article settings'),
+      'description' => t('Administer settings for the OS2Web Borger.dk article import module.'),
+    ),
   );
+}
 
-  return $form;
+/**
+ * Implements hook_action_info().
+ */
+function os2web_borger_dk_action_info() {
+  return array(
+    'os2web_borger_dk_articles_update_action' => array(
+      'type' => 'node',
+      'label' => t('Update article from borger.dk'),
+      'configurable' => FALSE,
+    ),
+  );
 }
 
 /**
@@ -67,7 +78,14 @@ function _os2web_borger_dk_autocomplete_callback($string = '') {
   $matches = array();
 
   if ($string) {
-    $result = db_query("SELECT `ArticleID`, `ArticleStatus`, `ArticleTitle` FROM {os2web_borger_dk_article_titles} WHERE `ArticleStatus` >= 0 AND LOWER(ArticleTitle) LIKE LOWER('" . $string . "%') LIMIT 10");
+
+    $query = db_select('os2web_borger_dk_article_titles', 'o')
+      ->fields('o', array('ArticleID', 'ArticleStatus', 'ArticleTitle'))
+      ->condition('o.ArticleStatus', 0, '>=')
+      ->condition('o.ArticleTitle', db_like($string) . '%', 'LIKE')
+      ->range(0, 10);
+    $result = $query->execute();
+
     // Add matches to $matches.
     foreach ($result as $row) {
       if ($row->ArticleStatus > 0) {
@@ -102,7 +120,11 @@ function os2web_borger_dk_form_alter(&$form, &$form_state, $form_id) {
           os2web_borger_dk_autocomplete_form($form, $form_state);
         }
 
-        $locked_os2web_types = array('field_os2web_borger_dk_borgerurl' => 1, 'field_os2web_borger_dk_kle' => 2, 'field_os2web_borger_dk_formterm' => 2);
+        $locked_os2web_types = array(
+          'field_os2web_borger_dk_borgerurl' => 1,
+          'field_os2web_borger_dk_kle' => 2,
+          'field_os2web_borger_dk_formterm' => 2,
+        );
         $admin_display_fields = variable_get('os2web_borger_dk_display');
 
         $data = field_info_instances('node', 'os2web_borger_dk_article');
@@ -118,22 +140,24 @@ function os2web_borger_dk_form_alter(&$form, &$form_state, $form_id) {
           if ((isset($locked_os2web_types[$type]) && $locked_os2web_types[$type] != 2)
           ||!isset($locked_os2web_types[$type])) {
             // Then we insert field label to our checkboxes options.
-            $checkbox_opts[$type] = t($item['label']);
+            $checkbox_opts[$type] = $item['label'];
             // admin-config says we should show this item as an option.
             if (isset($admin_display_fields[$type])) {
               if (empty($visible_items) || (!empty($visible_items) && !empty($visible_items[$type]))) {
-                // If visible_items is empty that means we should use admin-config
-                // or if the type of visible_items is set, and set to be displayed
-                // then we add this type to the default_values.
+                // If visible_items is empty that means we should use
+                // admin-config or if the type of visible_items is set,
+                // and set to be displayed then we add this type
+                // to the default_values.
                 $initial_values[] = $type;
               }
               else {
-                if ($admin_last_settings[$type] != $admin_display_fields[$type] && $visible_items[$type]
-                == $admin_last_settings[$type]) {
+                if ($admin_last_settings[$type] != $admin_display_fields[$type]
+                    && $visible_items[$type] == $admin_last_settings[$type]) {
                   $initial_values[] = $type;
                 }
                 else {
-                  if ($admin_last_settings[$type] != $admin_display_fields[$type] && $visible_items[$type] == $admin_last_settings[$type]) {
+                  if ($admin_last_settings[$type] != $admin_display_fields[$type]
+                      && $visible_items[$type] == $admin_last_settings[$type]) {
                     $initial_values[] = $type;
                   }
                 }
@@ -179,99 +203,92 @@ function os2web_borger_dk_form_alter(&$form, &$form_state, $form_id) {
           if ($microarticle) {
             $field_microarticle_settings = (isset($form['#node']->os2web_borger_dk_microarticle['field_microarticle_settings'])) ? $form['#node']->os2web_borger_dk_microarticle['field_microarticle_settings'] : NULL;
             $body_text = (isset($form['body']['und']['0']['#entity']->body['und']['0']['value'])) ? $form['body']['und']['0']['#entity']->body['und']['0']['value'] : '';
-            unset($form['body']);
 
-            // Link break: in windows \r\n, linux \n.
-            preg_match("/<\/div>\n/", $body_text, $link_break);
-            if (isset($link_break[0])) {
-              $div = preg_split("/\n<\/div>\n/", $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-            }
-            else {
-              $div = preg_split('/\r\n<[\/]div>\r\n/', $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-            }
+            hide($form['body']);
+            $doc = new DOMDocument();
+            $doc->loadHTML('<?xml encoding="utf-8" ?>' . $body_text);
+            $xpath = new DOMXPath($doc);
 
-            foreach ($div as $key => $text) {
-              $microno = $key + 1;
+            $results = $xpath->query("//*[@class='microArticle']");
+
+            $microno = 0;
+            foreach ($results as $item) {
+              foreach ($item->getElementsByTagName('h2') as $articletitle) {
+                $title = trim($articletitle->nodeValue);
+              }
+
+              $text = '';
+              foreach ($item->getElementsByTagName('div')->item(0)->childNodes as $articletext) {
+                $text .= str_replace('&#13;', '', $doc->saveXML($articletext, LIBXML_NOEMPTYTAG));
+              }
+
+              $microno++;
               $checkboxno = 'os2web_borger_dk_micro_' . $microno;
               $h2_text_field = 'os2web_borger_dk_micro_h2_' . $microno;
               $text_area = 'os2web_borger_dk_micro_textarea_' . $microno;
 
-              // The last div is a link break.
-              if ($key != count($div) - 1) {
-                // Frist we get the microarticle title.
-                preg_match("/<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">(.*?)<\/h2>/", $div[$key], $match);
-                $h2 = isset($match[1]) ? $match[1] : '';
+              if ($microno >= 10) {
+                $weight = '6.' . ($microno - 10);
+              }
+              else {
+                $weight = '5.' . $microno;
+              }
+              // For each microarticle we build a fieldset, a textfield for
+              // title, a textarea for div content and a checkbox for
+              // visibility option.
+              $form['os2web_borger_dk_micro_settings_' . $microno] = array(
+                '#type' => 'fieldset',
+                '#weight' => $weight,
+              );
 
-                // Then we get the div content.
-                preg_match("/<div class=\"mArticle" . $microno . " mArticle\">(.*?)\r\n    <\/div>/s", $div[$key], $match2);
-                if (empty($match2[1])) {
-                  preg_match("/<div class=\"mArticle" . $microno . " mArticle\">(.*?)<\/div>    /s", $div[$key], $match2);
-                }
-                $micro_text = isset($match2[1]) ? $match2[1] : '';
-
-                if ($microno >= 10) {
-                  $weight = '6.' . ($microno - 10);
-                }
-                else {
-                  $weight = '5.' . $microno;
-                }
-                // For each microarticle we build a fieldset, a textfield for
-                // title, a textarea for div content and a checkbox for
-                // visibility option.
-                $form['os2web_borger_dk_micro_settings_' . $microno] = array(
-                  '#type' => 'fieldset',
-                  '#weight' => $weight,
+              $form['os2web_borger_dk_micro_settings_' . $microno][$h2_text_field] = array(
+                '#type' => 'textfield',
+                '#title' => t('Title of Microarticle') . ' ' . $microno,
+                '#default_value' => variable_get($h2_text_field, $title),
+              );
+              // If body (article text) visible/editable option is checked
+              // by ADMIN and EDITOR, then forms disabled is false.
+              if ($visible_items['body'] === "body" && $admin_display_fields['body'] === "body" && $value_editable['body'] === "body") {
+                $form['os2web_borger_dk_micro_settings_' . $microno][$text_area] = array(
+                  // '#title' => t('Microarticle ' . $microno),
+                  '#type' => 'textarea',
+                  '#default_value' => trim($text),
                 );
 
-                $form['os2web_borger_dk_micro_settings_' . $microno][$h2_text_field] = array(
-                  '#type' => 'textfield',
-                  '#title' => t(' Title of Microarticle ') . $microno,
-                  '#default_value' => variable_get($h2_text_field, $h2),
+                $form['os2web_borger_dk_micro_settings_' . $microno][$checkboxno] = array(
+                  '#type' => 'checkbox',
+                  '#title' => t('Visible'),
+                  '#description' => t("Check to display this microarticle"),
+                  '#default_value' => isset($field_microarticle_settings[$microno]) ? $field_microarticle_settings[$microno] : 1,
                 );
-                // If body (article text) visible/editable option is checked
-                // by ADMIN and EDITOR, then forms disabled is false.
-                if ($visible_items['body'] === "body" && $admin_display_fields['body'] === "body" && $value_editable['body'] === "body") {
-                  $form['os2web_borger_dk_micro_settings_' . $microno][$text_area] = array(
-                    // '#title' => t('Microarticle ' . $microno),
-                    '#type' => 'textarea',
-                    '#default_value' => $micro_text,
-                  );
-
+              }
+              // If body (article text) display option is UNCHECKED
+              // by ADMIN or EDITOR, then forms disabled is TRUE.
+              else {
+                $form['os2web_borger_dk_micro_settings_' . $microno][$text_area] = array(
+                  '#title' => t('Microarticle') . ' ' . $microno,
+                  '#type' => 'textarea',
+                  '#disabled' => TRUE,
+                  '#default_value' => trim($text),
+                  '#description' => t("Please check 'Article text' visible option below in 'Toggle display', or in OS2web borger.dk Settings (Toggle display/Editable article fields) to show/edit this microarticle."),
+                );
+                // If this microarticle is NOT editable.
+                if ($value_editable['body'] !== "body") {
                   $form['os2web_borger_dk_micro_settings_' . $microno][$checkboxno] = array(
                     '#type' => 'checkbox',
-                    '#title' => t('Visible'),
+                    '#title' => t('Microarticle Visibility'),
                     '#description' => t("Check to display this microarticle"),
                     '#default_value' => isset($field_microarticle_settings[$microno]) ? $field_microarticle_settings[$microno] : 1,
                   );
                 }
-                // If body (article text) display option is UNCHECKED
-                // by ADMIN or EDITOR, then forms disabled is TRUE.
                 else {
-                  $form['os2web_borger_dk_micro_settings_' . $microno][$text_area] = array(
-                    '#title' => t('Microarticle ') . $microno,
-                    '#type' => 'textarea',
+                  $form['os2web_borger_dk_micro_settings_' . $microno][$checkboxno] = array(
+                    '#type' => 'checkbox',
+                    '#title' => t('Microarticle Visibility'),
                     '#disabled' => TRUE,
-                    '#default_value' => $micro_text,
-                    '#description' => t("Please check 'Article text' visible option below in 'Toggle display', or in OS2web borger.dk Settings (Toggle display/Editable article fields) to show/edit this microarticle."),
+                    '#description' => t("Check to display this microarticle"),
+                    '#default_value' => isset($field_microarticle_settings[$microno]) ? $field_microarticle_settings[$microno] : 1,
                   );
-                  // If this microarticle is NOT editable.
-                  if ($value_editable['body'] !== "body") {
-                    $form['os2web_borger_dk_micro_settings_' . $microno][$checkboxno] = array(
-                      '#type' => 'checkbox',
-                      '#title' => t('Microarticle Visibility'),
-                      '#description' => t("Check to display this microarticle"),
-                      '#default_value' => isset($field_microarticle_settings[$microno]) ? $field_microarticle_settings[$microno] : 1,
-                    );
-                  }
-                  else {
-                    $form['os2web_borger_dk_micro_settings_' . $microno][$checkboxno] = array(
-                      '#type' => 'checkbox',
-                      '#title' => t('Microarticle Visibility'),
-                      '#disabled' => TRUE,
-                      '#description' => t("Check to display this microarticle"),
-                      '#default_value' => isset($field_microarticle_settings[$microno]) ? $field_microarticle_settings[$microno] : 1,
-                    );
-                  }
                 }
               }
             }
@@ -397,8 +414,11 @@ function os2web_borger_dk_after_build($form, &$form_state) {
   // Some of the fields are handled exclusively by OS2web.
   // These fields are required on node-add, and can NOT be
   // changed later on (ie. locked).
-  $locked_os2web_types = array('field_os2web_borger_dk_borgerurl' => 1, 'field_os2web_borger_dk_kle' => 2,
-    'field_os2web_borger_dk_formterm' => 2);
+  $locked_os2web_types = array(
+    'field_os2web_borger_dk_borgerurl' => 1,
+    'field_os2web_borger_dk_kle' => 2,
+    'field_os2web_borger_dk_formterm' => 2,
+  );
   $nid = $form_state['values']['nid'];
   $admin_display_fields = variable_get('os2web_borger_dk_display', array(NULL));
   $microarticle = variable_get('os2web_borger_dk_microarticle_active');
@@ -419,13 +439,13 @@ function os2web_borger_dk_after_build($form, &$form_state) {
     // non-editable in the admin-editable-settings.
     $value_editable = variable_get('os2web_borger_dk_editable', array(NULL));
     foreach ($value_editable as $type => $editable) {
-      if (empty($editable) || !empty($locked_os2web_types[$type])) {
+      if ((empty($editable) || !empty($locked_os2web_types[$type])) && !empty($form[$type])) {
         if (!$microarticle) {
           os2web_borger_dk_fix_disabled($form[$type]);
         }
       }
       if ($type == 'field_os2web_byline' && !empty($form[$type])) {
-        $form[$type]['#format'] = 'plaintext';
+        $form[$type]['#format'] = BORGERDK_TEXT_FORMAT_PLAIN;
       }
     }
 
@@ -433,10 +453,10 @@ function os2web_borger_dk_after_build($form, &$form_state) {
     foreach ($locked_os2web_types as $type => $locked) {
       // If locked = 1 then disable the field.
       if (isset($form[$type]) && $locked == 1) {
-        $form[$type]['#required'] = 0;
-        $form[$type]['und']['#required'] = 0;
-        $form[$type]['und'][0]['#required'] = 0;
-        $form[$type]['und'][0]['value']['#required'] = 0;
+        $form[$type]['#required'] = FALSE;
+        $form[$type]['und']['#required'] = FALSE;
+        $form[$type]['und'][0]['#required'] = FALSE;
+        $form[$type]['und'][0]['value']['#required'] = FALSE;
         os2web_borger_dk_fix_disabled($form[$type]);
       }
     }
@@ -450,18 +470,22 @@ function os2web_borger_dk_after_build($form, &$form_state) {
       // die because a string for instance can not be unset.
       if (!isset($locked_os2web_types[$type]) || $locked_os2web_types[$type] == 1) {
         // These fields can safely be unset (so they are hidden).
-        unset($form[$type]);
+        hide($form[$type]);
       }
       if (isset($locked_os2web_types[$type]) && $locked_os2web_types[$type] == 2) {
-        // These fields must be hidden by unsetting the theme.
-        // unset($form[$type]['und']['#theme']);
+
         hide($form[$type]['und']);
       }
     }
-    unset($form['title']);
+    $form['field_os2web_borger_dk_borgerurl']['#required'] = FALSE;
+    $form['field_os2web_borger_dk_borgerurl']['und']['#required'] = FALSE;
+    $form['field_os2web_borger_dk_borgerurl']['und'][0]['#required'] = FALSE;
+    $form['field_os2web_borger_dk_borgerurl']['und'][0]['value']['#required'] = FALSE;
+    $form['title']['#required'] = FALSE;
+    $form['title']['#access'] = FALSE;
 
     if (isset($form['path']['pathauto']['#default_value'])) {
-      $form['path']['pathauto']['#checked'] = 0;
+      $form['path']['pathauto']['#checked'] = FALSE;
     }
     $form['status'] = 0;
     $form['promote'] = 0;
@@ -550,7 +574,7 @@ function os2web_borger_dk_node_load($nodes, $types) {
  * Apparently the only way to let drupal search modules for themes.
  * Resource:
  *   http://www.metachunk.com/blog/adding-module-path-drupal-7-theme-registry
- **/
+ */
 function os2web_borger_dk_theme_registry_alter(&$theme_registry) {
   $mod_path = drupal_get_path('module', 'mymodule');
   // Munge on a copy.
@@ -565,7 +589,7 @@ function os2web_borger_dk_theme_registry_alter(&$theme_registry) {
 
 /**
  * Helper function for re-ordering arrays (needed by theme_registry_alter).
- **/
+ */
 function _os2web_borger_dk_insert_after_first_element(&$a, $element) {
   if (is_array($a)) {
     $first_element = array_shift($a);
@@ -602,30 +626,43 @@ function os2web_borger_dk_node_view($node, $view_mode, $langcode) {
           if ($content_field == 'body' && !empty($field_microarticle_settings)) {
             $body_text = $node->body['und']['0']['value'];
 
-            // Link break in body_text: in windows \r\n, linux \n.
-            preg_match("/<\/div>\n/", $body_text, $link_break);
-            if (isset($link_break[0])) {
-              $div = preg_split("/\n<\/div>\n/", $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-            }
-            else {
-              $div = preg_split('/\r\n<[\/]div>\r\n/', $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-            }
-            $show_div = '';
-            foreach ($div as $key => $text) {
-              $microno = $key + 1;
-              $checkboxno = 'os2web_borger_dk_micro_' . $microno;
-              // The last div is a link break \n or \r\n.
-              if ($div[$key] != $div[(count($div) - 1)]) {
-                // If editor set this microarticle to be visible,(TRUE)
-                if ($field_microarticle_settings[$microno] != 0) {
-                  $show_div .= $div[$key];
-                  $show_div .= "\n</div>";
-                  $show_div .= "\n";
-                }
+            $article_text = '';
+
+            $doc = new DOMDocument();
+            $doc->loadHTML('<?xml encoding="utf-8" ?>' . $body_text);
+            $xpath = new DOMXPath($doc);
+
+            $results = $xpath->query("//*[@class='microArticle']");
+
+            $microno = 0;
+            foreach ($results as $item) {
+              foreach ($item->getElementsByTagName('h2') as $articletitle) {
+                $title = trim($articletitle->nodeValue);
+              }
+
+              $text = '';
+              foreach ($item->getElementsByTagName('div')->item(0)->childNodes as $articletext) {
+                $text .= $doc->saveHTML($articletext);
+              }
+              $microno++;
+
+              if ($field_microarticle_settings[$microno] != 0) {
+                // Body text (Article text).
+                $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+
+                $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
+                $micro_h2 .= $title . "</h2>";
+
+                $micro_content = "<div class=\"mArticle" . $microno . " mArticle\">";
+                $micro_content .= $text . "\r\n    </div>";
+
+                $article_text .= $micro_h2 . "\r\n";
+                $article_text .= $micro_content;
+                $article_text .= "\r\n</div>\r\n\r\n";
               }
             }
             // Content body shows only visible microarticles/ part of body_text.
-            $node->content[$type]['0']['#markup'] = $show_div;
+            $node->content[$type]['0']['#markup'] = $article_text;
           }
         }
         elseif ($type == 'body') {
@@ -696,13 +733,11 @@ function os2web_borger_dk_node_delete($node) {
         ->condition('nid', $node->nid)
         ->execute();
     // Then we set the status to "not imported" in the "Titles list"-table.
-    //if (isset($node->os2web_borger_dk_article['external_id'])) {
     db_update('os2web_borger_dk_article_titles')
         ->fields(array('ArticleStatus' => 0))
         ->condition('ArticleStatus', $node->nid, '=')
         ->execute();
-    //}
-    //->condition('ArticleID', $node->os2web_borger_dk_article['external_id'], '=')
+
   }
 }
 
@@ -767,12 +802,26 @@ function os2web_borger_dk_node_validate($node, $form, &$form_state) {
 }
 
 /**
- * Funtion os2web_borger_dk_sync_submit().
+ * Function os2web_borger_dk_sync_submit().
  */
 function os2web_borger_dk_sync_submit($form, &$form_state) {
   // Get the node->nid from the form['#node'].
   $nid = $form['#node']->nid;
 
+  // Update the article
+  os2web_borger_dk_update_article($nid);
+
+  drupal_set_message(t('The article has been updated with content from Borger.dk'), 'status');
+  drupal_goto('node/' . $nid . '/edit');
+}
+
+/**
+ * Update a single article with latest content from borger.dk
+ *
+ * @param int $nid
+ *   The node we are updating.
+ */
+function os2web_borger_dk_update_article($nid) {
   // First we find the external_id, and last_update time for this article.
   $data = db_query('SELECT external_id, last_updated FROM {os2web_borger_dk_article} WHERE nid = :nid', array(
     ':nid' => $nid))->fetchObject();
@@ -781,21 +830,26 @@ function os2web_borger_dk_sync_submit($form, &$form_state) {
   $wsdl = variable_get('os2web_borger_dk_webservice', 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl');
   $article = _os2web_borger_dk_GetArticleByID($data->external_id, $wsdl);
 
-  $last_update = $data->last_updated;
-  $last_article_update = strtotime($article['last_updated']);
-  // And we check if the article has been updated before we update the node.
-  if ($last_update < $last_article_update) {
-    // Now we update the node content with the fetched article content.
-    _os2web_borger_dk_update_node_content($nid, $article);
-    // And we notify the user that the article has been updated.
-    drupal_set_message(t('The article has been updated with new content from Borger.dk'), 'status');
-  }
-  else {
-    // We also notify the user if the article is up to date already.
-    drupal_set_message(t('This article is identical to the article from Borger.dk, and has not been updated'), 'status');
-  }
+  // Now we update the node content with the fetched article content.
+  _os2web_borger_dk_update_node_content($nid, $article);
 
-  drupal_goto('node/' . $nid . '/edit');
+}
+/**
+ * Update a node with content from borger.dk.
+ *
+ * @param $node
+ *   A node object.
+ * @param $context
+ *   (optional) Array of additional information about what triggered the action.
+ *   Not used for this action.
+ *
+ * @ingroup actions
+ */
+function os2web_borger_dk_articles_update_action($node, $context = array()) {
+  if ($node->type == 'os2web_borger_dk_article') {
+    os2web_borger_dk_update_article($node->nid);
+    watchdog('action', 'Update %title with content from borger.dk.', array('%title' => $node->title));
+  }
 }
 
 /**
@@ -869,45 +923,40 @@ function os2web_borger_dk_node_submit(&$node, $form, &$form_state) {
         $field_microarticle_settings = array();
         $body_text = isset($node->body['und'][0]['value']) ? $node->body['und'][0]['value'] : '';
 
-        // "Link break": in windows \r\n, linux \n.
-        preg_match("/<\/div>\n/", $body_text, $link_break);
-        if (isset($link_break[0])) {
-          $div = preg_split("/\n<\/div>\n/", $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-        }
-        else {
-          $div = preg_split('/\r\n<[\/]div>\r\n/', $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-        }
-
         $article_text = '';
-        foreach ($div as $key => $text) {
-          preg_match("/<div class=\"microArticle\" id=\"microArticle(.*?)\">/s", $div[$key], $match_id);
-          $micro_id = (isset($match_id[1]) ? $match_id[1] : '');
-          $microno = $key + 1;
+
+        $doc = new DOMDocument();
+        $doc->loadHTML('<?xml encoding="utf-8" ?>' . $body_text);
+        $xpath = new DOMXPath($doc);
+
+        $results = $xpath->query("//*[@class='microArticle']");
+
+        $microno = 0;
+        foreach ($results as $item) {
+          $microno++;
+
           $checkboxno = 'os2web_borger_dk_micro_' . $microno;
           $h2_text_field = 'os2web_borger_dk_micro_h2_' . $microno;
           $text_area = 'os2web_borger_dk_micro_textarea_' . $microno;
 
-          // The last div contents a link break.
-          if ($key != (count($div) - 1)) {
-            $field_microarticle_settings[$microno] = $node->$checkboxno;
-            // Body text (Article text).
-            $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+          $field_microarticle_settings[$microno] = $node->$checkboxno;
+          // Body text (Article text).
+          $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
 
-            $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
-            $micro_h2 .= $node->$h2_text_field . "</h2>";
+          $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
+          $micro_h2 .= $node->$h2_text_field . "</h2>";
 
-            $micro_content = "<div class=\"mArticle" . $microno . " mArticle\">";
-            $micro_content .= $node->$text_area . "\r\n    </div>";
+          $micro_content = "<div class=\"mArticle" . $microno . " mArticle\">";
+          $micro_content .= $node->$text_area . "\r\n    </div>";
 
-            $article_text .= $micro_h2 . "\r\n";
-            $article_text .= $micro_content;
-            $article_text .= "\r\n</div>\r\n\r\n";
-            // End of body text (Article text).
-          }
+          $article_text .= $micro_h2 . "\r\n";
+          $article_text .= $micro_content;
+          $article_text .= "\r\n</div>\r\n\r\n";
+          // End of body text (Article text).
         }
         $node->body['und'][0]['value'] = $article_text;
         $node->body['und'][0]['safe_value'] = $article_text;
-        // node_save($node);
+
         $serialized_microarticle = serialize($field_microarticle_settings);
         db_update('os2web_borger_dk_article')
             ->fields(array(
@@ -998,16 +1047,16 @@ function os2web_borger_dk_node_submit(&$node, $form, &$form_state) {
         $body .= $content . "\n";
       }
 
-
       // And we update all the node-fields with the article-values.
       $node = new stdClass();
-      $node->language = 'da';
+      $node->language = 'und';
       $node->status = $form_state['values']['status'];
       $node->promote = $form_state['values']['promote'];
       $node->sticky = $form_state['values']['sticky'];
       $node->created = !empty($node->date) ? strtotime($node->date) : REQUEST_TIME;
       $node->validated = TRUE;
-      // A user might assign the node author by entering a user name in the node
+      // A user might assign the node author by entering a
+      // user name in the node.
       $usr = $form['author']['name']['#value'];
       // A user might assign the node author by entering a user name in the node
       // form, which we then need to translate to a user ID.
@@ -1039,13 +1088,13 @@ function os2web_borger_dk_node_submit(&$node, $form, &$form_state) {
       $node->field_os2web_borger_dk_shortlist['und'][0]['safe_value'] = (!empty($article['huskeliste'])) ? $article['huskeliste'] : '';
       $node->field_os2web_borger_dk_recommend['und'][0]['safe_value'] = (!empty($article['anbefaler'])) ? $article['anbefaler'] : '';
 
-      $node->body['und'][0]['format'] = 'full_html';
-      $node->field_os2web_borger_dk_header['und'][0]['format'] = 'full_html';
-      $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = 'full_html';
-      $node->field_os2web_borger_dk_byline['und'][0]['format'] = 'plaintext';
-      $node->field_os2web_borger_dk_legislati['und'][0]['format'] = 'full_html';
-      $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = 'full_html';
-      $node->field_os2web_borger_dk_recommend['und'][0]['format'] = 'full_html';
+      $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+      $node->field_os2web_borger_dk_header['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+      $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+      $node->field_os2web_borger_dk_byline['und'][0]['format'] = BORGERDK_TEXT_FORMAT_PLAIN;
+      $node->field_os2web_borger_dk_legislati['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+      $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+      $node->field_os2web_borger_dk_recommend['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
       $field_settings = $form_state['values']['os2web_borger_dk_field_settings'];
       // Check admin field settings : are there fields set as hidden by admin.
@@ -1094,7 +1143,9 @@ function os2web_borger_dk_node_submit(&$node, $form, &$form_state) {
 
 
 /*********************   Menu import ************/
-
+/**
+ * Function os2web_borger_dk_import_menu_now_form_submit().
+ */
 function os2web_borger_dk_import_menu_now_form_submit($form, &$form_state) {
   if (($form_state['submitted'] == 1) && ($form_state['input']['op'] == 'Import Borger.dk-menu now')) {
     // Next we get a list of all menu-items from the Borger.dk-webservice.
@@ -1110,36 +1161,36 @@ function os2web_borger_dk_import_menu_now_form_submit($form, &$form_state) {
     $parent_array = array();
     // Make a array of parenet id : parent name.
     foreach ($menu_items_availlable as $item) {
-      $item_siteID = $item['SiteID'];
-      $parent_array [$item_siteID]= $item['SiteTitle'];
+      $item_site_id = $item['SiteID'];
+      $parent_array[$item_site_id] = $item['SiteTitle'];
     }
     $total = count($menu_items_availlable);
-   // $menu_name = $form['build_borger_menu_under_menu']['#value'];
+    // $menu_name = $form['build_borger_menu_under_menu']['#value'];
     $menu_name = variable_get('build_borger_menu_under_menu');
-    //error_log(' menu name  =>'.print_r($menu_name,TRUE), 3, '/home/yani/workspace/drupal/menu_structure.log');
 
     os2web_borger_dk_create_custom_menu($menu_items_availlable, $total, $parent_array, $menu_name);
   }
 }
 
 /**
- * Function os2web_borger_dk_create_custom_menu()
+ * Function os2web_borger_dk_create_custom_menu().
+ *
  * Create a custom menu.
  */
 function os2web_borger_dk_create_custom_menu($menu_items_availlable, $total, $parent_array, $menu_name) {
-  $borger_dk_menu = variable_get('os2web_borger_dk_borger_dk_menu_name', 'Borger.dk menu');
+  $borger_dk_menu = variable_get('os2web_borger_dk_borger_dk_menu_name', t('Borger.dk menu'));
   if ($menu_name == 'borgerdkmenu2' && $borger_dk_menu == 'Borger.dk menu') {
     $existing_menu = db_query('SELECT * FROM {menu_custom} WHERE menu_name = :menu_name',
                        array('menu_name' => $menu_name))->fetchAssoc();
     if (!$existing_menu) {
       $menu = array();
       $menu['menu_name'] = 'borgerdkmenu2';
-      $menu['title'] = t($borger_dk_menu);
+      $menu['title'] = $borger_dk_menu;
       $menu['description'] = "The <em>Presentation tabs</em> menu contains links to presentation detail";
       menu_save($menu);
     }
   }
- /* elseif ($menu_name != 'borgerdkmenu2') {
+  /* elseif ($menu_name != 'borgerdkmenu2') {
     $existing_menu = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name',
                               array('link_title' => $borger_dk_menu, 'menu_name' => $menu_name))->fetchAssoc();
     if (!$existing_menu) {
@@ -1158,17 +1209,14 @@ function os2web_borger_dk_create_custom_menu($menu_items_availlable, $total, $pa
   // Then import the menu from Borger.dk and tag all imported articles.
   $operations[] = array('_os2web_borger_dk_menus_cronbatch_wrapper', array($total));
 
-  //error_log('os2web_borger_dk_import_now_form_submit created this batch-setup: '. print_r($batch, TRUE) ."\n\n", 3, '/srv/www/log/borger_dk_batch.log');
-
   $groups = array_chunk($menu_items_availlable, 10);
   foreach ($groups as $gid => $group) {
     // Set the batch operation to import 10 menu items each time.
-    $operations[] = array('_os2web_borger_dk_import_menu_items', array($group, $total, $parent_array,$menu_name));
+    $operations[] = array(
+      '_os2web_borger_dk_import_menu_items',
+      array($group, $total, $parent_array, $menu_name),
+    );
   }
-
-  //foreach ($menu_items_availlable as $item) {
-   // $operations[] = array(_os2web_borger_dk_import_menu_items, array($item, $total, $parent_array));
-  //}
 
   $batch = array(
     'operations' => $operations,
@@ -1179,38 +1227,36 @@ function os2web_borger_dk_create_custom_menu($menu_items_availlable, $total, $pa
   );
   // Finally we execute the batch process(es).
   batch_set($batch);
-  //menu_cache_clear_all();
-  //menu_link_load($menu);
+  // menu_cache_clear_all();
+  // menu_link_load($menu);
 }
 
 /**
- *  Function _os2web_borger_dk_import_menu_items().
+ * Function _os2web_borger_dk_import_menu_items().
  */
-function _os2web_borger_dk_import_menu_items($group, $total, $parent_array,$menu_name, &$context) {
+function _os2web_borger_dk_import_menu_items($group, $total, $parent_array, $menu_name, &$context) {
   if (empty($context['sandbox'])) {
     $context['sandbox'] = array();
     $context['sandbox']['progress'] = 0;
-    //$context['sandbox']['current_node'] = 0;
-    $context['sandbox']['max'] = $total ;
+    $context['sandbox']['max'] = $total;
   }
   foreach ($group as $item) {
-    $item_siteID = $item['SiteID'];
-    $item_pID = $item['ParentID'];
-    $link_path = 'node';
+    $item_site_id = $item['SiteID'];
+    $item_pid = $item['ParentID'];
     $menu_item = array();
     // The first menu item from Borger.dk does NOT contain a parent ID.
-    //'Emner', it is the root of Borger.dk menu tree structure.
+    // 'Emner', it is the root of Borger.dk menu tree structure.
     if (empty($item['ParentID'])) {
-      $mlid = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name',
-                              array('link_title' => $item['SiteTitle'], 'menu_name' => $menu_name))->fetchAssoc();
+      $mlid = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name', array('link_title' => $item['SiteTitle'], 'menu_name' => $menu_name))->fetchAssoc();
       // If the menu link is NOT existed.
       if (!$mlid) {
+        $nid = _os2web_borger_dk_create_menu_page($item);
         $menu_item = array(
-        'menu_name' => $menu_name,
-        'link_path' => $link_path,
-        'link_title' => $item['SiteTitle'],
-        'module' => 'os2web_borger_dk',
-        'plid' => $item_pID,
+          'menu_name' => $menu_name,
+          'link_path' => "node/" . $nid,
+          'link_title' => $item['SiteTitle'],
+          'module' => 'os2web_borger_dk',
+          'plid' => $item_pid,
         );
         menu_link_save($menu_item);
       }
@@ -1218,14 +1264,11 @@ function _os2web_borger_dk_import_menu_items($group, $total, $parent_array,$menu
       $context['sandbox']['progress']++;
     }
     else {
-      $mlid = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name',
-                              array('link_title' => $item['SiteTitle'], 'menu_name' => $menu_name))->fetchAssoc();
+      $mlid = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name', array('link_title' => $item['SiteTitle'], 'menu_name' => $menu_name))->fetchAssoc();
       // If the menu link is NOT existed.
-      $existing_parent = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name',
-                                 array('link_title' => $parent_array[$item_pID], 'menu_name' => $menu_name))->fetchAssoc();
-      //error_log(' existing =>'.print_r($existing_parent,TRUE), 3, '/home/yani/workspace/drupal/menu_structure.log');
+      $existing_parent = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name', array('link_title' => $parent_array[$item_pid], 'menu_name' => $menu_name))->fetchAssoc();
       if ($existing_parent && !$mlid) {
-        // Create a menu page for the Menu item (path)
+        // Create a menu page for the Menu item (path).
         $nid = _os2web_borger_dk_create_menu_page($item);
         $menu_item = array(
           'menu_name' => $menu_name,
@@ -1242,27 +1285,36 @@ function _os2web_borger_dk_import_menu_items($group, $total, $parent_array,$menu
   }
   $context['finished'] = 1;
 }
-
+/**
+ * Function _os2web_borger_dk_create_menu_page().
+ */
 function _os2web_borger_dk_create_menu_page($item) {
+  $result = db_query('SELECT * FROM {node} WHERE type = :type AND title = :title',
+                     array('type' => 'menu_page', 'title' => $item['SiteTitle']))->fetchAssoc();
+  if (!$result) {
+    $node = new stdClass();
+    $node->created = !empty($node->date) ? strtotime($node->date) : REQUEST_TIME;
+    $node->validated = TRUE;
 
-  $node = new stdClass();
-  $node->created = !empty($node->date) ? strtotime($node->date) : REQUEST_TIME;
-  $node->validated = TRUE;
+    // Insert default value of a new node.
+    $node->type = 'menu_page';
+    $node->title = $item['SiteTitle'];
+    $node->body['und']['0']['value'] = '';
+    $node->body['und']['0']['safe_value'] = '';
+    $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+    $node = node_submit($node);
+    node_save($node);
+    return $node->nid;
+  }
+  else {
+    return $result['nid'];
+  }
 
-  // Insert default value of a new node.
-  $node->type = 'menu_page';
-  $node->title = $item['SiteTitle'];
-  $node->body['und']['0']['value'] = '';
-  $node->body['und']['0']['safe_value'] = '';
-  $node->body['und'][0]['format'] = 'full_html';
-  $node = node_submit($node);
-  node_save($node);
-  return $node->nid;
 }
 
 /**
- *  Funtion : Get articleIds from each pages/site.
- **/
+ * Funtion : Get articleIds from each pages/site.
+ */
 function _os2web_borger_dk_GetArticleIDsBySiteID($site_id, $wsdl = 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl', $use_constraints = TRUE) {
   $error = array();
   // The ID of the Borger.dk-site to get must be given as argument.
@@ -1270,13 +1322,6 @@ function _os2web_borger_dk_GetArticleIDsBySiteID($site_id, $wsdl = 'https://www.
     return $error;
   }
   $ids = array();
-  // We use a soap-client to fetch the specified article from Borger.dk.
-  $client = new SoapClient($wsdl, array('exceptions' => 0));
-  // First we make sure to keep requests/minute within given limits.
-  //if ($use_constraints) {
-   // _os2web_borger_dk_check_webservice_constraints();
-  //}
-
   // We use a soap-client to fetch the specified article from Borger.dk.
   $client = new SoapClient($wsdl, array('exceptions' => 0));
 
@@ -1307,23 +1352,25 @@ function _os2web_borger_dk_GetArticleIDsBySiteID($site_id, $wsdl = 'https://www.
 }
 
 /**
- * Function _os2web_borger_dk_menus_cronbatch_wrapper()
+ * Function _os2web_borger_dk_menus_cronbatch_wrapper().
+ *
  * A batch-wrapper so that the cronbatch function can
  * also be run via the browser, and not just as a cron-job.
  */
 function _os2web_borger_dk_menus_cronbatch_wrapper($max_count, &$context) {
- // _os2web_borger_dk_menus_cronbatch(TRUE);
+  // _os2web_borger_dk_menus_cronbatch(TRUE);
   $context['sandbox']['progress']++;
   $context['message'] = t("Importing the menu from Borger.dk.");
   $context['finished'] = 1;
 }
 /**
  * Function os2web_borger_dk_batch_article_import_finished().
- * When menu structure is imported, show message and go to next process: import articles)
+ *
+ * When menu structure is imported, show message and go
+ * to next process: import articles.
  */
 function os2web_borger_dk_batch_menu_import_finished($success, $results, $operations) {
   if ($success) {
-    //drupal_set_message(t('@count results processed.', array('@count' => count($results))));
     drupal_set_message(t('The Borger.dk menu items are imported.'));
     drupal_set_message(t('You can now import all articles from Borger.dk'));
   }
@@ -1333,47 +1380,44 @@ function os2web_borger_dk_batch_menu_import_finished($success, $results, $operat
       '@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
   }
   menu_cache_clear_all();
-  //_os2web_borger_dk_import_all_articles();
+  // _os2web_borger_dk_import_all_articles();
   drupal_goto('admin/config/os2web_borger_dk/settings');
 }
-
+/**
+ * Function os2web_borger_dk_import_articles_now_form_submit().
+ */
 function os2web_borger_dk_import_articles_now_form_submit($form, &$form_state) {
-  //if (($form_state['submitted'] == 1) && ($form_state['input']['op'] == 'Import Borger.dk articles now')) {
   if ($form_state['submitted'] == 1) {
-  // First we find the list of availlable articles at Borger.dk.
-  $operations = array();
-  $wsdl = variable_get('os2web_borger_dk_webservice', 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl');
-  $titles_availlable = _os2web_borger_dk_GetAllArticles($wsdl, FALSE);
+    // First we find the list of availlable articles at Borger.dk.
+    $operations = array();
+    $wsdl = variable_get('os2web_borger_dk_webservice', 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl');
+    $titles_availlable = _os2web_borger_dk_GetAllArticles($wsdl, FALSE);
 
-  // Then get a list of already imported articles to update.
-  $update_items = array();
-  $sql = 'SELECT n.nid, ba.external_id FROM {node} AS n LEFT JOIN {os2web_borger_dk_article} AS ba ON n.nid = ba.nid WHERE n.type LIKE :node_type';
-  $result = db_query($sql, array(':node_type' => 'os2web_borger_dk_article'));
-  foreach ($result as $record) {
-    $update_items[$record->external_id] = $record->nid;
-  }
-
-  // Create a list of batch-operations to perform for every 10 articles.
-  $max_count = 0;
-  $full_id_list = array();
-  foreach ($titles_availlable as $title) {
-    if (isset($title['ArticleID'])) {
-      $full_id_list[] = $title['ArticleID'];
-      $max_count += 1;
+    // Then get a list of already imported articles to update.
+    $update_items = array();
+    $sql = 'SELECT n.nid, ba.external_id FROM {node} AS n LEFT JOIN {os2web_borger_dk_article} AS ba ON n.nid = ba.nid WHERE n.type LIKE :node_type';
+    $result = db_query($sql, array(':node_type' => 'os2web_borger_dk_article'));
+    foreach ($result as $record) {
+      $update_items[$record->external_id] = $record->nid;
     }
 
-    // TODO: REMOVE THIS DEBUG-STATEMENT BEFORE GOING LIVE:
-    //if ($max_count >= 9) {
-      //break(1);
-    //}
-  }
-  // We add 1 to the max_count because we have to create menu_links.
-  // after all the articles have been imported.
-  $max_count += 1;
+    // Create a list of batch-operations to perform for every 10 articles.
+    $max_count = 0;
+    $full_id_list = array();
+    foreach ($titles_availlable as $title) {
+      if (isset($title['ArticleID'])) {
+        $full_id_list[] = $title['ArticleID'];
+        $max_count += 1;
+      }
 
-  // Then we split the lsit of id's to import into groups of 10.
-  $groups = array_chunk($full_id_list, 10);
-  foreach ($groups as $gid => $group) {
+    }
+    // We add 1 to the max_count because we have to create menu_links.
+    // after all the articles have been imported.
+    $max_count += 1;
+
+    // Then we split the lsit of id's to import into groups of 10.
+    $groups = array_chunk($full_id_list, 10);
+    foreach ($groups as $gid => $group) {
       // Set the batch operation to import 10 articles at a time.
       $operations[] = array('_os2web_borger_dk_batch_article_import', array($group,
           $max_count, $update_items));
@@ -1390,18 +1434,18 @@ function os2web_borger_dk_import_articles_now_form_submit($form, &$form_state) {
       'finished' => 'os2web_borger_dk_batch_article_import_finished',
     );
 
-    //error_log('os2web_borger_dk_import_now_form_submit created this batch-setup: '. print_r($batch, TRUE) ."\n\n", 3, '/srv/www/log/borger_dk_batch.log');
     // Finally we execute the batch process(es).
     batch_set($batch);
+  }
 }
-}
-
+/**
+ * Function _os2web_borger_dk_batch_article_import().
+ */
 function _os2web_borger_dk_batch_article_import($external_id_list, $max_count, $update_items, &$context) {
   $wsdl = variable_get('os2web_borger_dk_webservice', 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl');
   if (empty($context['sandbox'])) {
     $context['sandbox'] = array();
     $context['sandbox']['progress'] = 0;
-    //$context['sandbox']['current_node'] = 0;
     $context['sandbox']['max'] = $max_count;
   }
 
@@ -1440,13 +1484,13 @@ function _os2web_borger_dk_batch_article_import($external_id_list, $max_count, $
         $node->field_os2web_borger_dk_shortlist['und'][0]['safe_value'] = (!empty($article['huskeliste'])) ? $article['huskeliste'] : '';
         $node->field_os2web_borger_dk_recommend['und'][0]['safe_value'] = (!empty($article['anbefaler'])) ? $article['anbefaler'] : '';
 
-        $node->body['und'][0]['format'] = 'full_html';
-        $node->field_os2web_borger_dk_header['und'][0]['format'] = 'full_html';
-        $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = 'full_html';
-        $node->field_os2web_borger_dk_byline['und'][0]['format'] = 'plaintext';
-        $node->field_os2web_borger_dk_legislati['und'][0]['format'] = 'full_html';
-        $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = 'full_html';
-        $node->field_os2web_borger_dk_recommend['und'][0]['format'] = 'full_html';
+        $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+        $node->field_os2web_borger_dk_header['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+        $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+        $node->field_os2web_borger_dk_byline['und'][0]['format'] = BORGERDK_TEXT_FORMAT_PLAIN;
+        $node->field_os2web_borger_dk_legislati['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+        $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+        $node->field_os2web_borger_dk_recommend['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
         $field_settings = $form_state['values']['os2web_borger_dk_field_settings'];
         // Check admin field settings : are there fields set as hidden by admin.
@@ -1514,14 +1558,18 @@ function _os2web_borger_dk_batch_article_import($external_id_list, $max_count, $
   $context['finished'] = 1;
 
 }
-
+/**
+ * Function _os2web_borger_dk_articles_cronbatch_wrapper().
+ */
 function _os2web_borger_dk_articles_cronbatch_wrapper() {
- // _os2web_borger_dk_menus_cronbatch(TRUE);
+  // _os2web_borger_dk_menus_cronbatch(TRUE);
   $context['sandbox']['progress']++;
   $context['message'] = t("Importing articles from Borger.dk.");
   $context['finished'] = 1;
 }
-
+/**
+ * Function os2web_borger_dk_batch_article_import_finished().
+ */
 function os2web_borger_dk_batch_article_import_finished($success, $results, $operations) {
   if ($success) {
     drupal_set_message(t('@count results processed.', array('@count' => count($results))));
@@ -1534,6 +1582,11 @@ function os2web_borger_dk_batch_article_import_finished($success, $results, $ope
   }
   drupal_goto('admin/config/os2web_borger_dk/settings');
 }
+/**
+ * Function os2web_os2web_borger_dk_create_borger_dk_menu_now_form_submit().
+ *
+ * Create links to articles under a chosen menu.
+ */
 function os2web_borger_dk_create_borger_dk_menu_now_form_submit($form, &$form_state) {
   if ($form_state['submitted'] == 1) {
 
@@ -1553,11 +1606,13 @@ function os2web_borger_dk_create_borger_dk_menu_now_form_submit($form, &$form_st
     // Then import the menu from Borger.dk and tag all imported articles.
     $operations[] = array('_os2web_borger_dk_create_menustructure_cronbatch_wrapper', array($total));
 
-    //error_log('os2web_borger_dk_import_now_form_submit created this batch-setup: '. print_r($batch, TRUE) ."\n\n", 3, '/srv/www/log/borger_dk_batch.log');
     foreach ($menu_items_availlable as $item) {
-      $operations[] = array('_os2web_borger_dk_create_borger_dk_meun_structure', array($item, $total, $menu_name));
+      $operations[] = array(
+        '_os2web_borger_dk_create_borger_dk_meun_structure',
+        array($item, $total, $menu_name),
+      );
     }
-  /*  $groups = array_chunk($menu_items_availlable, 10);
+    /*  $groups = array_chunk($menu_items_availlable, 10);
     foreach ($groups as $gid => $group) {
       // Set the batch operation to import 10 menu items each time.
       $operations[] = array('_os2web_borger_dk_create_borger_dk_meun_structure', array($group, $total));
@@ -1574,20 +1629,36 @@ function os2web_borger_dk_create_borger_dk_menu_now_form_submit($form, &$form_st
     batch_set($batch);
   }
 }
-
+/**
+ * Function _os2web_borger_dk_create_borger_dk_meun_structure().
+ */
 function _os2web_borger_dk_create_borger_dk_meun_structure($item, $total, $menu_name, &$context) {
   if (empty($context['sandbox'])) {
     $context['sandbox'] = array();
     $context['sandbox']['progress'] = 0;
-    $context['sandbox']['max'] = $total ;
+    $context['sandbox']['max'] = $total;
+  }
+  /* This part is only for Ishøj kommune or other u
+   * sers where they create their own
+   * 'Emner' menu link and rename it to 'Borger'.
+   */
+  if ($item['SiteTitle'] == 'Emner') {
+    $result = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name',
+                  array('link_title' => 'Borger', 'menu_name' => $menu_name))->fetchAssoc();
+    if ($result) {
+      $item['SiteTitle'] = 'Borger';
+    }
   }
 
+  // Search each menu link under the given menu_name.
   $pid = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name',
                   array('link_title' => $item['SiteTitle'], 'menu_name' => $menu_name))->fetchAssoc();
   if ($pid) {
-
+    // If the menu link is existed, then get all article
+    // IDs in the menu link page.
     $wsdl = variable_get('os2web_borger_dk_webservice', 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl');
     $article_ids = _os2web_borger_dk_GetArticleIDsBySiteID($item['SiteID'], $wsdl);
+    // When there are articles with IDs under the page.
     if (!empty($article_ids)) {
       foreach ($article_ids as $id => $value) {
         // TODO: check if the links is existed.!!!!
@@ -1597,8 +1668,12 @@ function _os2web_borger_dk_create_borger_dk_meun_structure($item, $total, $menu_
         if ($result) {
           foreach ($result as $row) {
             $article_title = $row->ArticleTitle;
-            $mlid = db_query('SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name AND plid = :plid' ,
-                         array('link_title' => $article_title, 'menu_name' => $menu_name, 'plid' => $pid['mlid']))->fetchAssoc();
+            $query = 'SELECT * FROM {menu_links} WHERE link_title= :link_title AND menu_name = :menu_name AND plid = :plid';
+            $mlid = db_query($query, array(
+                      'link_title' => $article_title,
+                      'menu_name' => $menu_name,
+                      'plid' => $pid['mlid'])
+                    )->fetchAssoc();
             if ($mlid) {
               return;
             }
@@ -1648,16 +1723,17 @@ function _os2web_borger_dk_create_borger_dk_meun_structure($item, $total, $menu_
                 $node->field_os2web_borger_dk_shortlist['und'][0]['safe_value'] = (!empty($article['huskeliste'])) ? $article['huskeliste'] : '';
                 $node->field_os2web_borger_dk_recommend['und'][0]['safe_value'] = (!empty($article['anbefaler'])) ? $article['anbefaler'] : '';
 
-                $node->body['und'][0]['format'] = 'full_html';
-                $node->field_os2web_borger_dk_header['und'][0]['format'] = 'full_html';
-                $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = 'full_html';
-                $node->field_os2web_borger_dk_byline['und'][0]['format'] = 'plaintext';
-                $node->field_os2web_borger_dk_legislati['und'][0]['format'] = 'full_html';
-                $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = 'full_html';
-                $node->field_os2web_borger_dk_recommend['und'][0]['format'] = 'full_html';
+                $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+                $node->field_os2web_borger_dk_header['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+                $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+                $node->field_os2web_borger_dk_byline['und'][0]['format'] = BORGERDK_TEXT_FORMAT_PLAIN;
+                $node->field_os2web_borger_dk_legislati['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+                $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+                $node->field_os2web_borger_dk_recommend['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
                 $field_settings = $form_state['values']['os2web_borger_dk_field_settings'];
-                // Check admin field settings : are there fields set as hidden by admin.
+                // Check admin field settings : are there fields
+                // set as hidden by admin.
                 $admin_display_fields = variable_get('os2web_borger_dk_display');
                 foreach ($admin_display_fields as $type => $items) {
                   if (!$admin_display_fields[$type]) {
@@ -1713,10 +1789,10 @@ function _os2web_borger_dk_create_borger_dk_meun_structure($item, $total, $menu_
         $context['sandbox']['progress']++;
       }
     }
+    /*
     // TODO: list links for menu page.here!
     $node_id = $pid['link_path'];
     $node_id = substr($node_id, 5, strlen($node_id)-1);
-    //error_log(' menu nid*** =>'.print_r($pid['link_path'],TRUE), 3, '/home/yani/workspace/drupal/menu_structure.log');
 
     $body_content = '';
     $children = db_query('SELECT * FROM {menu_links} WHERE plid= :plid AND menu_name = :menu_name',
@@ -1724,22 +1800,23 @@ function _os2web_borger_dk_create_borger_dk_meun_structure($item, $total, $menu_
     if ($children) {
       foreach ($children as $child) {
         $body_content = $body_content . "<p><a href= '". $child->link_path ."'> " . $child->link_title ." </a>" . "\n";
-        //  error_log(' Children_item =>  '.print_r($child, TRUE), 3, '/home/yani/workspace/drupal/menu_structure.log');
       }
 
       if (!empty($node_id)) {
         $node = node_load($node_id);
         $node->body['und']['0']['value'] = $body_content;
         $node->body['und']['0']['safe_value'] = $body_content;
-        $node->body['und'][0]['format'] = 'full_html';
+        $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
         node_save($node);
       }
-    }
+    }*/
   }
-  //}
+
   $context['finished'] = 1;
 }
-
+/**
+ * Functioin _os2web_borger_dk_import_supplement_article().
+ */
 function _os2web_borger_dk_import_supplement_article($value) {
   $wsdl = variable_get('os2web_borger_dk_webservice', 'https://www.borger.dk/_vti_bin/borger/ArticleExport.svc?wsdl');
   // Import the Borger.dk-article with the given ArticleID.
@@ -1777,13 +1854,13 @@ function _os2web_borger_dk_import_supplement_article($value) {
     $node->field_os2web_borger_dk_shortlist['und'][0]['safe_value'] = (!empty($article['huskeliste'])) ? $article['huskeliste'] : '';
     $node->field_os2web_borger_dk_recommend['und'][0]['safe_value'] = (!empty($article['anbefaler'])) ? $article['anbefaler'] : '';
 
-    $node->body['und'][0]['format'] = 'full_html';
-    $node->field_os2web_borger_dk_header['und'][0]['format'] = 'full_html';
-    $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = 'full_html';
-    $node->field_os2web_borger_dk_byline['und'][0]['format'] = 'plaintext';
-    $node->field_os2web_borger_dk_legislati['und'][0]['format'] = 'full_html';
-    $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = 'full_html';
-    $node->field_os2web_borger_dk_recommend['und'][0]['format'] = 'full_html';
+    $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+    $node->field_os2web_borger_dk_header['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+    $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+    $node->field_os2web_borger_dk_byline['und'][0]['format'] = BORGERDK_TEXT_FORMAT_PLAIN;
+    $node->field_os2web_borger_dk_legislati['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+    $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
+    $node->field_os2web_borger_dk_recommend['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
     $field_settings = $form_state['values']['os2web_borger_dk_field_settings'];
     // Check admin field settings : are there fields set as hidden by admin.
@@ -1842,22 +1919,24 @@ function _os2web_borger_dk_import_supplement_article($value) {
     }
   }
 }
-
-
+/**
+ * Function _os2web_borger_dk_create_menustructure_cronbatch_wrapper().
+ */
 function _os2web_borger_dk_create_menustructure_cronbatch_wrapper($max_count, &$context) {
   $context['sandbox']['progress']++;
   $context['message'] = t("Creating Borger.dk menu structure.");
   $context['finished'] = 1;
 }
-
+/**
+ * Function os2web_borger_dk_batch_menustructure_create_finished().
+ */
 function os2web_borger_dk_batch_menustructure_create_finished($success, $results, $operations) {
   if ($success) {
     $menu_name = variable_get('build_borger_menu_under_menu');
-    //drupal_set_message(t('@count results processed.', array('@count' => count($results))));
-    //drupal_set_message(t('The final result was "%final"', array('%final' => end($results))));
+
     drupal_set_message(t('Borger.dk menu structure import is finished.'));
     drupal_set_message(t('You can view the menu structure here "!url".',
-                         array('!url' => l(t('Borger.dk menu structure'), 'admin/structure/menu/manage/'. $menu_name))));
+                         array('!url' => l(t('Borger.dk menu structure'), 'admin/structure/menu/manage/' . $menu_name))));
   }
   else {
     $error_operation = reset($operations);
@@ -1905,13 +1984,13 @@ function os2web_borger_dk_cron() {
       $this_run = time();
       $last_run = variable_get('os2web_borger_dk_menus_last_update', $this_run);
       $weekly = variable_get('os2web_borger_dk_weekly_borger_dk_menus_import', 0);
-      // 7 * 24 * 60 * 60 = 604800. We deduct 800 seconds to give the cron-request
-      // some time to start.
+      // 7 * 24 * 60 * 60 = 604800. We deduct 800 seconds to give
+      // the cron-request some time to start.
       if (!empty($weekly) && ($weekly > 0) && ($this_run - $last_run > 604000)) {
         // It is "about" a week ago now, so we start the cronbatch-job now.
         _os2web_borger_dk_menus_cronbatch();
       }
-      else if (empty($weekly) || ($weekly == 0)) {
+      elseif (empty($weekly) || ($weekly == 0)) {
         // If run daily then we start the cronbatch-job now.
         _os2web_borger_dk_menus_cronbatch();
       }
@@ -1921,8 +2000,6 @@ function os2web_borger_dk_cron() {
   // We check for deleted-items in the queue at every cron-run.
   _os2web_borger_dk_cron_queue();
 }
-
-
 
 /**
  * Function _os2web_borger_dk_cron_queue().
@@ -2021,11 +2098,14 @@ function _os2web_borger_dk_cronbatch() {
     foreach ($error_items as $nid => $error) {
       $msg = 'Borger.dk webservice returned an error for nid=%nid, external_id=%eid. Error code: %ecode. Error string: %estring';
       watchdog(
-          'OS2web Borger.dk', $msg, $variables = array(
-        '%nid' => $nid,
-        '%eid' => $error['external_id'],
-        '%ecode' => $error['error_code'],
-        '%estring' => $error['error_string'])
+        'OS2web Borger.dk',
+        $msg,
+        $variables = array(
+          '%nid' => $nid,
+          '%eid' => $error['external_id'],
+          '%ecode' => $error['error_code'],
+          '%estring' => $error['error_string'],
+        )
       );
     }
   }
@@ -2041,8 +2121,14 @@ function _os2web_borger_dk_cronbatch() {
   else {
     $should_have_been = date('Y-m-d\TH\:i\:s', $this_run);
     $msg = 'Borger.dk webservice threw errors while updating articles at: %runtime. Not all articles have been updated. Last succesful automated update was at: %success';
-    watchdog('OS2web Borger.dk', $msg, $variables = array('%runtime' => $should_have_been,
-      '%success' => $updated_after));
+    watchdog(
+      'OS2web Borger.dk',
+      $msg,
+      $variables = array(
+        '%runtime' => $should_have_been,
+        '%success' => $updated_after,
+      )
+    );
   }
 }
 
@@ -2181,11 +2267,14 @@ function _os2web_borger_dk_status_check_queue_callback($data) {
       $msg .= 'The error-struck article can be found here: %alink. ';
       $msg .= 'Error code: %ecode. Error string: %estring';
       watchdog(
-          'OS2web Borger.dk', $msg, $variables = array(
-        '%aid' => $data['external_id'],
-        '%alink' => l(t('node/') . $data['nid']),
-        '%ecode' => $item['error_code'],
-        '%estring' => $item['error_string'])
+        'OS2web Borger.dk',
+        $msg,
+        $variables = array(
+          '%aid' => $data['external_id'],
+          '%alink' => l(t('node/') . $data['nid']),
+          '%ecode' => $item['error_code'],
+          '%estring' => $item['error_string'],
+        )
       );
     }
   }
@@ -2245,31 +2334,31 @@ function _os2web_borger_dk_update_node_content($nid, $article) {
 
   $node->body['und'][0]['value'] = $body;
   $node->body['und'][0]['safe_value'] = $body;
-  $node->body['und'][0]['format'] = 'full_html';
+  $node->body['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
   $node->field_os2web_borger_dk_byline['und'][0]['value'] = (!empty($article['byline'])) ? $article['byline'] : '';
   $node->field_os2web_borger_dk_byline['und'][0]['safe_value'] = (!empty($article['byline'])) ? $article['byline'] : '';
-  $node->field_os2web_borger_dk_byline['und'][0]['format'] = 'plaintext';
+  $node->field_os2web_borger_dk_byline['und'][0]['format'] = BORGERDK_TEXT_FORMAT_PLAIN;
 
   $node->field_os2web_borger_dk_header['und'][0]['value'] = (!empty($article['header'])) ? $article['header'] : '';
   $node->field_os2web_borger_dk_header['und'][0]['safe_value'] = (!empty($article['header'])) ? $article['header'] : '';
-  $node->field_os2web_borger_dk_header['und'][0]['format'] = 'full_html';
+  $node->field_os2web_borger_dk_header['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
   $node->field_os2web_borger_dk_selfservi['und'][0]['value'] = (!empty($article['selvbetjeningslinks'])) ? $article['selvbetjeningslinks'] : '';
   $node->field_os2web_borger_dk_selfservi['und'][0]['safe_value'] = (!empty($article['selvbetjeningslinks'])) ? $article['selvbetjeningslinks'] : '';
-  $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = 'full_html';
+  $node->field_os2web_borger_dk_selfservi['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
   $node->field_os2web_borger_dk_recommend['und'][0]['value'] = (!empty($article['anbefaler'])) ? $article['anbefaler'] : '';
   $node->field_os2web_borger_dk_recommend['und'][0]['safe_value'] = (!empty($article['anbefaler'])) ? $article['anbefaler'] : '';
-  $node->field_os2web_borger_dk_recommend['und'][0]['format'] = 'full_html';
+  $node->field_os2web_borger_dk_recommend['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
   $node->field_os2web_borger_dk_legislati['und'][0]['value'] = (!empty($article['lovgivning'])) ? $article['lovgivning'] : '';
   $node->field_os2web_borger_dk_legislati['und'][0]['safe_value'] = (!empty($article['lovgivning'])) ? $article['lovgivning'] : '';
-  $node->field_os2web_borger_dk_legislati['und'][0]['format'] = 'full_html';
+  $node->field_os2web_borger_dk_legislati['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
   $node->field_os2web_borger_dk_shortlist['und'][0]['value'] = (!empty($article['huskeliste'])) ? $article['huskeliste'] : '';
   $node->field_os2web_borger_dk_shortlist['und'][0]['safe_value'] = (!empty($article['huskeliste'])) ? $article['huskeliste'] : '';
-  $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = 'full_html';
+  $node->field_os2web_borger_dk_shortlist['und'][0]['format'] = BORGERDK_TEXT_FORMAT_HTML;
 
   // Some fields from borger_dk_article can not be syncronized nor changed here.
   $node->os2web_borger_dk_article['external_id'] = $article['external_id'];
@@ -2383,11 +2472,21 @@ function _os2web_borger_dk_GetArticlesByIDs($borgerdk_ids = NULL, $updated_after
     // We have a specified date, and a specified list of article-IDs. We
     // want all articles from that list that has also been updated since
     // the given date.
-    $result_list = $client->GetArticlesByIDs(array('articleIDs' => $borgerdk_ids,
-      'updatedAfter' => $updated_after));
+    $result_list = $client->GetArticlesByIDs(
+      array(
+        'articleIDs' => $borgerdk_ids,
+        'updatedAfter' => $updated_after,
+      )
+    );
     if (is_soap_fault($result_list)) {
-      $errors = _os2web_borger_dk_translate_soap_fault(array('articleIDs' => $borgerdk_ids,
-        'updatedAfter' => $updated_after), $result_list->faultcode, $result_list->faultstring);
+      $errors = _os2web_borger_dk_translate_soap_fault(
+        array(
+          'articleIDs' => $borgerdk_ids,
+          'updatedAfter' => $updated_after,
+        ),
+        $result_list->faultcode,
+        $result_list->faultstring
+      );
 
       return $errors;
     }
@@ -2493,10 +2592,7 @@ function _os2web_borger_dk_GetArticleByID($borgerdk_id, $wsdl = 'https://www.bor
 
   // We use a soap-client to fetch the specified article from Borger.dk.
   $client = new SoapClient($wsdl, array('exceptions' => 0));
-  // First we make sure to keep requests/minute within given limits.
-  //if ($use_constraints) {
-    //_os2web_borger_dk_check_webservice_constraints();
-  //}
+
   // Then we execute our webservice-request.
   $array_get_article = array('articleID' => $borgerdk_id);
   // If municipality is set, then get article by id and municipality code.
@@ -2523,7 +2619,8 @@ function _os2web_borger_dk_GetArticleByID($borgerdk_id, $wsdl = 'https://www.bor
 }
 
 /**
- * Function _os2web_borger_dk_GetAllSites
+ * Function _os2web_borger_dk_GetAllSites().
+ *
  * This function uses the Borger.dk Webservice GetAllSites
  * in order to fetch the menu-structure from Borger.dk
  */
@@ -2531,7 +2628,8 @@ function _os2web_borger_dk_GetAllSites($wsdl = 'https://www.borger.dk/_vti_bin/b
   $errors = array();
   $menu_items = array();
 
-  // Then we can start using a new soap-client to find the article-ID from the Borger.dk-URL
+  // Then we can start using a new soap-client to find the article-ID
+  // from the Borger.dk-URL.
   $client = new SoapClient($wsdl, array('exceptions' => 0));
   // First we make sure to keep requests/minute within given limits.
   if ($use_constraints) {
@@ -2546,7 +2644,7 @@ function _os2web_borger_dk_GetAllSites($wsdl = 'https://www.borger.dk/_vti_bin/b
   }
 
   $menu_items = array();
-  // Then we get the result-list from the specified webservice
+  // Then we get the result-list from the specified webservice.
   $menu_list = $result_list->GetAllSitesResult;
   if (is_soap_fault($menu_list)) {
     $errors = _os2web_borger_dk_articles_translate_soap_fault('GetAllSitesResult', $menu_list->faultcode, $menu_list->faultstring);
@@ -2554,9 +2652,8 @@ function _os2web_borger_dk_GetAllSites($wsdl = 'https://www.borger.dk/_vti_bin/b
     return $errors;
   }
   else {
-    //print 'GetAllSites found these availlable menu-items at Borger.dk: '. print_r($menu_list, TRUE) ."\n\n";
-    // Now we step through all the fetched menu-items and convert them to
-    // arrays of wanted field-sets.
+    // Now we step through all the fetched menu-items and
+    // convert them to arrays of wanted field-sets.
     if (is_array($menu_list->Site)) {
       foreach ($menu_list->Site as $id => $menu_item) {
         $new_item = _os2web_borger_dk_parse_borgerdk_menu_item($menu_item);
@@ -2571,9 +2668,10 @@ function _os2web_borger_dk_GetAllSites($wsdl = 'https://www.borger.dk/_vti_bin/b
 
   return $menu_items;
 }
-
-function _os2web_borger_dk_tag_borger_dk_articles($menu = array(), $update_items = array(
-)) {
+/**
+ * Function _os2web_borger_dk_tag_borger_dk_articles().
+ */
+function _os2web_borger_dk_tag_borger_dk_articles($menu = array(), $update_items = array()) {
   $not_tagged = array();
 
   foreach ($menu as $id => $item) {
@@ -2591,9 +2689,6 @@ function _os2web_borger_dk_tag_borger_dk_articles($menu = array(), $update_items
             if ($aid && isset($update_items[$aid])) {
               $node = node_load($update_items[$aid]);
               $node->field_os2web_borger_dk_formterm['und'][$tid] = (array) $term;
-
-              //$log = '_os2web_borger_dk_tag_borger_dk_articles tagging node with id: '. $node->nid .', with this tag: '.print_r($term, TRUE) ."\n===================\n";
-              //error_log($log ."\n\n", 3, '/home/peter/bellcom/log/debug_menu_tagging_1.log');
 
               node_save($node);
             }
@@ -2620,12 +2715,14 @@ function _os2web_borger_dk_tag_borger_dk_articles($menu = array(), $update_items
 }
 
 /**
+ * Function _os2web_borger_dk_parse_borgerdk_menu_item().
+ *
  * This function parses a Borger.dk-MenuItemDescription and extracts all
  * the field values we want for our Borger.dk-menu-structure.
  */
 function _os2web_borger_dk_parse_borgerdk_menu_item($menu_item) {
-  // First we extract the directly accessible fields from the ArticleDescription
-  //ENT_NOQUOTES
+  // First we extract the directly accessible fields
+  // from the ArticleDescription.
   $pid = (isset($menu_item->ParentID)) ? $menu_item->ParentID : '';
   $borgerdk_menu = array(
     'ParentID' => $pid,
@@ -2659,7 +2756,10 @@ function _os2web_borger_dk_parse_borgerdk_article($article) {
   // 49/can-simplexml-be-used-to-rifle-through-html
   $doc = new DOMDocument('1.0', 'UTF-8');
   $doc->strictErrorChecking = FALSE;
-  $doc->loadHTML('<?xml encoding="UTF-8">' . $article->Content);
+  // yx@bellcom.dk: disable the Warning:
+  // DOMDocument::loadHTML(): ID faktaboks already defined.
+
+  @$doc->loadHTML('<?xml encoding="UTF-8">' . $article->Content);
   $xml = simplexml_import_dom($doc);
 
   foreach ($xml->body->div as $div) {
@@ -2697,6 +2797,26 @@ function _os2web_borger_dk_parse_borgerdk_article($article) {
       case 'lovgivning':
         $borgerdk_article['lovgivning'] = _os2web_borger_dk_create_general_html($div);
         break;
+    }
+  }
+
+  // yx@bellcom.dk: add 'faktaboks' case since Borger.dk updated,
+  // some of selvbetjeningslinks contains ID as 'faktaboks'
+  // instead of 'selvbetjeningslinks'.
+  if (!isset($borgerdk_article['selvbetjeningslinks'])) {
+
+    foreach ($xml->body->div as $div) {
+      if ($div->attributes()->id == 'faktaboks') {
+        $text = _os2web_borger_dk_create_html_from_xml($div->h2);
+
+        // &#8203;  str string from borger.dk
+        $text = str_replace('&#8203;', '', $text);
+        preg_match("/Selvbetjening/", $text, $text_2);
+
+        if (isset($text_2[0])) {
+          $borgerdk_article['selvbetjeningslinks'] = _os2web_borger_dk_create_general_html($div);
+        }
+      }
     }
   }
 
@@ -2895,42 +3015,42 @@ function _os2web_borger_dk_translate_soap_fault($borgerdk_id, $faultcode, $fault
 
 /**
  * Function _os2web_borger_dk_check_webservice_constraints().
+ *
+ * Checking if the webservice constraints has been reached, and in that case
+ * delaying the script.
  */
 function _os2web_borger_dk_check_webservice_constraints() {
+  $time = time();
+
   // We start of by getting the webservice request-limits.
   $webservice_request_limit = variable_get('os2web_borger_dk_webservice_request_limit', 100);
   $webservice_time_limit = variable_get('os2web_borger_dk_webservice_time_limit', 60);
+
   // And we keep track of the number of webservice-requests per timeperiod.
   $os2web_borger_dk_article_count_no = variable_get('os2web_borger_dk_webservice_request_counter', 0);
-  $os2web_borger_dk_article_start_time = variable_get('os2web_borger_dk_webservice_time_counter', 1970);
+  $os2web_borger_dk_article_start_time = variable_get('os2web_borger_dk_webservice_time_counter', 0);
+
   // We restart the counters if the timer is too old.
-  if ($os2web_borger_dk_article_start_time < (time() - $webservice_time_limit)) {
+  if ($os2web_borger_dk_article_start_time < ($time - $webservice_time_limit)) {
     $os2web_borger_dk_article_count_no = 0;
-    $os2web_borger_dk_article_start_time = time();
-    variable_set('os2web_borger_dk_webservice_request_counter', 0);
-    variable_set('os2web_borger_dk_webservice_time_counter', time());
+    $os2web_borger_dk_article_start_time = $time;
+    variable_set('os2web_borger_dk_webservice_request_counter', $os2web_borger_dk_article_count_no);
+    variable_set('os2web_borger_dk_webservice_time_counter', $os2web_borger_dk_article_start_time);
   }
 
   // Then we check if the limits has been reached, and it's time for a break.
-  if (($webservice_time_limit >= (time() - $os2web_borger_dk_article_start_time)) ||
-      ($webservice_request_limit >= $os2web_borger_dk_article_count_no)) {
+  if (($webservice_time_limit >= ($time - $os2web_borger_dk_article_start_time)) &&
+      ($webservice_request_limit <= $os2web_borger_dk_article_count_no)) {
     // We have reached the work-load limit of 100 items per minute, and must
     // take a small break or the webservice will stop answering us.
-    sleep($webservice_time_limit - (time() - $os2web_borger_dk_article_start_time));
+    sleep($webservice_time_limit - ($time - $os2web_borger_dk_article_start_time));
 
     // Then we reset/store the counters for limiting the webservice work-load.
     $os2web_borger_dk_article_count_no = 0;
     $os2web_borger_dk_article_start_time = time();
-    variable_set('os2web_borger_dk_webservice_time_counter', time());
+    variable_set('os2web_borger_dk_webservice_time_counter', $os2web_borger_dk_article_start_time);
   }
 
-  // TODO: Test this function by:
-  // 1) Increase counter by 10 instead of by 1.
-  // 2) Reduce request_limit to 20 instead of 100.
-  // 3) Import 3 articles within time-limit (and perhaps increase time-limit).
-  // Update the work-load item counter.
-  $os2web_borger_dk_article_count_no += 1;
-  variable_set('os2web_borger_dk_webservice_request_counter', $os2web_borger_dk_article_count_no);
 }
 
 /**
@@ -2939,8 +3059,31 @@ function _os2web_borger_dk_check_webservice_constraints() {
 function os2web_borger_dk_os2web_help($sections) {
 
   // Content types.
-  $sections['contenttype'] = t('<p><b>Borger.dk Article:</b> Add <a href="@url" target="_blank">borger.dk articles</a> directly from borger.dk, and implement them in your sites structure.<br /><i><a href="@borger" target="_blank">See the advanced documentation for the borger.dk module</a>(.pdf)</i></p>', array('@url' => url('node/add/os2web-borger-dk-article'), '@borger' => file_create_url(drupal_get_path('module', 'os2web_borger_dk') . '/doc/Guide til OS2web borger.dk - articles.pdf')));
-  $sections['import'] = t('<p><b>Automatic import of Borger.dk articles:</b><a href="@url" target="_blank">Configure automatic import and syncronization of articles located on Borger.dk</a><br />See an advanced guide for setting up an import here: <a href="@import-guide" target="_blank">Borger.dk menu import.pdf</a>(<i>Danish only</i>)</p>', array('@url' => url('admin/config/os2web_borger_dk/settings'), '@import-guide' => file_create_url(drupal_get_path('module', 'os2web_borger_dk') . '/doc/Borger.dk menu import.pdf')));
+  $sections['contenttype'] = t('<p><b>Borger.dk Article:</b> Add
+                               <a href="@url" target="_blank">borger.dk articles</a>
+                               directly from borger.dk, and implement them in your sites structure.<br />
+                               <i><a href="@borger" target="_blank">
+                               See the advanced documentation for the borger.dk module</a>(.pdf)</i></p>',
+                               array(
+                                 '@url' => url('node/add/os2web-borger-dk-article'),
+                                 '@borger' => file_create_url(
+                                    drupal_get_path('module', 'os2web_borger_dk') . '/doc/Guide til OS2web borger.dk - articles.pdf'
+                                 ),
+                               )
+                             );
+
+  $sections['import'] = t('<p><b>Automatic import of Borger.dk articles:
+                          </b><a href="@url" target="_blank">Configure automatic import and syncronization of articles located on Borger.dk</a>
+                          <br />See an advanced guide for setting up an import here:
+                          <a href="@import-guide" target="_blank">Borger.dk menu import.pdf</a>
+                          (<i>Danish only</i>)</p>',
+                          array(
+                            '@url' => url('admin/config/os2web_borger_dk/settings'),
+                            '@import-guide' => file_create_url(
+                                drupal_get_path('module', 'os2web_borger_dk') . '/doc/Borger.dk menu import.pdf'
+                            ),
+                          )
+                        );
   return $sections;
 
 }

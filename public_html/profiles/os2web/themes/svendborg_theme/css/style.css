@@ -8234,7 +8234,13 @@ body.page-taxonomy-term.term-is-not-top article #borger_dk-body h2,
 body.page-node div.node-os2web-borger-dk-article #borger_dk-body h2,
 body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article #borger_dk-body h2,
 body.page-node div.node-os2web-base-news #borger_dk-body h2,
-body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news #borger_dk-body h2 {
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news #borger_dk-body h2,
+body.page-node article #borger_dk-body h3,
+body.page-taxonomy-term.term-is-not-top article #borger_dk-body h3,
+body.page-node div.node-os2web-borger-dk-article #borger_dk-body h3,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-borger-dk-article #borger_dk-body h3,
+body.page-node div.node-os2web-base-news #borger_dk-body h3,
+body.page-taxonomy-term.term-is-not-top div.node-os2web-base-news #borger_dk-body h3 {
   display: inline-block;
   width: 90%;
   border-top: none;
@@ -8436,7 +8442,8 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 .view-nypostliste .view-grouping-header {
   display: none;
 }
-#borger_dk-body h2 {
+#borger_dk-body h2,
+#borger_dk-body h3 {
   border-top: none;
   font-family: 'Titillium Web', Geneva, Verdana, sans-serif;
   font-size: 1.2em !important;
