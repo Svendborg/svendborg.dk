@@ -113,7 +113,7 @@
     <?php endif; ?>
     <?php if ($node->type != 'os2web_base_contentpage' &&  $node->type != 'os2web_borger_dk_article'): ?>
     <time pubdate="pubdate">
-      <i></i><?php print format_date($created, 'custom', 'j. F'); ?>
+      <i></i><?php print format_date($created, 'custom', 'j. F Y'); ?>
     </time>
     <?php endif; ?>
     <?php print render($title_prefix); ?>
