@@ -8537,13 +8537,7 @@ body.page-node article #borger_dk-body .microArticle ul {
   float: right;
   padding-right: 16px;
 }
-.webform-client-form .webform-component input.form-file {
-  padding: 0px 0px;
-}
-.webform-client-form .webform-component .btn {
-  line-height: 1.14;
-}
-.webform-client-form .webform-component .gul {
+.webform-client-form .gul {
   padding: 6px 12px;
   background-color: #fcf8e3;
   color: #8a6d3b;
@@ -8552,7 +8546,7 @@ body.page-node article #borger_dk-body .microArticle ul {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
 }
-.webform-client-form .webform-component .groen {
+.webform-client-form .groen {
   padding: 6px 12px;
   background-color: #dff0d8;
   color: #3c763d;
@@ -8561,7 +8555,7 @@ body.page-node article #borger_dk-body .microArticle ul {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
 }
-.webform-client-form .webform-component .blaa {
+.webform-client-form .blaa {
   padding: 6px 12px;
   background-color: #d9edf7;
   color: #31708f;
@@ -8570,13 +8564,19 @@ body.page-node article #borger_dk-body .microArticle ul {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
 }
-.webform-client-form .webform-component .graa {
+.webform-client-form .graa {
   padding: 6px 12px;
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
+}
+.webform-client-form .webform-component input.form-file {
+  padding: 0px 0px;
+}
+.webform-client-form .webform-component .btn {
+  line-height: 1.14;
 }
 .webform-client-form .webform-component-fieldset legend.panel-heading {
   display: none;

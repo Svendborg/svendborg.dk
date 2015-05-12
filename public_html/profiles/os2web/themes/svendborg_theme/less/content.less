@@ -414,9 +414,6 @@ h4 {font-family: @headings-font-family;
 }
 
 .webform-client-form {
-	.webform-component {
-		input.form-file { padding: 0px 0px}
-		.btn { line-height: 1.14}
 		.gul {
 			padding: @padding-base-vertical @padding-base-horizontal;
 			background-color: @state-warning-bg;
@@ -450,8 +447,11 @@ h4 {font-family: @headings-font-family;
 			border: 1px solid @well-border;		
 			border-radius: @border-radius-base;
 			-webkit-border-radius: @border-radius-base;
-			-moz-border-radius:  @border-radius-base;
+			-moz-border-radius:  @border-radius-base; 
 		}
+	.webform-component {
+		input.form-file { padding: 0px 0px}
+		.btn { line-height: 1.14}
 	}
 	.webform-component-fieldset legend.panel-heading{ display: none;}
 }
