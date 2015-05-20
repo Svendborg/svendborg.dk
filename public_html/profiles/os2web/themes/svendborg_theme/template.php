@@ -47,8 +47,7 @@ function svendborg_theme_preprocess_page(&$variables) {
   $sidebar_first_hidden = FALSE;
 
   // Get all the nodes selvbetjeningslinks and give them to the template.
-  if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
-      ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_selfserv'))) {
+  if ($node || $term) {
     $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links, $node);
   }
 
@@ -568,18 +567,23 @@ function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-
  * @return array
  *   Array of links with URL and Title.
  */
-function _svendborg_theme_get_selfservicelinks($links, $node = NULL) {
+function _svendborg_theme_get_selfservicelinks($links = array(), $node = NULL) {
   $selfservicelinks = array();
-  foreach ($links as $link) {
-    $selfservicelink = node_load($link['nid']);
-    if ($selfservicelink) {
-      $link_fields = field_get_items('node', $selfservicelink, 'field_spot_link');
-      if (!empty($link_fields)) {
-        $link_field = array_shift($link_fields);
-        $selfservicelinks[$link['nid']] = array(
-          'url' => $link_field['url'],
-          'title' => $link_field['title'],
-        );
+
+  if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
+      ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_selfserv'))) {
+
+    foreach ($links as $link) {
+      $selfservicelink = node_load($link['nid']);
+      if ($selfservicelink) {
+        $link_fields = field_get_items('node', $selfservicelink, 'field_spot_link');
+        if (!empty($link_fields)) {
+          $link_field = array_shift($link_fields);
+          $selfservicelinks[$link['nid']] = array(
+            'url' => $link_field['url'],
+            'title' => $link_field['title'],
+          );
+        }
       }
     }
   }
@@ -959,7 +963,7 @@ function _svendborg_theme_get_borger_dk_content($node) {
 
             $microno = 0;
             foreach ($results as $item) {
-              foreach ($item->getElementsByTagName('h3') as $articletitle) {
+              foreach ($item->getElementsByTagName('h2') as $articletitle) {
                 $title = trim($articletitle->nodeValue);
               }
 
@@ -973,30 +977,30 @@ function _svendborg_theme_get_borger_dk_content($node) {
                 // Body text (Article text).
                 $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
 
-                $micro_h3 = "<h3 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
-                $micro_h3 .= $title . "</h3>";
+                $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
+                $micro_h2 .= $title . "</h2>";
 
                 $micro_content = "<div class=\"mArticle" . $microno . " mArticle\">";
                 $micro_content .= $text . "\r\n    </div>";
 
-                $article_text .= $micro_h3 . "\r\n";
+                $article_text .= $micro_h2 . "\r\n";
                 $article_text .= $micro_content;
                 $article_text .= "\r\n</div>\r\n\r\n";
               }
             }
-            $article_text = str_replace("</h3>", "</h3><a href='#' class='gplus'>+</a>", $article_text);
+            $article_text = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $article_text);
             // Content body shows only visible microarticles/ part of body_text.
             $content_field['body'] = $article_text;
           }
           else {
             $show_div = $item['0']['value'];
-            $show_div = str_replace("</h3>", "</h3><a href='#' class='gplus'>+</a>", $show_div);
+            $show_div = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $show_div);
             $content_field['body'] = $show_div;
           }
         }
         elseif (!$microarticle && $type == 'body') {
           $show_div = $item['0']['value'];
-          $show_div = str_replace("</h3>", "</h3><a href='#' class='gplus'>+</a>", $show_div);
+          $show_div = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $show_div);
           $content_field['body'] = $show_div;
         }
 
@@ -1026,7 +1030,7 @@ function _svendborg_theme_get_borger_dk_legislation($item) {
   $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
   $xml = simplexml_import_dom($doc);
   $count = 0;
-  foreach ($xml->body->ul->li as $li) {
+  foreach ($xml->body->div->ul->li as $li) {
     $url = (string) $li->a->attributes()->href;
     $title = (string) $li->a;
     $legislation_links[] = array(
@@ -1048,7 +1052,7 @@ function _svendborg_theme_get_borger_dk_recommend($item) {
   $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
   $xml = simplexml_import_dom($doc);
 
-  foreach ($xml->body->ul->li as $li) {
+  foreach ($xml->body->div->ul->li as $li) {
     $url = (string) $li->a->attributes()->href;
     $title = (string) $li->a;
     $recommended_links[] = array(
