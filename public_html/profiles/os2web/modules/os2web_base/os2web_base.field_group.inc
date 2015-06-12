@@ -24,6 +24,8 @@ function os2web_base_field_group_info() {
     'weight' => '9',
     'children' => array(
       0 => 'field_os2web_base_field_photo',
+      1 => 'field_os2web_base_field_video',
+      2 => 'field_os2web_base_field_media',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -83,12 +85,12 @@ function os2web_base_field_group_info() {
     'label' => 'Formular',
     'weight' => '0',
     'children' => array(
-      0 => 'group_os2web_base_group_taxono',
-      1 => 'group_tekst',
-      2 => 'group_billeder',
-      3 => 'group_indstilliger',
-      4 => 'group_relationer',
-      5 => 'group_spotsnforms',
+      0 => 'group_billeder',
+      1 => 'group_indstilliger',
+      2 => 'group_os2web_base_group_taxono',
+      3 => 'group_relationer',
+      4 => 'group_spotsnforms',
+      5 => 'group_tekst',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -111,14 +113,12 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_form';
   $field_group->data = array(
     'label' => 'Indstillinger',
-    'weight' => '13',
+    'weight' => '14',
     'children' => array(
       0 => 'field_os2web_base_field_hidlinks',
       1 => 'field_svendborg_hide_contact',
       2 => 'field_svendborg_hide_sidebar',
       3 => 'field_os2web_base_field_contact',
-      4 => 'path',
-      5 => 'redirect',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -909,10 +909,7 @@ function os2web_base_field_group_info() {
   $field_group->data = array(
     'label' => 'Spotbokse / webform',
     'weight' => '11',
-    'children' => array(
-      0 => 'field_os2web_base_field_spotbox',
-      1 => 'field_os2web_base_field_webform',
-    ),
+    'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',
@@ -941,7 +938,8 @@ function os2web_base_field_group_info() {
     'children' => array(
       0 => 'body',
       1 => 'field_os2web_base_field_kle_ref',
-      2 => 'title',
+      2 => 'field_os2web_base_field_summary',
+      3 => 'title',
     ),
     'format_type' => 'htab',
     'format_settings' => array(

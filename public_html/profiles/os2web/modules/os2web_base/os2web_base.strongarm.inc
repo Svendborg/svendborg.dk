@@ -385,26 +385,23 @@ function os2web_base_strongarm() {
       'spotbox' => array(
         'custom_settings' => TRUE,
       ),
-      'diff_standard' => array(
-        'custom_settings' => FALSE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '1',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '16',
+          'weight' => '2',
         ),
         'workbench_access' => array(
           'weight' => '0',
         ),
         'metatags' => array(
-          'weight' => '8',
+          'weight' => '4',
         ),
         'redirect' => array(
-          'weight' => '17',
+          'weight' => '3',
         ),
       ),
       'display' => array(),
