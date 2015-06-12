@@ -246,6 +246,50 @@ function os2web_base_image_default_styles() {
     'label' => 'os2web_base_style_rotating_small',
   );
 
+  // Exported image style: os2web_gallery_thumbnails.
+  $styles['os2web_gallery_thumbnails'] = array(
+    'name' => 'os2web_gallery_thumbnails',
+    'label' => 'OS2web gallery thumbnails',
+    'effects' => array(
+      14 => array(
+        'label' => 'EPSA Image Crop',
+        'help' => '',
+        'dimensions callback' => 'epsacrop_crop_dimensions',
+        'effect callback' => 'epsacrop_crop_image',
+        'form callback' => 'epsacrop_crop_image_form',
+        'module' => 'epsacrop',
+        'name' => 'epsacrop_crop',
+        'data' => array(
+          'width' => 290,
+          'height' => 290,
+          'anchor' => 'center-center',
+          'jcrop_settings' => array(
+            'aspect_ratio' => '',
+            'bgcolor' => 'black',
+            'bgopacity' => 0.6,
+            'fallback' => 1,
+          ),
+        ),
+        'weight' => -10,
+      ),
+      15 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 290,
+          'height' => 290,
+        ),
+        'weight' => -9,
+      ),
+    ),
+  );
+
   return $styles;
 }
 
