@@ -385,6 +385,9 @@ function os2web_base_strongarm() {
       'spotbox' => array(
         'custom_settings' => TRUE,
       ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

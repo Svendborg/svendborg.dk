@@ -1985,7 +1985,7 @@ function os2web_base_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'photoswipe',
         'settings' => array(
           'photoswipe_image_style' => '',
