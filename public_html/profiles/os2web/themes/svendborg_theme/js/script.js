@@ -99,7 +99,7 @@
     // borger.dk articles
       $("div.mArticle").hide();
       $(".microArticle a.gplus").click(function() {
-        var article = $(this).parent().find('h2');
+        var article = $(this).parent().find('h3');
         var myid = article.attr('id');
         var style = $('div.' + myid).css('display');
         if (style == 'none') {
@@ -116,30 +116,17 @@
       });
 
       $(".gplus_all").click(function() {
-        if ($(".microArticle a").hasClass("gminus")) {
-          $("div.mArticle").hide();
-          $(".microArticle a.gminus").addClass('gplus');
-          $(".microArticle a.gminus").removeClass('gminus');
-        }
-        else {
-          $("div.mArticle").show();
-          $(".microArticle a.gplus").addClass('gminus');
-          $(".microArticle a.gplus").removeClass('gplus');
-        }
+        console.log('plus');
+        $("div.mArticle").show();
+        $(".microArticle a.gplus").addClass('gminus');
+        $(".microArticle a.gplus").removeClass('gplus');
 
         return false;
       });
       $(".gminus_all").click(function() {
-        if ($(".microArticle a").hasClass("gminus")) {
-          $("div.mArticle").hide();
-          $(".microArticle a.gminus").addClass('gplus');
-          $(".microArticle a.gminus").removeClass('gminus');
-        }
-        else {
-          $("div.mArticle").show();
-          $(".microArticle a.gplus").addClass('gminus');
-          $(".microArticle a.gplus").removeClass('gplus');
-        }
+        $("div.mArticle").hide();
+        $(".microArticle a.gminus").addClass('gplus');
+        $(".microArticle a.gminus").removeClass('gminus');
 
         return false;
       });

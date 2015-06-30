@@ -47,8 +47,7 @@ function svendborg_theme_preprocess_page(&$variables) {
   $sidebar_first_hidden = FALSE;
 
   // Get all the nodes selvbetjeningslinks and give them to the template.
-  if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
-      ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_selfserv'))) {
+  if ($node || $term) {
     $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links, $node);
   }
 
@@ -568,18 +567,23 @@ function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-
  * @return array
  *   Array of links with URL and Title.
  */
-function _svendborg_theme_get_selfservicelinks($links, $node = NULL) {
+function _svendborg_theme_get_selfservicelinks($links = array(), $node = NULL) {
   $selfservicelinks = array();
-  foreach ($links as $link) {
-    $selfservicelink = node_load($link['nid']);
-    if ($selfservicelink) {
-      $link_fields = field_get_items('node', $selfservicelink, 'field_spot_link');
-      if (!empty($link_fields)) {
-        $link_field = array_shift($link_fields);
-        $selfservicelinks[$link['nid']] = array(
-          'url' => $link_field['url'],
-          'title' => $link_field['title'],
-        );
+
+  if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
+      ($term && $links = field_get_items('taxonomy_term', $term, 'field_os2web_base_field_selfserv'))) {
+
+    foreach ($links as $link) {
+      $selfservicelink = node_load($link['nid']);
+      if ($selfservicelink) {
+        $link_fields = field_get_items('node', $selfservicelink, 'field_spot_link');
+        if (!empty($link_fields)) {
+          $link_field = array_shift($link_fields);
+          $selfservicelinks[$link['nid']] = array(
+            'url' => $link_field['url'],
+            'title' => $link_field['title'],
+          );
+        }
       }
     }
   }
@@ -947,32 +951,46 @@ function _svendborg_theme_get_borger_dk_content($node) {
           // article is imported and shown in a form, then node_view
           // will display full body text.
           if (!empty($field_microarticle_settings)) {
-            $body_text = $item['0']['value'];
-            // Link break in body_text: in windows \r\n, linux \n.
-            preg_match("/<\/div>\n/", $body_text, $link_break);
-            if (isset($link_break[0])) {
-              $div = preg_split("/\n<\/div>\n/", $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-            }
-            else {
-              $div = preg_split('/\r\n<[\/]div>\r\n/', $body_text, -1, PREG_SPLIT_DELIM_CAPTURE);
-            }
-            $show_div = '';
-            foreach ($div as $key => $text) {
-              $microno = $key + 1;
-              $checkboxno = 'os2web_borger_dk_micro_' . $microno;
-              // The last div is a link break \n or \r\n.
-              if ($div[$key] != $div[(count($div) - 1)]) {
-                // If editor set this microarticle to be visible,(TRUE)
-                if ($field_microarticle_settings[$microno] != 0) {
-                  $show_div .= $div[$key];
-                  $show_div .= "\n</div>";
-                  $show_div .= "\n";
-                }
+            $body_text = $node->body['und']['0']['value'];
+
+            $article_text = '';
+
+            $doc = new DOMDocument();
+            $doc->loadHTML('<?xml encoding="utf-8" ?>' . $body_text);
+            $xpath = new DOMXPath($doc);
+
+            $results = $xpath->query("//*[@class='microArticle']");
+
+            $microno = 0;
+            foreach ($results as $item) {
+              foreach ($item->getElementsByTagName('h2') as $articletitle) {
+                $title = trim($articletitle->nodeValue);
+              }
+
+              $text = '';
+              foreach ($item->getElementsByTagName('div')->item(0)->childNodes as $articletext) {
+                $text .= $doc->saveHTML($articletext);
+              }
+              $microno++;
+
+              if ($field_microarticle_settings[$microno] != 0) {
+                // Body text (Article text).
+                $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+
+                $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
+                $micro_h2 .= $title . "</h2>";
+
+                $micro_content = "<div class=\"mArticle" . $microno . " mArticle\">";
+                $micro_content .= $text . "\r\n    </div>";
+
+                $article_text .= $micro_h2 . "\r\n";
+                $article_text .= $micro_content;
+                $article_text .= "\r\n</div>\r\n\r\n";
               }
             }
-            $show_div = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $show_div);
+            $article_text = str_replace("</h2>", "</h2><a href='#' class='gplus'>+</a>", $article_text);
             // Content body shows only visible microarticles/ part of body_text.
-            $content_field['body'] = $show_div;
+            $content_field['body'] = $article_text;
           }
           else {
             $show_div = $item['0']['value'];
@@ -1012,7 +1030,7 @@ function _svendborg_theme_get_borger_dk_legislation($item) {
   $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
   $xml = simplexml_import_dom($doc);
   $count = 0;
-  foreach ($xml->body->ul->li as $li) {
+  foreach ($xml->body->div->ul->li as $li) {
     $url = (string) $li->a->attributes()->href;
     $title = (string) $li->a;
     $legislation_links[] = array(
@@ -1034,7 +1052,7 @@ function _svendborg_theme_get_borger_dk_recommend($item) {
   $doc->loadHTML('<?xml encoding="UTF-8">' . $item[0]['value']);
   $xml = simplexml_import_dom($doc);
 
-  foreach ($xml->body->ul->li as $li) {
+  foreach ($xml->body->div->ul->li as $li) {
     $url = (string) $li->a->attributes()->href;
     $title = (string) $li->a;
     $recommended_links[] = array(

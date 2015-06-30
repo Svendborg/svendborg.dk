@@ -1,17 +1,30 @@
 #borger_dk-body h2 {
   background-image: url('../images/foldOut.png');
-  background-position: 98% 70%;
+  background-position: 98% 50%;
   background-repeat: no-repeat;
   border-top: 1px solid #dddddd;
-  font-family: inherit;
   font-size: 16px !important;
   margin-bottom: 2px;
-  padding-top: 1px;
+  padding: 5px 0;
 }
 
-div.microArticle a {
-  color: #496E04;
+#borger_dk-body h5 {
+  padding: 15px 0;
+  font-size: 16px !important;
 }
+
+#borger_dk-body p {
+  color: #4A4A4A;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+#borger_dk-body {
+  color: #4A4A4A;
+  font-size: 13px;
+  line-height: 19px;
+}
+
 .borger_dk_billede img {
   width: 200px;
   height: 180px;
@@ -22,13 +35,13 @@ div.microArticle a {
   font-family: "myriad-pro",Arial,Helvetica,sans-serif;
   font-size: 20px;
   font-weight: 300;
-  margin-left: 10px;
   padding: 0px 5px 10px 10px;
 }
+
 .os2web_borger_dk_selfservi {
   clear: both;
   padding: 10px 15px;
-  background-color: #D9E5C3;
+  background-color: #d9e5c3;
   border-radius: 7px 7px 7px 7px;
 }
 
@@ -38,7 +51,22 @@ div.microArticle a {
   /*font-family: "myriad-pro",Arial,Helvetica,sans-serif;*/
   font-size: 20px;
   font-weight: 300;
+  padding-bottom: 5px;
 }
+
+.os2web_borger_dk_selfservi ul li,
+.borger_dk-region-stack2 ul li {
+  line-height: 22px;
+  list-style-image: url("../images/arrowGreen.png");
+
+}
+
+.borger_dk-region-stack3 ul li,
+.borger_dk-region-stack4 ul li {
+  line-height: 20px;
+  list-style-image: url("../images/arrowGreen.png");
+}
+
 
 .os2web_borger_dk_selfservi ul li a, .os2web_borger_dk_selfservi a:link{
   color: #526A27;
@@ -64,7 +92,10 @@ div.microArticle a {
 }
 
 .borger_dk_body_intro_text {
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: 300;
+  padding-bottom: 10px;
+  padding-top: 15px;
 }
 
 .borger_dk-region-stack3 .inside .borger_dk-body.node-body div a:link a:visited,
@@ -79,6 +110,7 @@ div.microArticle a {
 .borger_dk-region-stack4 .inside .borger_dk-field_os2web-borger-dk-shortlist ul li a {
   color: #2d2d2d;
   font-size: 13px;
+  line-height: 20px;
  /* list-style-type: disc;
   text-decoration: underline;*/
 }
@@ -97,6 +129,7 @@ div.microArticle a {
   font-family: "myriad-pro",Arial,Helvetica,sans-serif;
   font-size: 20px;
   font-weight: 300;
+  padding-bottom: 10px;
 }
 
 .borger_dk-field_os2web-borger-dk-recommend h4 {
@@ -104,6 +137,10 @@ div.microArticle a {
   font-size: 18px;
   font-weight: 300;
 }
+.borger_dk-field_os2web-borger-dk-legislati p {
+  padding-top: 10px;
+}
+
 .borger_dk-field_os2web-borger-dk-legislati,
 .borger_dk-field_os2web-borger-dk-recommend,
 .borger_dk-field_os2web-borger-dk-shortlist {
@@ -112,11 +149,11 @@ div.microArticle a {
   padding: 10px 15px;
 }
 
-.borger_dk-region-stack2.gul-boks div ul,
+.borger_dk-region-stack2 .inside ul,
 .borger_dk-region-stack3 .inside .borger_dk-body.node-body div div ul,
-.borger_dk-region-stack4 .inside .borger_dk-field_os2web-borger-dk-recommend ul,
-.borger_dk-region-stack4 .inside .borger_dk-field_os2web-borger-dk-shortlist ul {
-   /* margin: 0 0 1.5em 2em;*/
+.borger_dk-region-stack4 .inside ul,
+.borger_dk-field_os2web-borger-dk-legislati ul{
+  margin: 10px 0 0 20px;
 }
 .borger_dk-field_os2web-borger-dk-byline {
   font-family: "myriad-pro",Arial,Helvetica,sans-serif;
