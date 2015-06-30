@@ -382,6 +382,9 @@ function os2web_base_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'spotbox' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -389,10 +392,16 @@ function os2web_base_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '2',
         ),
         'workbench_access' => array(
           'weight' => '0',
+        ),
+        'metatags' => array(
+          'weight' => '4',
+        ),
+        'redirect' => array(
+          'weight' => '3',
         ),
       ),
       'display' => array(),
@@ -644,8 +653,7 @@ function os2web_base_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_os2web_base_gallery';
   $strongarm->value = array(
-    0 => 'os2web-menu-contentmenu',
-    1 => 'os2web-main-menu',
+    0 => 'menu-indholdsmenu',
   );
   $export['menu_options_os2web_base_gallery'] = $strongarm;
 
@@ -705,7 +713,7 @@ function os2web_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_parent_os2web_base_gallery';
-  $strongarm->value = 'os2web-main-menu:0';
+  $strongarm->value = 'menu-indholdsmenu:0';
   $export['menu_parent_os2web_base_gallery'] = $strongarm;
 
   $strongarm = new stdClass();

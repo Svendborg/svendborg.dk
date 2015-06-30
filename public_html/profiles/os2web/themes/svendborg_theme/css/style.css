@@ -6914,6 +6914,9 @@ fieldset[disabled] #block-feedback-form #feedback-submit.btn-default.active {
 .main-container .form-search input:focus {
   border: 4px solid #589000;
 }
+.photoswipe-gallery .field-item img {
+  margin-bottom: 20px;
+}
 .btn-default {
   color: #ffffff;
   background-image: -webkit-linear-gradient(top, #005191 0%, #0089cd 100%);
