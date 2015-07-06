@@ -43,12 +43,6 @@ function os2web_borger_dk_strongarm() {
       'meeting_detail_view' => array(
         'custom_settings' => FALSE,
       ),
-      'spotbox' => array(
-        'custom_settings' => TRUE,
-      ),
-      'diff_standard' => array(
-        'custom_settings' => FALSE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -57,9 +51,6 @@ function os2web_borger_dk_strongarm() {
         ),
         'path' => array(
           'weight' => '13',
-        ),
-        'metatags' => array(
-          'weight' => '40',
         ),
       ),
       'display' => array(),
@@ -94,10 +85,7 @@ function os2web_borger_dk_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_os2web_borger_dk_article';
-  $strongarm->value = array(
-    0 => 'status',
-    1 => 'revision',
-  );
+  $strongarm->value = array();
   $export['node_options_os2web_borger_dk_article'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -111,7 +99,7 @@ function os2web_borger_dk_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_submitted_os2web_borger_dk_article';
-  $strongarm->value = 0;
+  $strongarm->value = 1;
   $export['node_submitted_os2web_borger_dk_article'] = $strongarm;
 
   return $export;

@@ -20,7 +20,11 @@ function os2web_borger_dk_settings_form($form, $form_state) {
     '#group' => 'vertical_settings_tab',
   );
   // Some of the fields are locked from from being changed.
-  $locked_os2web_types = array('field_os2web_borger_dk_borgerurl' => 1, 'field_os2web_borger_dk_kle' => 2, 'field_os2web_borger_dk_formterm' => 2);
+  $locked_os2web_types = array(
+    'field_os2web_borger_dk_borgerurl' => 1,
+    'field_os2web_borger_dk_kle' => 2,
+    'field_os2web_borger_dk_formterm' => 2,
+  );
 
   $data = field_info_instances('node', 'os2web_borger_dk_article');
   $newdata = array();
@@ -35,7 +39,7 @@ function os2web_borger_dk_settings_form($form, $form_state) {
     }
     if (empty($locked_os2web_types[$type]) || (!empty($locked_os2web_types[$type]) && $locked_os2web_types[$type] == 1)) {
       // Only some of the locked types can be displayed.
-      $newdata[$type] = t($item['label']);
+      $newdata[$type] = $item['label'];
       $init[$type] = $type;
     }
   }
@@ -189,7 +193,7 @@ function os2web_borger_dk_settings_form($form, $form_state) {
     '#description' => t('Check to enable weekly menu-import from Borger.dk (otherwise menus are imported daily)'),
     '#default_value' => variable_get('os2web_borger_dk_weekly_borger_dk_menus_import', 0),
   );*/
-  $form['os2web_borger_dk_settings_6']['os2web_borger_dk_menu_import_description']= array(
+  $form['os2web_borger_dk_settings_6']['os2web_borger_dk_menu_import_description'] = array(
     '#type' => 'fieldset',
     '#title' => t('Description for importing Borger.dk menu structure'),
     '#description' => t("Before you import Borger.dk menu structure, please create a content type
@@ -212,21 +216,21 @@ function os2web_borger_dk_settings_form($form, $form_state) {
     '#type' => 'select',
     '#title' => t('Select Borger.dk menu Parent Item'),
     '#options' => $menu_option,
-    '#description' => t('Select Borger.dk menu Parent Item from the list. REMEMBER to save before you start import Menu.'),
-    '#default_value' => variable_get('build_borger_menu_under_menu','borgerdkmenu2'),
+    '#description' => t('Select Borger.dk menu Parent Item from the list. REMEMBER to save before you start Menu import.'),
+    '#default_value' => variable_get('build_borger_menu_under_menu', 'borgerdkmenu2'),
     '#type' => 'select',
   );
-  //variable_set('build_borger_menu_under_menu');
+  // variable_set('build_borger_menu_under_menu');
 
   $disabled = FALSE;
   $description = '';
   $menus_import = variable_get('os2web_borger_dk_menus_import', 0);
   if ($menus_import == 0) {
     $disabled = TRUE;
-    $description = 'If you want to import the Borger.dk menu you must first activate "Import and utilize Borger.dk-menus" and save the settings';
-    drupal_set_message(t($description));
+    $description = t('If you want to import the Borger.dk menu you must first activate "Import and utilize Borger.dk-menus" and save the settings');
+    drupal_set_message($description);
   }
-  $form['os2web_borger_dk_settings_6']['submit']= array(
+  $form['os2web_borger_dk_settings_6']['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Import Borger.dk-menu now',
     '#submit' => array('os2web_borger_dk_import_menu_now_form_submit'),
@@ -239,9 +243,9 @@ function os2web_borger_dk_settings_form($form, $form_state) {
     '#value' => 'Import Borger.dk articles',
     '#submit' => array('os2web_borger_dk_import_articles_now_form_submit'),
     '#disabled' => $disabled,
-    '#description' => t(' Step2 : When Borger.dk menu items are imported, please import all Borger.dk articles.'),
+    '#description' => t('Step2 : When Borger.dk menu items are imported, please import all Borger.dk articles.'),
   );
-    $form['os2web_borger_dk_settings_6']['create_borger_dk_menu_links'] = array(
+  $form['os2web_borger_dk_settings_6']['create_borger_dk_menu_links'] = array(
     '#type' => 'submit',
     '#value' => t('Create Borger.dk menu structure now'),
     '#submit' => array('os2web_borger_dk_create_borger_dk_menu_now_form_submit'),
@@ -264,10 +268,10 @@ function os2web_borger_dk_settings_form($form, $form_state) {
 
   $options = variable_get('os2web_borger_dk_municipality_list');
   if (isset($options)) {
-    $muni_items= $options;
+    $muni_items = $options;
   }
-  else{
-    $muni_items= array();
+  else {
+    $muni_items = array();
     $municipalities = _os2web_borger_dk_GetMunicipalityList();
     $muni_items[0] = t('--Not selected--');
     foreach ($municipalities as $code => $item) {
@@ -290,12 +294,13 @@ function os2web_borger_dk_settings_form($form, $form_state) {
     '#options' => $muni_items,
     '#description' => t('Check to import articles from Borger.dk according to municipality.'),
     '#default_value' => $admin_municipality,
-    );
+  );
   return system_settings_form($form);
 }
 
 /**
- * Function _os2web_borger_dk_GetMunicipalityList()
+ * Function _os2web_borger_dk_GetMunicipalityList().
+ *
  * This function uses the Borger.dk Webservice GetMunicipalityList
  * in order to fetch a list of Municipality-codes from Borger.dk
  */
@@ -303,10 +308,11 @@ function _os2web_borger_dk_GetMunicipalityList($wsdl = 'https://www.borger.dk/_v
   $errors = array();
   $municipality_item = array();
 
-  // Then we can start using a new soap-client to find the article-ID from the Borger.dk-URL
+  // Then we can start using a new soap-client to
+  // find the article-ID from the Borger.dk-URL.
   $client = new SoapClient($wsdl, array('exceptions' => 0));
   // First we make sure to keep requests/minute within given limits.
-  //_os2web_borger_dk_articles_check_webservice_constraints();
+  // _os2web_borger_dk_articles_check_webservice_constraints();
   // Then we execute our webservice-request.
   $result_list = $client->GetMunicipalityList();
   if (is_soap_fault($result_list)) {
@@ -315,7 +321,7 @@ function _os2web_borger_dk_GetMunicipalityList($wsdl = 'https://www.borger.dk/_v
   }
 
   $municipality_item = array();
-  // Then we get the result-list from the specified webservice
+  // Then we get the result-list from the specified webservice.
   $municipality_list = $result_list->GetMunicipalityListResult;
   if (is_soap_fault($municipality_list)) {
     $errors = _os2web_borger_dk_articles_translate_soap_fault('GetMunicipalityListResult', $municipality_list->faultcode, $municipality_list->faultstring);
@@ -323,7 +329,6 @@ function _os2web_borger_dk_GetMunicipalityList($wsdl = 'https://www.borger.dk/_v
     return $errors;
   }
   else {
-    //print 'GetAllSites found these availlable menu-items at Borger.dk: '. print_r($municipality_list, TRUE) ."\n\n";
     // Now we step through all the fetched menu-items and convert them to
     // arrays of wanted field-sets.
     if (is_array($municipality_list->Municipality)) {
@@ -342,6 +347,8 @@ function _os2web_borger_dk_GetMunicipalityList($wsdl = 'https://www.borger.dk/_v
 }
 
 /**
+ * Function _os2web_borger_dk_articles_parse_borgerdk_municipality_item().
+ *
  * This function parses a Borger.dk-ArticleDescription and extracts all
  * the field values we want for our list of titles (for autocompletion etc)
  */

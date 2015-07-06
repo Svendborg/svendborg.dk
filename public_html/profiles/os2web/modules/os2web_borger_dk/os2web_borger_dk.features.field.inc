@@ -130,14 +130,14 @@ function os2web_borger_dk_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-os2web_borger_dk_article-field_os2web_borger_dk_image'.
-  $fields['node-os2web_borger_dk_article-field_os2web_borger_dk_image'] = array(
+  // Exported field: 'node-os2web_borger_dk_article-field_billede'.
+  $fields['node-os2web_borger_dk_article-field_billede'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_os2web_borger_dk_image',
+      'field_name' => 'field_billede',
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -189,7 +189,7 @@ function os2web_borger_dk_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_os2web_borger_dk_image',
+      'field_name' => 'field_billede',
       'label' => 'Billede',
       'required' => 0,
       'settings' => array(
@@ -1461,14 +1461,14 @@ function os2web_borger_dk_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-os2web_borger_dk_article-field_os2web_borger_dk_kle'.
-  $fields['node-os2web_borger_dk_article-field_os2web_borger_dk_kle'] = array(
+  // Exported field: 'node-os2web_borger_dk_article-field_termref_kle'.
+  $fields['node-os2web_borger_dk_article-field_termref_kle'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_os2web_borger_dk_kle',
+      'field_name' => 'field_termref_kle',
       'foreign keys' => array(
         'tid' => array(
           'columns' => array(
@@ -1522,7 +1522,7 @@ function os2web_borger_dk_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_os2web_borger_dk_kle',
+      'field_name' => 'field_termref_kle',
       'label' => 'KL Emneord',
       'required' => 0,
       'settings' => array(
