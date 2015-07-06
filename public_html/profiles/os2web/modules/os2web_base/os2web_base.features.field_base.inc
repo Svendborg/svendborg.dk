@@ -171,10 +171,12 @@ function os2web_base_field_default_field_bases() {
     'module' => 'node_reference',
     'settings' => array(
       'referenceable_types' => array(
-        'kontaktblok' => 0,
+        'interne_sider' => 0,
+        'keyboard_shortcut' => 0,
         'kulturkalender' => 0,
         'media' => 0,
         'os2bootstrap_carousel' => 0,
+        'os2web_acadre_postlists' => 0,
         'os2web_base_contentpage' => 0,
         'os2web_base_gallery' => 0,
         'os2web_base_iframe' => 0,
@@ -183,9 +185,10 @@ function os2web_base_field_default_field_bases() {
         'os2web_base_selfservice_link' => 0,
         'os2web_borger_dk_article' => 0,
         'os2web_contact_contact' => 'os2web_contact_contact',
+        'os2web_ofir_job' => 0,
         'os2web_spotbox_box' => 0,
         'panel' => 0,
-        'spotbokse2' => 0,
+        'postliste_import' => 0,
         'webform' => 0,
       ),
       'view' => array(
@@ -866,10 +869,12 @@ function os2web_base_field_default_field_bases() {
     'module' => 'node_reference',
     'settings' => array(
       'referenceable_types' => array(
-        'kontaktblok' => 0,
+        'interne_sider' => 0,
+        'keyboard_shortcut' => 0,
         'kulturkalender' => 0,
         'media' => 'media',
         'os2bootstrap_carousel' => 0,
+        'os2web_acadre_postlists' => 0,
         'os2web_base_contentpage' => 'os2web_base_contentpage',
         'os2web_base_gallery' => 0,
         'os2web_base_iframe' => 0,
@@ -878,9 +883,10 @@ function os2web_base_field_default_field_bases() {
         'os2web_base_selfservice_link' => 0,
         'os2web_borger_dk_article' => 'os2web_borger_dk_article',
         'os2web_contact_contact' => 0,
+        'os2web_ofir_job' => 0,
         'os2web_spotbox_box' => 0,
         'panel' => 0,
-        'spotbokse2' => 0,
+        'postliste_import' => 0,
         'webform' => 'webform',
       ),
       'view' => array(
@@ -1007,10 +1013,12 @@ function os2web_base_field_default_field_bases() {
     'module' => 'node_reference',
     'settings' => array(
       'referenceable_types' => array(
+        'interne_sider' => 0,
         'keyboard_shortcut' => 0,
         'kulturkalender' => 0,
         'media' => 0,
         'os2bootstrap_carousel' => 0,
+        'os2web_acadre_postlists' => 0,
         'os2web_base_contentpage' => 0,
         'os2web_base_gallery' => 0,
         'os2web_base_iframe' => 0,
@@ -1022,6 +1030,7 @@ function os2web_base_field_default_field_bases() {
         'os2web_ofir_job' => 0,
         'os2web_spotbox_box' => 0,
         'panel' => 0,
+        'postliste_import' => 0,
         'webform' => 0,
       ),
       'view' => array(

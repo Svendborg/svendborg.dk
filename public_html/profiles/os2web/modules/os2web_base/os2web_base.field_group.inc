@@ -13,6 +13,36 @@ function os2web_base_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_billeder|node|os2web_base_gallery|form';
+  $field_group->group_name = 'group_billeder';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_gallery';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_form';
+  $field_group->data = array(
+    'label' => 'Billeder',
+    'weight' => '9',
+    'children' => array(
+      0 => 'field_os2web_base_field_photo',
+      1 => 'field_os2web_base_field_video',
+      2 => 'field_os2web_base_field_media',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-billeder field-group-htab',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_billeder|node|os2web_base_gallery|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_billeder|taxonomy_term|os2web_base_tax_site_structure|form';
   $field_group->group_name = 'group_billeder';
   $field_group->entity_type = 'taxonomy_term';
@@ -41,6 +71,67 @@ function os2web_base_field_group_info() {
     ),
   );
   $export['group_billeder|taxonomy_term|os2web_base_tax_site_structure|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_form|node|os2web_base_gallery|form';
+  $field_group->group_name = 'group_form';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_gallery';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Formular',
+    'weight' => '0',
+    'children' => array(
+      0 => 'group_billeder',
+      1 => 'group_indstilliger',
+      2 => 'group_os2web_base_group_taxono',
+      3 => 'group_relationer',
+      4 => 'group_spotsnforms',
+      5 => 'group_tekst',
+    ),
+    'format_type' => 'htabs',
+    'format_settings' => array(
+      'formatter' => '',
+      'instance_settings' => array(
+        'classes' => 'group-form field-group-htabs',
+      ),
+    ),
+  );
+  $export['group_form|node|os2web_base_gallery|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_indstilliger|node|os2web_base_gallery|form';
+  $field_group->group_name = 'group_indstilliger';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_gallery';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_form';
+  $field_group->data = array(
+    'label' => 'Indstillinger',
+    'weight' => '14',
+    'children' => array(
+      0 => 'field_os2web_base_field_hidlinks',
+      1 => 'field_svendborg_hide_contact',
+      2 => 'field_svendborg_hide_sidebar',
+      3 => 'field_os2web_base_field_contact',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-indstilliger field-group-htab',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_indstilliger|node|os2web_base_gallery|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -429,25 +520,26 @@ function os2web_base_field_group_info() {
   $field_group->entity_type = 'node';
   $field_group->bundle = 'os2web_base_gallery';
   $field_group->mode = 'form';
-  $field_group->parent_name = '';
+  $field_group->parent_name = 'group_form';
   $field_group->data = array(
-    'label' => 'Taksonomi',
-    'weight' => '4',
+    'label' => 'Emneord',
+    'weight' => '10',
     'children' => array(
-      0 => 'field_os2web_base_field_kle_ref',
+      0 => 'field_os2web_base_field_edi_tags',
       1 => 'field_os2web_base_field_loca_ref',
       2 => 'field_os2web_base_field_organiz',
-      3 => 'field_os2web_base_field_edi_tags',
-      4 => 'field_os2web_base_field_politics',
+      3 => 'field_os2web_base_field_politics',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'htab',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Emneord',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'id' => '',
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'closed',
     ),
   );
   $export['group_os2web_base_group_taxono|node|os2web_base_gallery|form'] = $field_group;
@@ -638,6 +730,35 @@ function os2web_base_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_relationer|node|os2web_base_gallery|form';
+  $field_group->group_name = 'group_relationer';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_gallery';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_form';
+  $field_group->data = array(
+    'label' => 'Relationer',
+    'weight' => '12',
+    'children' => array(
+      0 => 'field_os2web_base_field_selfserv',
+      1 => 'field_os2web_base_field_related',
+      2 => 'field_os2web_base_field_ext_link',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-relationer field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_relationer|node|os2web_base_gallery|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_relationer|node|os2web_base_news|form';
   $field_group->group_name = 'group_relationer';
   $field_group->entity_type = 'node';
@@ -775,6 +896,63 @@ function os2web_base_field_group_info() {
     ),
   );
   $export['group_spotbokse|taxonomy_term|os2web_base_tax_site_structure|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_spotsnforms|node|os2web_base_gallery|form';
+  $field_group->group_name = 'group_spotsnforms';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_gallery';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_form';
+  $field_group->data = array(
+    'label' => 'Spotbokse / webform',
+    'weight' => '11',
+    'children' => array(),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-spotsnforms field-group-htab',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_spotsnforms|node|os2web_base_gallery|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_tekst|node|os2web_base_gallery|form';
+  $field_group->group_name = 'group_tekst';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_gallery';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_form';
+  $field_group->data = array(
+    'label' => 'Tekst',
+    'weight' => '8',
+    'children' => array(
+      0 => 'body',
+      1 => 'field_os2web_base_field_kle_ref',
+      2 => 'field_os2web_base_field_summary',
+      3 => 'title',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-tekst field-group-htab',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_tekst|node|os2web_base_gallery|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
