@@ -73,6 +73,8 @@
   <div class="search-snippet-info">
     <?php if ($snippet): ?>
       <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
+        <?php
+        print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>
     <?php endif; ?>
   </div>
 </li>
