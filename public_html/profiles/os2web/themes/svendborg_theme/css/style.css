@@ -7458,6 +7458,17 @@ fieldset[disabled] .btn-orange.active {
 .dropdown.like-panel ul.dropdown-menu li a:hover {
   color: #0089cd;
 }
+.search-results .search-snippet-info {
+  font-size: 85%;
+  font-style: italic;
+  padding-bottom: 12px;
+}
+.search-results .search-snippet-info .url a {
+  color: #589000;
+}
+.search-results h3 a {
+  color: #0089cd;
+}
 .spotbox,
 div.panel-pane div.node.node-os2web-spotbox-box,
 div.node-os2web-spotbox-box {
@@ -7870,7 +7881,30 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   background-color: #FFF;
 }
 .block-facetapi ul {
-  padding-left: 18px;
+  padding: 0;
+  margin: 0;
+}
+.block-facetapi ul li {
+  border-bottom: 1px solid #dfded7;
+}
+.block-facetapi ul li a {
+  padding: 8px 26px;
+  display: block;
+}
+.block-facetapi ul a.facetapi-active {
+  color: #d9534f;
+  padding: 8px 1px 8px 8px;
+  display: inline;
+}
+.block-facetapi ul ul {
+  padding: 5px 10px;
+}
+.block-facetapi ul ul li {
+  border-bottom: none;
+  font-size: 12px;
+}
+.block-facetapi ul ul li a {
+  padding: 2px 26px;
 }
 .webform-client-form .webform-actions {
   padding-top: 15px;

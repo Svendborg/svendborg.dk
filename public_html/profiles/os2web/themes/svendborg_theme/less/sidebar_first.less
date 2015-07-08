@@ -149,5 +149,23 @@
 }
 
 .block-facetapi { background-color: #FFF;
-	ul { padding-left: 18px;}
+	ul { padding: 0; margin: 0;
+
+      li {border-bottom:1px solid #dfded7;
+
+        a { padding: 8px 26px; display: block;}
+          }
+      a.facetapi-active { color: @brand-danger;
+                          padding: 8px 1px 8px 8px;
+                          display: inline;}
+      ul {
+          padding: 5px 10px;
+
+          li {
+              border-bottom:none;
+              font-size: 12px;
+            a { padding: 2px 26px;}
+          }
+      }
+    }
 }
