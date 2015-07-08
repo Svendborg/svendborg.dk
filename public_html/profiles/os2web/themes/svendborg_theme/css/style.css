@@ -7880,9 +7880,16 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 .block-facetapi {
   background-color: #FFF;
 }
+.block-facetapi ul {
+  padding: 0;
+  margin: 0;
+}
 .block-facetapi ul li {
   border-bottom: 1px solid #dfded7;
   padding-bottom: 10px;
+}
+.block-facetapi ul li a {
+  padding-left: 18px;
 }
 .block-facetapi ul a.facetapi-active {
   color: #d9534f;
