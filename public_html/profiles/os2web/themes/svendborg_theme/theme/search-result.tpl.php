@@ -73,8 +73,8 @@
   <div class="search-snippet-info">
     <?php if ($snippet): ?>
       <div class="search-snippet"<?php print $content_attributes; ?>>
-          <p><?php print $snippet; ?></p>
-          <p><a href="<?php print $url; ?>"><?php print $url; ?></a></p>
+          <p class="indhold"><?php print $snippet; ?></p>
+          <p class="url"><a href="<?php print $url; ?>"><?php print $url; ?></a></p>
     <?php endif; ?>
   </div>
 </li>
