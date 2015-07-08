@@ -7883,6 +7883,11 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 .block-facetapi ul {
   padding-left: 18px;
+  padding-top: 10px;
+}
+.block-facetapi ul ul {
+  padding-left: 10px;
+  padding-top: 10px;
 }
 .webform-client-form .webform-actions {
   padding-top: 15px;
