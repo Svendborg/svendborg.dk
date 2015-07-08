@@ -7464,7 +7464,7 @@ fieldset[disabled] .btn-orange.active {
   padding: 6px 12px;
   background-color: #fcf8e3;
 }
-.search-results .search-snippet-info .url {
+.search-results .search-snippet-info .url a {
   color: #005191;
 }
 .search-results h3 a {
