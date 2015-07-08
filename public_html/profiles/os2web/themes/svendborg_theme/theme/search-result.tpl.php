@@ -72,7 +72,7 @@
   <?php print render($title_suffix); ?>
   <div class="search-snippet-info">
     <?php if ($snippet): ?>
-      <p class="search-snippet bg-info"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
+      <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
     <?php endif; ?>
   </div>
 </li>
