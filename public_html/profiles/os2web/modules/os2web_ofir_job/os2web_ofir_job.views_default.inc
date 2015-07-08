@@ -112,10 +112,17 @@ Svendborg Kommune vil gerne gøre det nemt for dig at blive opmærksom på de jo
   );
   $handler->display->display_options['filters']['field_os2web_ofir_category_tid']['type'] = 'select';
   $handler->display->display_options['filters']['field_os2web_ofir_category_tid']['vocabulary'] = 'os2web_job_categories';
+  /* Filterkriterie: Indhold: Ansøgningsfrist - slutdato (field_os2web_ofir_job_period:value2) */
+  $handler->display->display_options['filters']['field_os2web_ofir_job_period_value2']['id'] = 'field_os2web_ofir_job_period_value2';
+  $handler->display->display_options['filters']['field_os2web_ofir_job_period_value2']['table'] = 'field_data_field_os2web_ofir_job_period';
+  $handler->display->display_options['filters']['field_os2web_ofir_job_period_value2']['field'] = 'field_os2web_ofir_job_period_value2';
+  $handler->display->display_options['filters']['field_os2web_ofir_job_period_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_os2web_ofir_job_period_value2']['granularity'] = 'minute';
+  $handler->display->display_options['filters']['field_os2web_ofir_job_period_value2']['default_date'] = 'now';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'job-opslag';
+  $handler->display->display_options['path'] = 'kommunen/job';
   $translatables['job_liste'] = array(
     t('Master'),
     t('Job i Svendborg Kommune'),
