@@ -57,17 +57,32 @@ function os2web_ofir_job_strongarm() {
       'meeting_detail_view' => array(
         'custom_settings' => FALSE,
       ),
+      'os2web_meetings_meeting_detail_view' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'spotbox' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '4',
         ),
         'workbench_access' => array(
           'weight' => '0',
+        ),
+        'metatags' => array(
+          'weight' => '7',
+        ),
+        'redirect' => array(
+          'weight' => '5',
         ),
       ),
       'display' => array(),
