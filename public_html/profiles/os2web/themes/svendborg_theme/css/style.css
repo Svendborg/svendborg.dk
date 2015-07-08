@@ -7458,6 +7458,13 @@ fieldset[disabled] .btn-orange.active {
 .dropdown.like-panel ul.dropdown-menu li a:hover {
   color: #0089cd;
 }
+.search-results .search-snippet-info {
+  font-size: 85%;
+  font-style: italic;
+}
+.search-results h3 a {
+  color: #005191;
+}
 .spotbox,
 div.panel-pane div.node.node-os2web-spotbox-box,
 div.node-os2web-spotbox-box {
