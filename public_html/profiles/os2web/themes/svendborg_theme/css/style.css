@@ -7888,10 +7888,11 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
   border-bottom: 1px solid #dfded7;
 }
 .block-facetapi ul li a {
-  padding: 18px 5px;
+  padding: 8px 26px;
 }
 .block-facetapi ul a.facetapi-active {
   color: #d9534f;
+  padding: 8px 26px;
 }
 .block-facetapi ul ul {
   padding-left: 10px;
