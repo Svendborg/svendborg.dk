@@ -48,7 +48,7 @@ function svendborg_theme_preprocess_page(&$variables) {
 
   // Get all the nodes selvbetjeningslinks and give them to the template.
   if ($node || $term) {
-    $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links, $node);
+    $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links, $node, $term);
   }
 
   // Get borger.dk legislation links and give them to the template.
@@ -567,7 +567,7 @@ function _svendborg_theme_get_spotboxes($spotboxes, $classes = 'col-xs-6 col-sm-
  * @return array
  *   Array of links with URL and Title.
  */
-function _svendborg_theme_get_selfservicelinks($links = array(), $node = NULL) {
+function _svendborg_theme_get_selfservicelinks($links = array(), $node = NULL, $term = NULL) {
   $selfservicelinks = array();
 
   if (($node && $links = field_get_items('node', $node, 'field_os2web_base_field_selfserv')) ||
