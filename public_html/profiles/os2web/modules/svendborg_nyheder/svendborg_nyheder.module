@@ -27,10 +27,10 @@ function _svendborg_nyheder_clear_varnish($node) {
       global $base_url;
       $temp = parse_url($base_url);
       $host = $temp['host'];
-      $url = '/nyheder';
+      $url = '^/nyheder$|^/borger|^/erhverv$|^/nyheder/hoeringer-og-afgoerelser$';
 
       varnish_purge($host, $url);
-      drupal_set_message(t('Varnish cachen for @url ryddet.', array('@url' => $url)));
+      drupal_set_message(t('Varnish cachen ryddet for nyhedssiderne'));
       watchdog('svendborg_nyheder', 'Cleared cache for ' . $url . ' on ' . $host);
     }
   }
