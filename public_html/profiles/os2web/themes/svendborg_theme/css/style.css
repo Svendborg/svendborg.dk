@@ -7460,11 +7460,11 @@ fieldset[disabled] .btn-orange.active {
 }
 .search-results .search-snippet-info {
   font-size: 85%;
-  font-style: italic;
   padding-bottom: 12px;
 }
 .search-results .search-snippet-info .url a {
   color: #589000;
+  font-style: italic;
 }
 .search-results h3 a {
   color: #0089cd;
