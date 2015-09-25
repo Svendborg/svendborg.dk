@@ -51,24 +51,28 @@ function metatag_kle_metatag_info() {
   );
   $info['tags']['kle'] = array(
     'label' => t('Content'),
-    'description' => t('Indhold'),
+    'description' => t('Indhold f.eks. [node:field-kle-ref:0:name]'),
     'class' => 'DrupalTextMetaTag',
     'group' => 'kle',
   );
 
   $info['tags']['kle:id'] = array(
     'label' => t('ID'),
-    'description' => t('ID'),
+    'description' => t('Emne nummer'),
     'class' => 'DrupalTextMetaTag',
     'group' => 'kle',
   );
 
   $info['tags']['kle:title'] = array(
     'label' => t('Titel'),
-    'description' => t('Sidens titel'),
+    'description' => t('Emne titel'),
     'class' => 'DrupalTextMetaTag',
     'group' => 'kle',
   );
 
   return $info;
 }
+
+
+<EmneNr>17.32.01</EmneNr>
+<EmneTitel>Målgruppe for tilbuddet [udgået]</EmneTitel>
