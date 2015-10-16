@@ -33,16 +33,17 @@ function workbench_access_multiple_node_menu_form_node_form_alter(&$form, &$form
 function workbench_access_multiple_node_menu_process(&$item, $options) {
   // Adjust the parent form.
   $parent = &$item['parent'];
-  $current = $parent['#options'];
 
-  foreach ($parent['#options'] as $key => $value) {
-    $ids = explode(':', $key);
-    $menu = $ids[0];
-    $plid = $ids[1];
-    // Unset if the user does not not have access to this item and the item
-    // is not the current parent.
-    if (!isset($options[$plid]) && !isset($options[$menu]) && (!$form['menu']['enabled']['#default_value'] || $key != $parent['#default_value'])) {
-      unset($parent['#options'][$key]);
+  if (isset($parent['#options'])) {
+    foreach (array_keys($parent['#options']) as $key) {
+      $ids = explode(':', $key);
+      $menu = $ids[0];
+      $plid = $ids[1];
+      // Unset if the user does not not have access to this item and the item
+      // is not the current parent.
+      if (!isset($options[$plid]) && !isset($options[$menu]) && (!$item['menu']['enabled']['#default_value'] || $key != $parent['#default_value'])) {
+        unset($parent['#options'][$key]);
+      }
     }
   }
 }
