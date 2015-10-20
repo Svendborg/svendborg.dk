@@ -72,7 +72,3 @@ function metatag_kle_metatag_info() {
 
   return $info;
 }
-
-
-<EmneNr>17.32.01</EmneNr>
-<EmneTitel>Målgruppe for tilbuddet [udgået]</EmneTitel>
