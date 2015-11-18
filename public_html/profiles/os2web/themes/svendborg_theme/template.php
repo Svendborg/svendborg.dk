@@ -48,7 +48,7 @@ function svendborg_theme_preprocess_page(&$variables) {
 
   // Get all the nodes selvbetjeningslinks and give them to the template.
   if ($node || $term) {
-    $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks($links, $node, $term);
+    $variables['page']['os2web_selfservicelinks'] = _svendborg_theme_get_selfservicelinks(NULL, $node, $term);
   }
 
   // Get borger.dk legislation links and give them to the template.

@@ -4,7 +4,7 @@
  * Code for the Ofir job index integration feature.
  */
 
-include_once('os2web_ofir_job.features.inc');
+include_once 'os2web_ofir_job.features.inc';
 
 /**
  * Implements hook_os2web_help().
@@ -22,10 +22,404 @@ function os2web_ofir_job_os2web_help($sections) {
   // Importers.
   $sections['os2web_ofir_job'] .= t('<p><b id=="os2web_ofir_job">Job Importer:</b> Initialize the importer for Ofir Jobs at <a href="@url">the import page.</a></p>', array('@url' => 'import/os2web_ofir_job_feeds_import'));
 
-  // Add content to the genneral listings
+  // Add content to the genneral listings.
   $sections['contenttype'] = t('<p><b>Ofir Job:</b> Jobs are automatically imported from Ofir.dk/job. See an overview over all current jobs at <a href="@url" target="_blank">/job</a>. See more about the <a href="#os2web_ofir_job">Job Importer</a></p>', array('@url' => url('job')));
   $sections['import'] = t('<p><b id=="os2web_ofir_job">Job Importer:</b> Initialize the importer for Ofir Jobs at <a href="@url">the import page.</a></p>', array('@url' => 'import/os2web_ofir_job_feeds_import'));
-  
 
   return $sections;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function os2web_ofir_job_menu() {
+  $items = array();
+  $items['admin/config/os2web_ofir_job'] = array(
+    'title' => 'OS2web ofir job settings',
+    'description' => 'General settings for ofir job import, fx, modify WSDL and syncronization time',
+    'position' => 'right',
+    'weight' => -10,
+    'page callback' => 'system_admin_menu_block_page',
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  $items['admin/config/os2web_ofir_job/settings'] = array(
+    'title' => 'OS2web ofir job Settings',
+    'description' => 'General settings for the OS2Web ofir job',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('os2web_ofir_job_settings_form'),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form().
+ */
+function os2web_ofir_job_settings_form() {
+  $form['os2web_ofir_job_webservice'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ofir job Webservice URL'),
+    '#default_value' => variable_get('os2web_ofir_job_webservice', 'http://svendborg.emply.net/api.asmx?WSDL'),
+    '#size' => 100,
+    '#maxlength' => 200,
+  );
+  $form['os2web_ofir_job_apiKey'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ofir job API-nøgle'),
+    '#default_value' => variable_get('os2web_ofir_job_apiKey', 'de411653-1e5f-477c-8c5b-a20c065da702'),
+    '#size' => 100,
+    '#maxlength' => 130,
+  );
+  $form['os2web_ofir_job_mediaId'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ofir job Medie ID'),
+    '#default_value' => variable_get('os2web_ofir_job_mediaId', 'f1fb8e12-1928-4328-88fd-9918a34a2bf2'),
+    '#size' => 100,
+    '#maxlength' => 130,
+  );
+  $import_options = array(
+    '1' => t('Hver time'),
+    '3' => t('Hver 3 timer'),
+    '6' => t('Hver 6 timer'),
+    '12' => t('Hver 12 timer'),
+    '24' => t('Hver dag'),
+  );
+  $import_options[0] = t('Aldrig (Import manuelt)');
+  $form['os2web_ofir_job_import_period'] = array(
+    '#type' => 'select',
+    '#title' => t('Periodisk import'),
+    '#description' => t('Vælg, hvor ofte en kilde skal importeres jævne'),
+    '#options' => $import_options,
+    '#default_value' => variable_get('os2web_ofir_job_import_period', 3),
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function os2web_ofir_job_cron() {
+  $cron_settings_time = variable_get('os2web_ofir_job_import_period', 3);
+  $last_run = variable_get('os2web_ofir_job_last_import', strtotime('1970-01-01 00:00:00'));
+
+  // Then we can find out if it is time for our cron-job to run.
+  if ($cron_settings_time) {
+    $this_run = time();
+    // Is it time for import ofir jobs.
+    if ($this_run > ($last_run + 60 * 60 * $cron_settings_time)) {
+      // Run the cronbatch.
+      _os2web_ofir_job_cronbatch();
+    }
+  }
+}
+
+/**
+ * Function _os2web_ofir_job_cronbatch().
+ */
+function _os2web_ofir_job_cronbatch() {
+  // First we determine the time for our last check for new updates.
+  $this_run = time();
+  $last_run = variable_get('os2web_ofir_job_last_import', time());
+  $updated_after = date('Y-m-d\TH\:i\:s', $last_run);
+
+  // Get jobs.
+  $jobs = array();
+  $wsdl = variable_get('os2web_ofir_job_webservice', 'http://svendborg.emply.net/api.asmx?WSDL');
+  $api_key = variable_get('os2web_ofir_job_apiKey', 'de411653-1e5f-477c-8c5b-a20c065da702');
+  $media_id = variable_get('os2web_ofir_job_mediaId', 'f1fb8e12-1928-4328-88fd-9918a34a2bf2');
+  $jobs = _os2web_ofir_job_GetProjects($wsdl, $api_key, $media_id);
+
+  // We must check if the webservice throws ANY errors.
+  $any_webservice_errors = FALSE;
+
+  $count = 0;
+  // For each of the inexistent jobs we import them.
+  foreach ($jobs as $job) {
+    if ($job == 'error_code' || $job == 'error_string') {
+      $any_webservice_errors = TRUE;
+      continue;
+    }
+    if (_os2web_ofir_job_check_existed($job)) {
+      continue;
+    }
+    $job_text = _os2web_ofir_job_parse_job_text($job);
+    os2web_ofir_job_import_job($job_text);
+    $count++;
+  }
+
+  // Now we must update the "last_updated" variable.
+  // But only if no errors were encountered.
+  if (!$any_webservice_errors) {
+    variable_set('os2web_ofir_job_last_import', $this_run);
+    $updated_at = date('Y-m-d\TH\:i\:s', $this_run);
+    $msg = '%count Ofir jobs imported succesfully at: %success';
+    watchdog('OS2web Ofir job', $msg, $variables = array('%count' => $count, '%success' => $updated_at));
+  }
+  else {
+    $should_have_been = date('Y-m-d\TH\:i\:s', $this_run);
+    $msg = 'OS2web Ofir job threw errors while import at: %runtime. Not all jobs have been import. Last succesful automated import was at: %success';
+
+    watchdog('OS2web Borger.dk', $msg, $variables = array(
+      '%runtime' => $should_have_been,
+      '%success' => $updated_after)
+    );
+  }
+}
+
+/**
+ * Create ofir job node.
+ */
+function os2web_ofir_job_import_job($job_text) {
+
+  if (!empty($job_text)) {
+    $node = new stdClass();
+    $node->created = !empty($job_text['published']) ? strtotime($job_text['published']) : REQUEST_TIME;
+    $node->validated = TRUE;
+    $node->uid = 1;
+    $node->language = 'da';
+    // Insert default value of a new node.
+    $node->type = 'os2web_ofir_job';
+    $node->title = (!empty($job_text['title'])) ? $job_text['title'] : '';
+
+    if (!empty($job_text['description'])) {
+      $node->field_os2web_ofir_job_text['und'][0]['value'] = $job_text['description'];
+      $node->field_os2web_ofir_job_text['und'][0]['safe_value'] = $job_text['description'];
+      $node->field_os2web_ofir_job_text['und'][0]['format'] = 'full_html';
+    }
+
+    if (!empty($job_text['shorttext'])) {
+      $node->field_os2web_ofir_job_text['und'][0]['summary'] = $job_text['shorttext'];
+    }
+
+    // Department needs to be created as a term before inserting value into node
+    if (!empty($job_text['department_name'])) {
+
+      // Create category term if it doesn't already exists
+      $tid = _os2web_ofir_job_insert_term($job_text['department_name'], 'os2web_taxonomies_tax_org');
+
+      if ($tid) {
+        $node->field_os2web_ofir_department['und'][0]['tid'] = $tid;
+      }
+    }
+
+    // Design needs to be created as a term before inserting value into node
+    if (!empty($job_text['design'])) {
+      // Create design term if it doesn't already exists
+      $tid = _os2web_ofir_job_insert_term($job_text['design'], 'os2web_job_designs');
+
+      if ($tid) {
+        $node->field_os2web_ofir_design['und'][0]['tid'] = $tid;
+      }
+    }
+
+    // Category needs to be created as a term before inserting value into node
+    if (!empty($job_text['category'])) {
+
+      // Create category term if it doesn't already exists
+      $tid = _os2web_ofir_job_insert_term($job_text['category'], 'os2web_job_categories');
+
+      if ($tid) {
+        $node->field_os2web_ofir_category['und'][0]['tid'] = $tid;
+      }
+    }
+
+    if (!empty($job_text['contact_person'])) {
+      $node->field_os2web_ofir_contact_person['und'][0]['value'] = $job_text['contact_person'];
+      $node->field_os2web_ofir_contact_person['und'][0]['safe_value'] = $job_text['contact_person'];
+    }
+
+    if (!empty($job_text['contact_no'])) {
+      $node->field_os2web_ofir_contact_no['und'][0]['value'] = $job_text['contact_no'];
+      $node->field_os2web_ofir_contact_no['und'][0]['safe_value'] = $job_text['contact_no'];
+    }
+
+    if (!empty($job_text['job_desc'])) {
+      $node->field_os2web_ofir_job_desc['und'][0]['value'] = $job_text['job_desc'];
+      $node->field_os2web_ofir_job_desc['und'][0]['safe_value'] = $job_text['job_desc'];
+    }
+
+    if (!empty($job_text['work_hours'])) {
+      $node->field_os2web_ofir_work_hours['und'][0]['value'] = $job_text['work_hours'];
+      $node->field_os2web_ofir_work_hours['und'][0]['safe_value'] = $job_text['work_hours'];
+    }
+
+    if (!empty($job_text['job_type'])) {
+      $node->field_os2web_ofir_job_type['und'][0]['value'] = $job_text['job_type'];
+      $node->field_os2web_ofir_job_type['und'][0]['safe_value'] = $job_text['job_type'];
+    }
+
+    if (!empty($job_text['job_start_time'])) {
+      $node->field_os2web_ofir_job_start_time['und'][0]['value'] = $job_text['job_start_time'];
+      $node->field_os2web_ofir_job_start_time['und'][0]['safe_value'] = $job_text['job_start_time'];
+    }
+
+    if (!empty($job_text['apply_link'])) {
+   //   $open_url = "'" . $job_text['apply_link'] . "'";
+   //   $apply_link = '<br /><input type="button" value="Send ansøgning" onclick="window.open(' . $open_url . ');">';
+
+      $node->field_os2web_ofir_apply_link['und'][0]['value'] = $job_text['apply_link'];
+      $node->field_os2web_ofir_apply_link['und'][0]['safe_value'] = $job_text['apply_link'];
+    }
+
+    $node->field_os2web_ofir_job_ad_id['und'][0]['value'] = (!empty($job_text['ad_id'])) ? $job_text['ad_id'] : '';
+    $node->field_os2web_ofir_job_ad_id['und'][0]['safe_value'] = (!empty($job_text['ad_id'])) ? $job_text['ad_id'] : '';
+
+    $deadline = (!empty($job_text['deadline'])) ? $job_text['deadline'] : '';
+    $deadline = date('Y-m-d H:i:s', strtotime($deadline));
+    $node->field_os2web_ofir_job_period['und'][0]['value'] = date('Y-m-d H:i:s', strtotime($job_text['published']));
+    $node->field_os2web_ofir_job_period['und'][0]['value2'] = $deadline;
+
+    node_save($node);
+  }
+}
+
+function _os2web_ofir_job_insert_term($design, $vocab_name) {
+
+  // Check if design already exists in vocabulary
+  $term_array = taxonomy_get_term_by_name($design, $vocab_name);
+  if (count($term_array) > 0) {
+    $term = reset($term_array);
+    return $term->tid;
+  }
+
+  // Term doesn't already exist. Check if vocabulary exists
+  $vocab = taxonomy_vocabulary_machine_name_load($vocab_name);
+
+  if (!$vocab) {
+    watchdog('os2web_ofir_job', 'Vocabulary ofir_job_designs doesn\'t exist. Can\'t create ' .
+      $design . 'in ' . $vocab_name . '!', WATCHDOG_WARNING);
+    return FALSE;
+  }
+
+  // Insert new term
+  $term = (object) array(
+    'name' => $design,
+    'vid' => $vocab->vid,
+  );
+  taxonomy_term_save($term);
+  return $term->tid;
+}
+
+/**
+ * SOAP function GetProjects.
+ */
+function _os2web_ofir_job_GetProjects($wsdl, $api_key, $media_id) {
+  if (empty($wsdl) || empty($api_key) || empty($media_id)) {
+    return array();
+  }
+  $errors = array();
+  // Then we can start using a new soap-client to get jobs.
+  $client = new SoapClient($wsdl, array('exceptions' => 0));
+  $result_list = $client->GetProjects(array('mediaId' => $media_id, 'apiKey' => $api_key));
+  if (is_soap_fault($result_list)) {
+    $errors = array(
+      'error_code' => $result_list->faultcode,
+      'error_string' => $result_list->faultstring,
+    );
+    return $errors;
+  }
+
+  $jobs = array();
+  // Then we get the result-list from the specified webservice.
+  $job_list = $result_list->GetProjectsResult;
+  if (is_soap_fault($job_list)) {
+    $errors = array(
+      'error_code' => $job_list->faultcode,
+      'error_string' => $job_list->faultstring,
+    );
+    return $errors;
+  }
+  else {
+
+    // Now we step through all the fetched job and convert them to arrays
+    // of wanted field-sets.
+    $any = isset($job_list->any) ? $job_list->any : '';
+    if (!empty($any)) {
+      $doc = new DOMDocument('1.0', 'UTF-8');
+      $doc->strictErrorChecking = FALSE;
+      @$doc->loadHTML('<?xml encoding="UTF-8">' . $any);
+      $xml = simplexml_import_dom($doc);
+
+      $projects = $xml->body->root->project;
+      foreach ($projects as $id => $job) {
+        $jobs[] = $job;
+      }
+    }
+  }
+  return $jobs;
+}
+
+
+/**
+ * Function _os2web_ofir_job_parse_job_text().
+ */
+function _os2web_ofir_job_parse_job_text($xml) {
+  // This function can parse a ofir job XML-feed and extract
+  // all the field values we want for our Drupal-nodes.
+  $ofir_job['title']           = $xml->ad->header;
+  $ofir_job['ad_id']           = _os2web_ofir_job_xml_attribute($xml->ad, 'id');
+  $ofir_job['published']       = _os2web_ofir_job_xml_attribute($xml, 'published');
+  $ofir_job['deadline']        = _os2web_ofir_job_xml_attribute($xml, 'deadline');
+  $ofir_job['description']     = html_entity_decode((string) $xml->ad->description);
+  $ofir_job['shorttext']        = html_entity_decode((string) $xml->ad->shorttext);
+  $ofir_job['department_name'] = _os2web_ofir_job_xml_attribute($xml, 'department_name');
+  $ofir_job['design']          = _os2web_ofir_job_xml_attribute($xml->ad, 'design');
+  $apply_link                  = _os2web_ofir_job_xml_attribute($xml, 'apply_link');
+  $apply_link                  = str_replace('vacancyAd', 'vacancyapply', $apply_link);
+  $ofir_job['apply_link']      = $apply_link;
+
+  // Facts
+  // @todo: If order of elements changes in array, data will not be mapped correctly to fields!!
+  $ofir_job['job_desc']       = (string) $xml->ad->facts->fact[0];
+  $ofir_job['work_hours']     = (string) $xml->ad->facts->fact[1];
+  $ofir_job['job_type']       = (string) $xml->ad->facts->fact[2];
+  $ofir_job['category']       = (string) $xml->ad->facts->fact[3];
+  $ofir_job['job_start_time'] = (string) $xml->ad->facts->fact[5];
+  $ofir_job['contact_person'] = (string) $xml->ad->facts->fact[6];
+  $ofir_job['contact_no']     = (string) $xml->ad->facts->fact[7];
+  return $ofir_job;
+}
+
+/**
+ * Check job is existed.
+ *
+ * @param Object $job
+ *   SimpleXMLElement Object
+ */
+function _os2web_ofir_job_check_existed($job) {
+  if (!is_object($job)) {
+    return FALSE;
+  }
+  $ad_id = _os2web_ofir_job_xml_attribute($job->ad, 'id');
+  if ($ad_id) {
+    $status = db_query('SELECT entity_id FROM {field_data_field_os2web_ofir_job_ad_id} WHERE field_os2web_ofir_job_ad_id_value = :ad_id', array(
+              ':ad_id' => $ad_id))->fetchField();
+    if (empty($status)) {
+      return FALSE;
+    }
+    else {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+/**
+ * Get xml attribute.
+ */
+function _os2web_ofir_job_xml_attribute($object, $attribute) {
+  if (isset($object[$attribute])) {
+    return (string) $object[$attribute];
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function os2web_ofir_job_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+
+  $form['field_os2web_ofir_category_tid']['#options']['All'] = t('Alle stillingskategorier');
 }
