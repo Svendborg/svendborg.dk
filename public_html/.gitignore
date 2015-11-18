@@ -5,4 +5,17 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 
-files/
+# Ignore common text files
+CHANGELOG.txt
+COPYRIGHT.txt
+INSTALL.mysql.txt
+INSTALL.pgsql.txt
+INSTALL.sqlite.txt
+INSTALL.txt
+LICENSE.txt
+MAINTAINERS.txt
+README.txt
+UPGRADE.txt
+
+# Ignore sql files
+*.sql
