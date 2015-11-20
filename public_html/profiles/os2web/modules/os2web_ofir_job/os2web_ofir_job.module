@@ -115,6 +115,9 @@ function os2web_ofir_job_cron() {
       _os2web_ofir_job_cronbatch();
     }
   }
+
+  // Check for expired job postings.
+  os2web_ofir_job_unpublish_expired();
 }
 
 /**
@@ -422,4 +425,28 @@ function _os2web_ofir_job_xml_attribute($object, $attribute) {
 function os2web_ofir_job_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
 
   $form['field_os2web_ofir_category_tid']['#options']['All'] = t('Alle stillingskategorier');
+}
+
+/**
+ * Unpublishes job postings, where application date is expired.
+ */
+function os2web_ofir_job_unpublish_expired() {
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'os2web_ofir_job')
+    ->propertyCondition('status', 1)
+    ->fieldCondition('field_os2web_ofir_job_period', 'value2', date('c'), '<');
+  $result = $query->execute();
+
+  // If results were found, unpublish nodes
+  if (isset($result['node'])) {
+
+    $nodes = node_load_multiple(array_keys($result['node']));
+
+    foreach ($nodes as $node) {
+      $node->status = 0;
+      node_save($node);
+    }
+  }
 }
