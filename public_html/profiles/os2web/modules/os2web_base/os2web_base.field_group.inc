@@ -184,6 +184,7 @@ function os2web_base_field_group_info() {
       1 => 'field_os2web_base_field_hidlinks',
       2 => 'field_svendborg_hide_sidebar',
       3 => 'field_svendborg_hide_contact',
+      4 => 'field_os2web_base_field_sympage',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -238,7 +239,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Hentet fra kommunens sagssystem',
-    'weight' => '7',
+    'weight' => '10',
     'children' => array(),
     'format_type' => 'hidden',
     'format_settings' => array(
