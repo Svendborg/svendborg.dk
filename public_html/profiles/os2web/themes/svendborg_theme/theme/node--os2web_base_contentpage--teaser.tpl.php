@@ -93,6 +93,8 @@
       hide($content['field_svendborg_hide_sidebar']);
       hide($content['field_svendborg_hide_contact']);
       hide($content['field_os2web_base_field_hidlinks']);
+      hide($content['field_os2web_base_field_webform']);
+      hide($content['field_os2web_base_field_sympage']);
 
       print render($content['field_os2web_base_field_summary']);
       print render($content['body']);
