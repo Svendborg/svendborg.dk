@@ -98,7 +98,7 @@
 
       print render($content['field_os2web_base_field_summary']);
       print render($content['body']);
-
+      print render($content);
 
     ?>
 
