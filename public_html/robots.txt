@@ -11,31 +11,17 @@
 # Ignored: http://example.com/site/robots.txt
 #
 # For more information about the robots.txt standard, see:
-# http://www.robotstxt.org/wc/robots.html
-#
-# For syntax checking, see:
-# http://www.sxw.org.uk/computing/robots/check.html
+# http://www.robotstxt.org/robotstxt.html
 
 User-agent: *
 Crawl-delay: 10
 # Directories
-# Web Static Assets, eg CSS, Javascript files and Images.
-Allow: /profiles/*/*.css
-Allow: /profiles/*/*.js
-Allow: /profiles/*/*.gif
-Allow: /profiles/*/*.jpg
-Allow: /profiles/*/*.jpeg
-Allow: /profiles/*/*.png
-Allow: /profiles/*/*.woff
-Allow: /profiles/*/*.ttf
-Allow: /profiles/*/*.svg
 Disallow: /includes/
 Disallow: /misc/
 Disallow: /modules/
 Disallow: /profiles/
 Disallow: /scripts/
 Disallow: /themes/
-Disallow: /noindex/
 # Files
 Disallow: /CHANGELOG.txt
 Disallow: /cron.php
