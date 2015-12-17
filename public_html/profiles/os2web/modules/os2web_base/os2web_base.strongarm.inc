@@ -262,7 +262,7 @@ function os2web_base_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'related_block' => array(
         'custom_settings' => TRUE,
@@ -305,6 +305,10 @@ function os2web_base_strongarm() {
       'display' => array(
         'webform' => array(
           'default' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
             'weight' => '7',
             'visible' => TRUE,
           ),
