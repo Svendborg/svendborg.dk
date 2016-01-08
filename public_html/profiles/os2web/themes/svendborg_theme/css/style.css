@@ -7877,6 +7877,15 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 .region-sidebar-first .block-menu-block li.last a {
   border-radius: 0 0 4px 4px;
 }
+@media screen and (max-width: 768px) {
+  .region-sidebar-first .block-menu-block .menu-name-menu-indholdsmenu > ul > li {
+    display: none;
+  }
+  .region-sidebar-first .block-menu-block .menu-name-menu-indholdsmenu > ul > li.active-trail,
+  .region-sidebar-first .block-menu-block .menu-name-menu-indholdsmenu > ul > li.not-hide-in-mobile {
+    display: block;
+  }
+}
 .block-facetapi {
   background-color: #FFF;
 }
