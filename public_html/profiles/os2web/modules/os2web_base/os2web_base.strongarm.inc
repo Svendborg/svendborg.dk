@@ -935,5 +935,12 @@ function os2web_base_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_os2web_base_selfservice_link'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_os2web_base_news_pattern';
+  $strongarm->value = 'nyheder/[node:field-os2web-base-field-struct:0:name]/[node:title]';
+  $export['pathauto_node_os2web_base_news_pattern'] = $strongarm;
+
   return $export;
 }
