@@ -13,6 +13,34 @@ function os2web_base_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_afsnit|node|os2web_base_contentpage|form';
+  $field_group->group_name = 'group_afsnit';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_contentpage';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_os2web_base_group_content';
+  $field_group->data = array(
+    'label' => 'Afsnit',
+    'weight' => '9',
+    'children' => array(
+      0 => 'field_os2web_paragraphs',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-afsnit field-group-htab',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_afsnit|node|os2web_base_contentpage|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_billeder|node|os2web_base_gallery|form';
   $field_group->group_name = 'group_billeder';
   $field_group->entity_type = 'node';
@@ -178,7 +206,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_group_content';
   $field_group->data = array(
     'label' => 'Indstillinger',
-    'weight' => '9',
+    'weight' => '10',
     'children' => array(
       0 => 'field_os2web_base_field_contact',
       1 => 'field_os2web_base_field_hidlinks',
@@ -217,6 +245,7 @@ function os2web_base_field_group_info() {
       3 => 'group_os2web_base_group_images',
       4 => 'group_relationer',
       5 => 'group_spotbokse',
+      6 => 'group_afsnit',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
