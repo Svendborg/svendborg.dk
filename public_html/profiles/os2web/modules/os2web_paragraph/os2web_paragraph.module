@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the OS2web Paragraph feature.
  */
+
+include_once 'os2web_paragraph.features.inc';
