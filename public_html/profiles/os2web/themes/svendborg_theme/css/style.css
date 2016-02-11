@@ -7369,6 +7369,12 @@ fieldset[disabled] .btn-orange.active {
   font-size: 15px;
   color: #30353c;
 }
+.panel .panel-body .field-name-body ul li {
+  padding-left: 10px;
+}
+.panel .panel-body .field-name-body ul li a {
+  color: #0089cd;
+}
 .panel .panel-footer {
   background: white;
   text-align: center;
