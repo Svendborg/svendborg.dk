@@ -7373,7 +7373,6 @@ fieldset[disabled] .btn-orange.active {
   list-style: circle;
   margin-left: 0;
   padding-left: 1em;
-  text-indent: -1em;
 }
 .panel .panel-footer {
   background: white;
