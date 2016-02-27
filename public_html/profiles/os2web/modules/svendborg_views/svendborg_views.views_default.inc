@@ -994,6 +994,38 @@ function svendborg_views_views_default_views() {
   );
   $handler->display->display_options['filters']['field_os2web_base_field_promote_tid']['vocabulary'] = 'os2web_base_tax_promoteto';
   $handler->display->display_options['path'] = 'kommunen/nyheder/pressemeddelelser';
+
+  /* Display: Side */
+  $handler = $view->new_display('page', 'Side', 'page_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Aktuelle udbud';
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'smallteaser';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filterkriterie: Indhold: Udgivet */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filterkriterie: Indhold: Nyhedstype (field_os2web_news_page_type) */
+  $handler->display->display_options['filters']['field_os2web_news_page_type_tid']['id'] = 'field_os2web_news_page_type_tid';
+  $handler->display->display_options['filters']['field_os2web_news_page_type_tid']['table'] = 'field_data_field_os2web_news_page_type';
+  $handler->display->display_options['filters']['field_os2web_news_page_type_tid']['field'] = 'field_os2web_news_page_type_tid';
+  $handler->display->display_options['filters']['field_os2web_news_page_type_tid']['value'] = array(
+    4054 => '4054',
+  );
+  $handler->display->display_options['filters']['field_os2web_news_page_type_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_os2web_news_page_type_tid']['vocabulary'] = 'os2web_news_page_newstypes';
+  $handler->display->display_options['path'] = 'kommunen/nyheder/udbud';
   $translatables['pressemeddelelser'] = array(
     t('Master'),
     t('Pressemeddelelser'),
@@ -1012,6 +1044,7 @@ function svendborg_views_views_default_views() {
     t('sidste »'),
     t('Page'),
     t('Side'),
+    t('Aktuelle udbud'),
   );
   $export['pressemeddelelser'] = $view;
 
