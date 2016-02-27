@@ -96,6 +96,7 @@ features[field_base][] = field_vist_navn
 features[field_group][] = group_afsnit|node|os2web_base_contentpage|form
 features[field_group][] = group_billeder|node|os2web_base_gallery|form
 features[field_group][] = group_billeder|taxonomy_term|os2web_base_tax_site_structure|form
+features[field_group][] = group_dates|node|os2web_base_news|form
 features[field_group][] = group_form|node|os2web_base_gallery|form
 features[field_group][] = group_indstilliger|node|os2web_base_gallery|form
 features[field_group][] = group_indstillinger|taxonomy_term|os2web_base_tax_site_structure|form
@@ -444,4 +445,4 @@ features_exclude[field][node-os2web_base_contentpage-field_os2web_base_field_doc
 features_exclude[field][node-os2web_base_news-field_os2web_base_field_media] = node-os2web_base_news-field_os2web_base_field_media
 features_exclude[field][node-os2web_base_news-field_os2web_base_field_case] = node-os2web_base_news-field_os2web_base_field_case
 features_exclude[field][node-os2web_base_news-field_os2web_base_field_doc] = node-os2web_base_news-field_os2web_base_field_doc
-mtime = 1453932464
+mtime = 1456536551
