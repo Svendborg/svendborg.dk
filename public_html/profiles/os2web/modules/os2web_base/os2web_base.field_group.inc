@@ -522,7 +522,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_news_tabs';
   $field_group->data = array(
     'label' => 'Indstillinger',
-    'weight' => '6',
+    'weight' => '7',
     'children' => array(
       0 => 'field_os2web_base_field_promote',
       1 => 'field_svendborg_hide_sidebar',
@@ -681,12 +681,13 @@ function os2web_base_field_group_info() {
     'label' => 'News',
     'weight' => '0',
     'children' => array(
-      0 => 'group_os2web_news_group_media',
+      0 => 'group_dates',
       1 => 'group_os2web_base_group_settings',
       2 => 'group_os2web_base_group_taxono',
       3 => 'group_os2web_base_group_text',
-      4 => 'group_spotbokse',
+      4 => 'group_os2web_news_group_media',
       5 => 'group_relationer',
+      6 => 'group_spotbokse',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
