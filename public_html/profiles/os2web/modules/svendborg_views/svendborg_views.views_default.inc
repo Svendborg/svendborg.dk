@@ -1402,6 +1402,14 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['footer']['area']['content'] = '<a class="btn btn-primary" href="/nyheder/udbud">Alle</a>';
   $handler->display->display_options['footer']['area']['format'] = 'full_html';
   $handler->display->display_options['footer']['area']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* Opførsel ved ingen resultater: Global: Tekstområde */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'Der er i øjeblikket ingen aktuelle udbud.';
+  $handler->display->display_options['empty']['area']['format'] = 'plain_text';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Indhold: Oprettelsesdato */
   $handler->display->display_options['fields']['created']['id'] = 'created';
@@ -1914,6 +1922,14 @@ function svendborg_views_views_default_views() {
   $handler->display->display_options['footer']['area']['content'] = '<a class="btn btn-primary" href="/nyheder/hoeringer">Alle</a>';
   $handler->display->display_options['footer']['area']['format'] = 'full_html';
   $handler->display->display_options['footer']['area']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* Opførsel ved ingen resultater: Global: Tekstområde */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'Der er i øjeblikket ingen aktuelle høringer.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Felt: Indhold: Oprettelsesdato */
   $handler->display->display_options['fields']['created']['id'] = 'created';
@@ -2017,6 +2033,7 @@ function svendborg_views_views_default_views() {
     t('sidste »'),
     t('Block_tab_udbud'),
     t('<a class="btn btn-primary" href="/nyheder/udbud">Alle</a>'),
+    t('Der er i øjeblikket ingen aktuelle udbud.'),
     t('<div class="col-md-3 col-sm-6 col-xs-4">
 [field_os2web_base_field_lead_img]
 </div>
@@ -2062,6 +2079,7 @@ function svendborg_views_views_default_views() {
     t('frontpage and carousel small'),
     t('Block_tab_høringer'),
     t('<a class="btn btn-primary" href="/nyheder/hoeringer">Alle</a>'),
+    t('Der er i øjeblikket ingen aktuelle høringer.'),
   );
   $export['svendborg_news_view'] = $view;
 
