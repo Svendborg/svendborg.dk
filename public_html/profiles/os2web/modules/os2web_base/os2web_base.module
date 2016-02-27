@@ -29,6 +29,16 @@ function os2web_base_date_formats() {
 }
 
 /**
+ * Implements hook_entity_info_alter().
+ */
+function os2web_base_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['smallteaser'] = array(
+    'label' => t('Teaser - Small'),
+    'custom settings' => false,
+  );
+}
+
+/**
  * Implements hook_form_alter().
  */
 function os2web_base_form_alter(&$form, &$form_state, $form_id) {
