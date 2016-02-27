@@ -512,6 +512,9 @@ function os2web_base_strongarm() {
       'diff_standard' => array(
         'custom_settings' => FALSE,
       ),
+      'smallteaser' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'display' => array(),
@@ -530,6 +533,9 @@ function os2web_base_strongarm() {
         ),
         'redirect' => array(
           'weight' => '5',
+        ),
+        'scheduler_settings' => array(
+          'weight' => '0',
         ),
       ),
     ),
