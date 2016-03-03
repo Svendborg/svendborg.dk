@@ -1,7 +1,8 @@
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes . " all"; ?> smallteaser clearfix"<?php print $attributes; ?> date-filter="<?php if (isset($top_parent_term)) print $top_parent_term ?>">
   <?php if (!$page) : ?>
 
-
+    <div class="margin-bottom-20">
+      <div class="front-s-news-item front-s-news-item-">
       
       <?php 
         $nyhedstype       =    field_get_items('node', $node, 'field_os2web_news_page_type'); 
@@ -23,7 +24,7 @@
           <?php endif;
         endif; ?>
         
-            <div class="row">
+            <div class="front-s-news-item-text clearfix row">
               <div class="col-md-1 col-sm-2 col-xs-2">
                  <div class="news-text-date">
                    <span class="news-date-day"><?php print date('j', $created); ?></span>
@@ -40,7 +41,8 @@
                     </div>
               </div>
 
-
+        </div>
+      </div>
     </div>
   <?php endif; ?>
 
