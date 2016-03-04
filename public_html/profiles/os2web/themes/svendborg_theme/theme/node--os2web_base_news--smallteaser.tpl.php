@@ -41,7 +41,7 @@
             </div>
 
       </div>
-      <hr style="color: #ddd;"
+      <hr style="color: #ddd; margin: 0 0;"
     </div>
   <?php endif; ?>
 
