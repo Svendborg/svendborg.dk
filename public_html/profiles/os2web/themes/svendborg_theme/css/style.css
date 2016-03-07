@@ -9115,39 +9115,99 @@ h2.menu-footer a.Kommunen {
   text-decoration: none;
 }
 .front-indholsdmenu a.Kommunen {
-  background-image: url(../images/sprites.png);
-  background-position: 0px -589px;
+  font-size: 15px;
+  padding: 16px 25px 25px 25px;
+  margin-top: 50px;
+  background: url('../images/ikon_1.png') 30px 50px no-repeat, -moz-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ff3.6+ */
+  background: url('../images/ikon_1.png') 30px 50px no-repeat, -webkit-gradient(linear, left top, right bottom, color-stop(55%, #0d69b5), color-stop(120%, #084487));
+  /* safari4+,chrome */
+  background: url('../images/ikon_1.png') 30px 50px no-repeat, -webkit-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* safari5.1+,chrome10+ */
+  background: url('../images/ikon_1.png') 30px 50px no-repeat, -o-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* opera 11.10+ */
+  background: url('../images/ikon_1.png') 30px 50px no-repeat, -ms-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ie10+ */
+  background: url('../images/ikon_1.png') 30px 50px no-repeat, linear-gradient(131deg, #0d69b5 55%, #084487 120%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0d69b5, endColorstr=#084487, GradientType=1);
+  /* ie6-9 */
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
   width: 135px;
   height: 135px;
-  font-size: 15px;
-  padding: 93px 25px 25px 25px;
-  margin-top: 50px;
 }
 .front-indholsdmenu a.Borger {
-  background-image: url(../images/sprites.png);
-  background-position: 0px -1184px;
-  width: 182px;
+  background: url('../images/ikon_2.png') 41px 28px no-repeat, -moz-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ff3.6+ */
+  background: url('../images/ikon_2.png') 41px 28px no-repeat, -webkit-gradient(linear, left top, right bottom, color-stop(55%, #0d69b5), color-stop(120%, #084487));
+  /* safari4+,chrome */
+  background: url('../images/ikon_2.png') 41px 28px no-repeat, -webkit-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* safari5.1+,chrome10+ */
+  background: url('../images/ikon_2.png') 41px 28px no-repeat, -o-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* opera 11.10+ */
+  background: url('../images/ikon_2.png') 41px 28px no-repeat, -ms-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ie10+ */
+  background: url('../images/ikon_2.png') 41px 28px no-repeat, linear-gradient(131deg, #0d69b5 55%, #084487 120%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0d69b5, endColorstr=#084487, GradientType=1);
+  /* ie6-9 */
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 180px;
   height: 180px;
   padding: 127px 55px 29px 55px;
   font-size: 20px;
   font-weight: 600;
 }
 .front-indholsdmenu a.Erhverv {
-  background-image: url(../images/sprites.png);
-  background-position: 0px -1004px;
-  width: 182px;
+  background: url('../images/ikon_3.png') 41px 28px no-repeat, -moz-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ff3.6+ */
+  background: url('../images/ikon_3.png') 41px 28px no-repeat, -webkit-gradient(linear, left top, right bottom, color-stop(55%, #0d69b5), color-stop(120%, #084487));
+  /* safari4+,chrome */
+  background: url('../images/ikon_3.png') 41px 28px no-repeat, -webkit-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* safari5.1+,chrome10+ */
+  background: url('../images/ikon_3.png') 41px 28px no-repeat, -o-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* opera 11.10+ */
+  background: url('../images/ikon_3.png') 41px 28px no-repeat, -ms-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ie10+ */
+  background: url('../images/ikon_3.png') 41px 28px no-repeat, linear-gradient(131deg, #0d69b5 55%, #084487 120%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0d69b5, endColorstr=#084487, GradientType=1);
+  /* ie6-9 */
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 180px;
   height: 180px;
   padding: 127px 50px 29px 50px;
   font-size: 20px;
   font-weight: 600;
 }
 .front-indholsdmenu a.Politik {
-  background-image: url(../images/sprites.png);
-  background-position: 0px -456px;
-  width: 134px;
-  height: 133px;
+  background: url('../images/ikon_4.png') 32px 50px no-repeat, -moz-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ff3.6+ */
+  background: url('../images/ikon_4.png') 32px 50px no-repeat, -webkit-gradient(linear, left top, right bottom, color-stop(55%, #0d69b5), color-stop(120%, #084487));
+  /* safari4+,chrome */
+  background: url('../images/ikon_4.png') 32px 50px no-repeat, -webkit-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* safari5.1+,chrome10+ */
+  background: url('../images/ikon_4.png') 32px 50px no-repeat, -o-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* opera 11.10+ */
+  background: url('../images/ikon_4.png') 32px 50px no-repeat, -ms-linear-gradient(319deg, #0d69b5 55%, #084487 120%);
+  /* ie10+ */
+  background: url('../images/ikon_4.png') 32px 50px no-repeat, linear-gradient(131deg, #0d69b5 55%, #084487 120%);
+  /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0d69b5, endColorstr=#084487, GradientType=1);
+  /* ie6-9 */
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 135px;
+  height: 135px;
   font-size: 15px;
-  padding: 93px 45px 23px 45px;
+  padding: 16px 45px 23px 45px;
   margin-top: 50px;
 }
 @media all and (max-width: 768px) {

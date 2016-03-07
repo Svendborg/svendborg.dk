@@ -52,22 +52,17 @@ function svendborg_circle_menu_get_menu_link() {
   foreach ($tree as $key => $menu_item) {
     $title = $menu_item['link']['link_title'];
     $path = drupal_get_path_alias($menu_item['link']['link_path']);
-    switch ($title) {
-      case 'Kommunen':
-        $menu_links[0] = array('mlid' => array('title' => $title, 'path' => $path));
-        break;
 
-      case 'Borger':
-        $menu_links[1] = array('mlid' => array('title' => $title, 'path' => $path));
-        break;
-
-      case 'Erhverv':
-        $menu_links[2] = array('mlid' => array('title' => $title, 'path' => $path));
-        break;
-
-      case 'Politik':
-        $menu_links[3] = array('mlid' => array('title' => $title, 'path' => $path));
-        break;
+    if (strpos($title, 'Kommunen') !== false) {
+      $menu_links[0] = array('mlid' => array('title' => $title, 'path' => $path));    }
+    elseif (strpos($title, 'Borger') !== false){
+      $menu_links[1] = array('mlid' => array('title' => $title, 'path' => $path));
+    }
+    elseif (strpos($title, 'Erhverv') !== false){
+      $menu_links[2] = array('mlid' => array('title' => $title, 'path' => $path));
+    }
+    elseif (strpos($title, 'Politik') !== false){
+      $menu_links[3] = array('mlid' => array('title' => $title, 'path' => $path));
     }
   }
   ksort($menu_links);
