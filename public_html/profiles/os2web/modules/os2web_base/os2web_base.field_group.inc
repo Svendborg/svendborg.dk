@@ -13,6 +13,34 @@ function os2web_base_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_afsnit|node|os2web_base_contentpage|form';
+  $field_group->group_name = 'group_afsnit';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_contentpage';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_os2web_base_group_content';
+  $field_group->data = array(
+    'label' => 'Afsnit',
+    'weight' => '9',
+    'children' => array(
+      0 => 'field_os2web_paragraphs',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-afsnit field-group-htab',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_afsnit|node|os2web_base_contentpage|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_billeder|node|os2web_base_gallery|form';
   $field_group->group_name = 'group_billeder';
   $field_group->entity_type = 'node';
@@ -71,6 +99,38 @@ function os2web_base_field_group_info() {
     ),
   );
   $export['group_billeder|taxonomy_term|os2web_base_tax_site_structure|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_dates|node|os2web_base_news|form';
+  $field_group->group_name = 'group_dates';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'os2web_base_news';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_os2web_base_news_tabs';
+  $field_group->data = array(
+    'label' => 'Datoer',
+    'weight' => '6',
+    'children' => array(
+      0 => 'field_os2web_news_page_archive',
+      1 => 'field_os2web_news_date_start',
+      2 => 'field_os2web_news_date_end',
+      3 => 'scheduler_settings',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'label' => 'Datoer',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'id' => '',
+        'classes' => '',
+        'description' => '',
+      ),
+      'formatter' => 'closed',
+    ),
+  );
+  $export['group_dates|node|os2web_base_news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -178,7 +238,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_group_content';
   $field_group->data = array(
     'label' => 'Indstillinger',
-    'weight' => '9',
+    'weight' => '10',
     'children' => array(
       0 => 'field_os2web_base_field_contact',
       1 => 'field_os2web_base_field_hidlinks',
@@ -217,6 +277,7 @@ function os2web_base_field_group_info() {
       3 => 'group_os2web_base_group_images',
       4 => 'group_relationer',
       5 => 'group_spotbokse',
+      6 => 'group_afsnit',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -493,7 +554,7 @@ function os2web_base_field_group_info() {
   $field_group->parent_name = 'group_os2web_base_news_tabs';
   $field_group->data = array(
     'label' => 'Indstillinger',
-    'weight' => '6',
+    'weight' => '7',
     'children' => array(
       0 => 'field_os2web_base_field_promote',
       1 => 'field_svendborg_hide_sidebar',
@@ -652,12 +713,13 @@ function os2web_base_field_group_info() {
     'label' => 'News',
     'weight' => '0',
     'children' => array(
-      0 => 'group_os2web_news_group_media',
+      0 => 'group_dates',
       1 => 'group_os2web_base_group_settings',
       2 => 'group_os2web_base_group_taxono',
       3 => 'group_os2web_base_group_text',
-      4 => 'group_spotbokse',
+      4 => 'group_os2web_news_group_media',
       5 => 'group_relationer',
+      6 => 'group_spotbokse',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(

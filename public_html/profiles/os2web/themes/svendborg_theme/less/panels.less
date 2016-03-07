@@ -8,6 +8,69 @@
 // If you want to simulate the heading of an panel in your own element use the
 // classes .like-panel and which type of panel with .like-panel-primary.
 
+
+
+.field-collection-view { 
+  margin: 0 0; 
+  padding: 0 0; 
+  border-bottom: none;
+  .panel {
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #E2E1DC;
+    .panel-heading {
+      text-align: left;
+      background-image: none;
+      color: #333;
+      background-color: #E2E1DC;
+      padding: 10px;
+    }
+    .panel-body {
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
+      background-color: #E2E1DC;
+    }
+    .field-name-field-os2web-paragraph-text,
+    .field-name-field-os2web-paragraph-ref .indlejret-indhold {
+      padding: 10px;
+      background-color: #E2E1DC;
+    }
+    &.collapsed {
+      .panel-heading {
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        }
+    }
+  }
+  .field-name-field-os2web-paragraph-text { 
+    padding: 10px 15px; 
+  }
+
+}
+
+.field-collection-view > .panel > .panel-heading a.panel-title::before {
+    display: table-cell;
+    float: right !important;
+    content: "–";
+    color: #FFF;
+    padding: 0 0;
+    width: 20px;
+    text-align: center;
+    vertical-align: middle;
+    height: 20px;
+    line-height: 16px;
+    background-color: #83C200;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    }
+.field-collection-view > .panel.collapsed > .panel-heading a.panel-title::before {
+    content: "+";
+    height: 20px;
+    line-height: 19px;
+    }
+    
+
 .panel {
   border: none;
 
@@ -89,7 +152,6 @@
       padding: 0;
       margin: 0;
       border-radius: 0 0 4px 4px;
-      background: white;
       list-style: none;
 
       li {
@@ -98,6 +160,16 @@
         a{
           font-size: 15px;
           color: @brand-blacknblue;
+        }
+      }
+    }
+    .field-name-body {
+      ul {
+        li {
+          padding-left: 10px;
+          a {
+            color: @brand-lightblue;
+          }
         }
       }
     }

@@ -7232,6 +7232,61 @@ fieldset[disabled] .btn-orange:active,
 fieldset[disabled] .btn-orange.active {
   background-color: #dd830f;
 }
+.field-collection-view {
+  margin: 0 0;
+  padding: 0 0;
+  border-bottom: none;
+}
+.field-collection-view .panel {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background-color: #E2E1DC;
+}
+.field-collection-view .panel .panel-heading {
+  text-align: left;
+  background-image: none;
+  color: #333;
+  background-color: #E2E1DC;
+  padding: 10px;
+}
+.field-collection-view .panel .panel-body {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background-color: #E2E1DC;
+}
+.field-collection-view .panel .field-name-field-os2web-paragraph-text,
+.field-collection-view .panel .field-name-field-os2web-paragraph-ref .indlejret-indhold {
+  padding: 10px;
+  background-color: #E2E1DC;
+}
+.field-collection-view .panel.collapsed .panel-heading {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.field-collection-view .field-name-field-os2web-paragraph-text {
+  padding: 10px 15px;
+}
+.field-collection-view > .panel > .panel-heading a.panel-title::before {
+  display: table-cell;
+  float: right !important;
+  content: "–";
+  color: #FFF;
+  padding: 0 0;
+  width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  height: 20px;
+  line-height: 16px;
+  background-color: #83C200;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+}
+.field-collection-view > .panel.collapsed > .panel-heading a.panel-title::before {
+  content: "+";
+  height: 20px;
+  line-height: 19px;
+}
 .panel,
 .like-panel {
   border: none;
@@ -7305,7 +7360,6 @@ fieldset[disabled] .btn-orange.active {
   padding: 0;
   margin: 0;
   border-radius: 0 0 4px 4px;
-  background: white;
   list-style: none;
 }
 .panel .panel-body ul li {
@@ -7314,6 +7368,12 @@ fieldset[disabled] .btn-orange.active {
 .panel .panel-body ul li a {
   font-size: 15px;
   color: #30353c;
+}
+.panel .panel-body .field-name-body ul li {
+  padding-left: 10px;
+}
+.panel .panel-body .field-name-body ul li a {
+  color: #0089cd;
 }
 .panel .panel-footer {
   background: white;
@@ -7876,6 +7936,15 @@ div.node-os2web-spotbox-box .field-name-field-os2web-spotbox-video iframe {
 }
 .region-sidebar-first .block-menu-block li.last a {
   border-radius: 0 0 4px 4px;
+}
+@media screen and (max-width: 768px) {
+  .region-sidebar-first .block-menu-block .menu-name-menu-indholdsmenu > ul > li {
+    display: none;
+  }
+  .region-sidebar-first .block-menu-block .menu-name-menu-indholdsmenu > ul > li.active-trail,
+  .region-sidebar-first .block-menu-block .menu-name-menu-indholdsmenu > ul > li.not-hide-in-mobile {
+    display: block;
+  }
 }
 .block-facetapi {
   background-color: #FFF;
