@@ -510,6 +510,33 @@ h4 {font-family: @headings-font-family;
   }
 }
 
+.os2web-list {
+  &.bg-white {
+    padding: @padding-base-vertical*2;
+    .views-row {
+      .smallteaser {
+        padding: @padding-base-vertical*2 0;
+        .node-title {
+          color: @brand-lightblue;
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
+      &.views-row-last {
+        padding-bottom: 0;
+      }
+      &.views-row-first {
+        padding-top: 0;
+      }
+    }
+    .views-row:not(.views-row-last) {
+      .smallteaser {
+        border-bottom: 1px solid #ddd;
+      }
+    }
+  }
+}
+
 .page-kommunen-job .region-content {
   .bg-white;
 }

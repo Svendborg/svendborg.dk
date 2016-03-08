@@ -8727,6 +8727,26 @@ body.page-node article #borger_dk-body .microArticle ul {
 .view-id-job_liste .field-name-field-os2web-ofir-category {
   margin-bottom: 5px;
 }
+.os2web-list.bg-white {
+  padding: 12px;
+}
+.os2web-list.bg-white .views-row .smallteaser {
+  padding: 12px 0;
+}
+.os2web-list.bg-white .views-row .smallteaser .node-title {
+  color: #0089cd;
+  font-size: 18px;
+  font-weight: bold;
+}
+.os2web-list.bg-white .views-row.views-row-last {
+  padding-bottom: 0;
+}
+.os2web-list.bg-white .views-row.views-row-first {
+  padding-top: 0;
+}
+.os2web-list.bg-white .views-row:not(.views-row-last) .smallteaser {
+  border-bottom: 1px solid #ddd;
+}
 .page-kommunen-job .region-content {
   background: white;
   border-radius: 4px 4px;

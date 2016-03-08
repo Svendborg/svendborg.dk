@@ -14,4 +14,5 @@ features[field_base][] = field_os2web_news_page_archive
 features[field_instance][] = node-os2web_base_news-field_os2web_news_page_archive
 features[views_view][] = os2web_news_page_archive
 features_exclude[dependencies][views] = views
+mtime = 1455195182
 project path = profiles/os2web/modules/os2web_news_page/

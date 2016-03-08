@@ -23,4 +23,4 @@ features[views_view][] = news_filter
 features[views_view][] = pressemeddelelser
 features[views_view][] = svendborg_inactive_users
 features[views_view][] = svendborg_news_view
-mtime = 1456999049
+mtime = 1457427585
