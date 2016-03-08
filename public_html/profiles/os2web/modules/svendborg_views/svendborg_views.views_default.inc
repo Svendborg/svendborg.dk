@@ -969,7 +969,7 @@ function svendborg_views_views_default_views() {
   /* Display: Side */
   $handler = $view->new_display('page', 'Side', 'page_1');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
-  $handler->display->display_options['css_class'] = 'bg-white';
+  $handler->display->display_options['css_class'] = 'bg-white os2web-list';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
