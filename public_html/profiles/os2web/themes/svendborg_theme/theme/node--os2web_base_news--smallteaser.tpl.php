@@ -1,8 +1,5 @@
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes . " all"; ?> smallteaser clearfix"<?php print $attributes; ?> date-filter="<?php if (isset($top_parent_term)) print $top_parent_term ?>">
   <?php if (!$page) : ?>
-
-    <div class="front-s-news-item front-s-news-item-">
-    
     <?php 
       $nyhedstype       =    field_get_items('node', $node, 'field_os2web_news_page_type'); 
       $nyhedstypevalgt  =    $nyhedstype[0];
@@ -33,7 +30,7 @@
 
             <div class="col-md-10 col-sm-9 col-xs-9 row">
                   <div>
-                    <a class="news-title" href="<?php global $base_url; print $base_url . $node_url; ?>"><?php print $node->title; ?></a>
+                    <a class="news-title node-title" href="<?php global $base_url; print $base_url . $node_url; ?>"><?php print $node->title; ?></a>
                   </div>
                   <div>
                       <p><?php print render($content['field_os2web_base_field_summary']); ?></p>
@@ -41,8 +38,6 @@
             </div>
 
       </div>
-      <hr style="color: #ddd; margin: 0 0;"
-    </div>
   <?php endif; ?>
 
   <?php
