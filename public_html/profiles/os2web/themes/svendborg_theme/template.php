@@ -842,7 +842,7 @@ function _svendborg_theme_get_borger_dk_content($node) {
 
               if ($field_microarticle_settings[$microno] != 0) {
                 // Body text (Article text).
-                $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+                $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $microno . "\">" . "\r\n";
 
                 $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
                 $micro_h2 .= $title . "</h2>";

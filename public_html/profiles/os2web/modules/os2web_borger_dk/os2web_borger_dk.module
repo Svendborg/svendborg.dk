@@ -648,7 +648,7 @@ function os2web_borger_dk_node_view($node, $view_mode, $langcode) {
 
               if ($field_microarticle_settings[$microno] != 0) {
                 // Body text (Article text).
-                $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+                $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $microno . "\">" . "\r\n";
 
                 $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
                 $micro_h2 .= $title . "</h2>";
@@ -941,7 +941,7 @@ function os2web_borger_dk_node_submit(&$node, $form, &$form_state) {
 
           $field_microarticle_settings[$microno] = $node->$checkboxno;
           // Body text (Article text).
-          $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+          $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $microno . "\">" . "\r\n";
 
           $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
           $micro_h2 .= $node->$h2_text_field . "</h2>";
