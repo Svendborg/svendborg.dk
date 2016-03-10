@@ -29,6 +29,7 @@ dependencies[] = node
 dependencies[] = node_reference
 dependencies[] = number
 dependencies[] = options
+dependencies[] = os2web_related_links
 dependencies[] = os2web_esdh_field
 dependencies[] = os2web_news_page
 dependencies[] = os2web_news_page_archive
