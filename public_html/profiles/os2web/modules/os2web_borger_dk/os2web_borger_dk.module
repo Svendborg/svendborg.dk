@@ -1025,7 +1025,7 @@ function _os2web_borger_dk_microarticle_helper($body_text, $node, $view = FALSE)
       }
       if ($node[$microno] != 0) {
         // Body text (Article text).
-        $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $micro_id . "\">" . "\r\n";
+        $article_text .= "<div class=\"microArticle\" id=\"microArticle" . $microno . "\">" . "\r\n";
 
         $micro_h2 = "<h2 class=\"mArticle\" id=\"mArticle" . $microno . "\">";
         $micro_h2 .= $title . "</h2>";
