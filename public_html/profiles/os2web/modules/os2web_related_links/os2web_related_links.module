@@ -151,7 +151,7 @@ function os2web_related_links_get_links($entity, $entity_type) {
   // 3. Get all related links related to the KLE number on the node. Only get
   // these if the checkbox "Skjul relaterede links" isn't checked.
   // Check also links nodes are not siblings with the reviewed node.
-  if ($kle_items) {
+  if (isset($kle_items) && $kle_items) {
 
     foreach ($kle_items as $kle) {
       // Get all nodes which have the same KLE number as this node.
