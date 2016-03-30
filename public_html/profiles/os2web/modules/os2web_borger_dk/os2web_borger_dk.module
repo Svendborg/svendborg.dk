@@ -197,7 +197,6 @@ function os2web_borger_dk_form_alter(&$form, &$form_state, $form_id) {
 
         // Micro articles.
         if (isset($form['#node']->nid)) {
-          dsm($form);
           $form['field_os2web_borger_dk_kle'][LANGUAGE_NONE]['#required'] = TRUE;
 
           $microarticle = variable_get('os2web_borger_dk_microarticle_active');
