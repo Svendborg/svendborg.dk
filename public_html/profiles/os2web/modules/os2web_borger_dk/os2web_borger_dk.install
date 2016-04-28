@@ -53,7 +53,7 @@ function os2web_borger_dk_install() {
   // our new node-type.
   $data = field_info_instances('node', 'os2web_borger_dk_article');
   // Some of the fields are locked from from being changed.
-  $locked_os2web_types = array('field_os2web_borger_dk_borgerurl' => 1, 'field_termref_kle' => 2);
+  $locked_os2web_types = array('field_os2web_borger_dk_borgerurl' => 1, 'field_os2web_borger_dk_kle' => 2);
   if (!empty($data)) {
     $edit_field_names = array('title' => 'title');
     $display_field_names = array('title' => 'title');

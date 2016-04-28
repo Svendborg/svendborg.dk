@@ -8441,6 +8441,15 @@ body.page-node .region-content.col-md-6 .borger_dk_body_intro_text .intro_text_t
 body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 .borger_dk_body_intro_text .intro_text_text {
   width: 50%;
 }
+body.page-node div.field-name-field-os2web-paragraphs .panel-body ul,
+body.page-taxonomy-term.term-is-not-top div.field-name-field-os2web-paragraphs .panel-body ul {
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 40px;
+  list-style-type: disc;
+}
 body.page-node.two-sidebars article .field-name-field-os2web-borger-dk-image img,
 body.page-taxonomy-term.term-is-not-top.two-sidebars article .field-name-field-os2web-borger-dk-image img,
 body.page-node .region-content.col-sm-6 article .field-name-field-os2web-borger-dk-image img,
