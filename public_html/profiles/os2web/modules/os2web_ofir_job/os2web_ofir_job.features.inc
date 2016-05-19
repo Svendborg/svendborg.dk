@@ -26,7 +26,7 @@ function os2web_ofir_job_views_api($module = NULL, $api = NULL) {
 function os2web_ofir_job_node_info() {
   $items = array(
     'os2web_ofir_job' => array(
-      'name' => t('Emply job'),
+      'name' => t('Ledige job'),
       'base' => 'node_content',
       'description' => t('Præsentere importeret job opslag fra Emply.'),
       'has_title' => '1',

@@ -14,7 +14,7 @@ function os2web_ofir_job_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_os2web_ofir_job';
-  $strongarm->value = 'edit-auto-nodetitle';
+  $strongarm->value = 'edit-scheduler';
   $export['additional_settings__active_tab_os2web_ofir_job'] = $strongarm;
 
   $strongarm = new stdClass();

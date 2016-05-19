@@ -137,6 +137,7 @@ function os2web_ofir_job_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(
         'content_taxonomy_opt_groups' => 0,
+        'use_select2' => FALSE,
       ),
       'type' => 'options_select',
       'weight' => 13,
@@ -357,6 +358,7 @@ function os2web_ofir_job_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(
         'content_taxonomy_opt_groups' => 0,
+        'use_select2' => FALSE,
       ),
       'type' => 'options_select',
       'weight' => 9,
