@@ -572,7 +572,7 @@ function _svendborg_theme_get_large_carousel() {
       $large_carousel .= '#nyheder-carousel-large" data-slide-to="' . $key . '"';
     }
     if ($key == 0) {
-      $large_carousel .= 'class="active"></li>';
+      $large_carousel .= ' class="active"></li>';
     }
     else {
       $large_carousel .= '></li>';
@@ -608,7 +608,7 @@ function _svendborg_theme_get_large_carousel() {
       $large_carousel .= ' front-branding-img';
     }
     $large_carousel .= '">';
-    $large_carousel .= '<img title = "' . $image["title"] . '" src="' . $public_filename . '"/>';
+    $large_carousel .= '<img alt="' . $image["title"] . '" title = "' . $image["title"] . '" src="' . $public_filename . '"/>';
     $large_carousel .= '</div>';
     if (drupal_is_front_page()) {
       $classes = 'col-md-5 col-sm-4 col-xs-12';
