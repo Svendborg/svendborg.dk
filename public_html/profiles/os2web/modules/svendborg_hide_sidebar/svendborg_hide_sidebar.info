@@ -13,4 +13,4 @@ features[field_base][] = field_svendborg_hide_sidebar
 features[field_instance][] = node-os2web_base_contentpage-field_svendborg_hide_sidebar
 features[field_instance][] = node-os2web_base_news-field_svendborg_hide_sidebar
 features[field_instance][] = node-os2web_borger_dk_article-field_svendborg_hide_sidebar
-mtime = 1449001046
+mtime = 1457604662

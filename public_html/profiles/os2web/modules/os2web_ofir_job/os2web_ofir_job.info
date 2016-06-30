@@ -66,3 +66,4 @@ features_exclude[field][node-os2web_ofir_job-field_os2web_ofir_job_logo] = node-
 features_exclude[field][node-os2web_ofir_job-field_os2web_ofir_job_period] = node-os2web_ofir_job-field_os2web_ofir_job_period
 features_exclude[field][node-os2web_ofir_job-field_os2web_ofir_job_text] = node-os2web_ofir_job-field_os2web_ofir_job_text
 features_exclude[field][node-os2web_ofir_job-field_os2web_ofir_job_ad_id] = node-os2web_ofir_job-field_os2web_ofir_job_ad_id
+mtime = 1452244326
