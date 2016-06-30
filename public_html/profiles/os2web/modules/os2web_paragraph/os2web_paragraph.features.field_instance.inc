@@ -87,6 +87,63 @@ function os2web_paragraph_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'field_collection_item-field_os2web_paragraphs-field_os2web_base_field_media'
+  $field_instances['field_collection_item-field_os2web_paragraphs-field_os2web_base_field_media'] = array(
+    'bundle' => 'field_os2web_paragraphs',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_table',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_os2web_base_field_media',
+    'label' => 'PDF Filer',
+    'required' => 0,
+    'settings' => array(
+      'description_field' => 0,
+      'file_directory' => 'PDF',
+      'file_extensions' => 'pdf swf doc docx xlsx xls ppt pptx',
+      'max_filesize' => '50 MB',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'public' => 'public',
+          'ustream' => 0,
+          'youtube' => 0,
+        ),
+        'allowed_types' => array(
+          'application' => 'application',
+          'audio' => 'audio',
+          'document' => 'document',
+          'image' => 0,
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'media_browser_plus--media_browser_my_files' => 0,
+          'media_browser_plus--media_browser_thumbnails' => 0,
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
+          'media_internet' => 0,
+          'upload' => 'upload',
+          'youtube' => 0,
+        ),
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'media_generic',
+      'weight' => 5,
+    ),
+  );
+
   // Exported field_instance: 'field_collection_item-field_os2web_paragraphs-field_os2web_paragraph_ref'
   $field_instances['field_collection_item-field_os2web_paragraphs-field_os2web_paragraph_ref'] = array(
     'bundle' => 'field_os2web_paragraphs',
@@ -282,6 +339,7 @@ function os2web_paragraph_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Billede');
   t('Indlejret side');
+  t('PDF Filer');
   t('Tekst');
   t('Titel');
 
