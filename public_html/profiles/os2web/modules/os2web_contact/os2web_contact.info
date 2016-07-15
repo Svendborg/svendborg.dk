@@ -13,7 +13,6 @@ dependencies[] = node
 dependencies[] = number
 dependencies[] = options
 dependencies[] = os2web_base
-dependencies[] = panels_mini
 dependencies[] = strongarm
 dependencies[] = text
 dependencies[] = views
