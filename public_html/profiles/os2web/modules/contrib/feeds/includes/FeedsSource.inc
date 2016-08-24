@@ -6,7 +6,7 @@
  */
 
 /**
- * Distinguish exceptions occuring when handling locks.
+ * Distinguish exceptions occurring when handling locks.
  */
 class FeedsLockException extends Exception {}
 
@@ -88,6 +88,7 @@ class FeedsState {
   public $updated;
   public $deleted;
   public $unpublished;
+  public $blocked;
   public $skipped;
   public $failed;
 
@@ -106,6 +107,7 @@ class FeedsState {
     $this->updated =
     $this->deleted =
     $this->unpublished =
+    $this->blocked =
     $this->skipped =
     $this->failed = 0;
   }
@@ -132,7 +134,7 @@ class FeedsState {
       $this->progress = FEEDS_BATCH_COMPLETE;
     }
     elseif ($total) {
-      $this->progress = $progress / $total;
+      $this->progress = (float) $progress / $total;
       if ($this->progress == FEEDS_BATCH_COMPLETE && $total != $progress) {
         $this->progress = 0.99;
       }
@@ -195,7 +197,9 @@ class FeedsSource extends FeedsConfigurable {
    */
   public static function instance($importer_id, $feed_nid) {
     $class = variable_get('feeds_source_class', 'FeedsSource');
-    static $instances = array();
+
+    $instances = &drupal_static(__METHOD__, array());
+
     if (!isset($instances[$class][$importer_id][$feed_nid])) {
       $instances[$class][$importer_id][$feed_nid] = new $class($importer_id, $feed_nid);
     }
@@ -303,7 +307,7 @@ class FeedsSource extends FeedsConfigurable {
       'period' => $period,
       'periodic' => TRUE,
     );
-    if (!$this->hasFetcherSource() || $period == FEEDS_SCHEDULE_NEVER && $this->progressImporting() === FEEDS_BATCH_COMPLETE) {
+    if ($period == FEEDS_SCHEDULE_NEVER && $this->progressImporting() === FEEDS_BATCH_COMPLETE) {
       JobScheduler::get('feeds_source_import')->remove($job);
     }
     elseif ($this->progressImporting() === FEEDS_BATCH_COMPLETE) {
@@ -404,21 +408,78 @@ class FeedsSource extends FeedsConfigurable {
       // occurred in hook_feeds_after_import().
       $this->exception = $e;
     }
-    $this->releaseLock();
 
     // Clean up.
     $result = $this->progressImporting();
     if ($result == FEEDS_BATCH_COMPLETE || isset($e)) {
       $this->imported = time();
-      $this->log('import', 'Imported in !s s', array('!s' => $this->imported - $this->state[FEEDS_START]), WATCHDOG_INFO);
+      $this->log('import', 'Imported in @s seconds.', array('@s' => $this->imported - $this->state[FEEDS_START]), WATCHDOG_INFO);
       module_invoke_all('feeds_after_import', $this);
       unset($this->fetcher_result, $this->state);
     }
     $this->save();
+
+    $this->releaseLock();
+
     if (isset($e)) {
       throw $e;
     }
+
     return $result;
+  }
+
+  /**
+   * Imports a fetcher result all at once in memory.
+   *
+   * @param FeedsFetcherResult $fetcher_result
+   *   The fetcher result to process.
+   *
+   * @throws Exception
+   *   Thrown if an error occurs when importing.
+   */
+  public function pushImport(FeedsFetcherResult $fetcher_result) {
+    // Since locks only work during a request, check if an import is active.
+    if (!empty($this->fetcher_result) || !empty($this->state)) {
+      throw new RuntimeException('The feed is currently importing.');
+    }
+
+    $this->acquireLock();
+    $start = time();
+
+    try {
+      module_invoke_all('feeds_before_import', $this);
+
+      // Parse.
+      do {
+        $parser_result = $this->importer->parser->parse($this, $fetcher_result);
+        module_invoke_all('feeds_after_parse', $this, $parser_result);
+
+        // Process.
+        $this->importer->processor->process($this, $parser_result);
+
+      } while ($this->progressParsing() !== FEEDS_BATCH_COMPLETE);
+    }
+    catch (Exception $e) {
+      // $e is stored and re-thrown once we've had a chance to log our progress.
+      // Set the exception so that other modules can check if an exception
+      // occurred in hook_feeds_after_import().
+      $this->exception = $e;
+    }
+
+    module_invoke_all('feeds_after_import', $this);
+
+    $this->imported = time();
+    $this->log('import', 'Imported in @s seconds.', array('@s' => $this->imported - $start), WATCHDOG_INFO);
+
+    unset($this->fetcher_result, $this->state);
+
+    $this->save();
+
+    $this->releaseLock();
+
+    if (isset($e)) {
+      throw $e;
+    }
   }
 
   /**
@@ -800,11 +861,11 @@ class FeedsSource extends FeedsConfigurable {
   }
 
   /**
-   * Checks if the fetch source is empty.
+   * Implements FeedsConfigurable::dependencies().
    */
-  public function hasFetcherSource() {
-    $fetcher_source_config = $this->getConfigFor($this->importer->fetcher);
-    return !empty($fetcher_source_config['source']);
+  public function dependencies() {
+    $dependencies = parent::dependencies();
+    return array_merge($dependencies, $this->importer()->dependencies());
   }
 
 }

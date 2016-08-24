@@ -60,6 +60,7 @@ function feeds_requirements($phase) {
 function feeds_uninstall() {
   variable_del('http_request_timeout');
   variable_del('feeds_reschedule');
+  variable_del('feeds_use_mbstring');
 }
 
 /**
@@ -351,6 +352,10 @@ function feeds_schema() {
       'type' => array('type'),
     ),
   );
+
+  $schema['cache_feeds_http'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_feeds_http']['description'] = 'Cache table for Feeds downloads.';
+
   return $schema;
 }
 
@@ -683,4 +688,21 @@ function feeds_update_7209() {
     ->execute();
 
   DrupalQueue::get('feeds_importer_expire')->deleteQueue();
+}
+
+ /**
+  * Does nothing. Update removed.
+  */
+function feeds_update_7211(&$sandbox) {
+}
+
+/**
+ * Create {cache_feeds_http} table.
+ */
+function feeds_update_7212() {
+  if (!db_table_exists('cache_feeds_http')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table for Feeds downloads.';
+    db_create_table('cache_feeds_http', $schema);
+  }
 }
