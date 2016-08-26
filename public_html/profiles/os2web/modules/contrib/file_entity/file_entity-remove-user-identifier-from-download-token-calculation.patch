@@ -1,0 +1,14 @@
+diff --git a/file_entity.module b/file_entity.module
+index 3ca0bb7..a4adf7b 100644
+--- a/file_entity.module
++++ b/file_entity.module
+@@ -2495,8 +2495,7 @@ function file_entity_admin_menu_map() {
+  *   A CSRF token string.
+  */
+ function file_entity_get_download_token($file) {
+-  $identifier = !empty($GLOBALS['user']->uid) ? session_id() : ip_address();
+-  return drupal_hmac_base64("file/$file->fid/download", $identifier . drupal_get_private_key() . drupal_get_hash_salt());
++  return drupal_hmac_base64("file/$file->fid/download", drupal_get_private_key() . drupal_get_hash_salt());
+ }
+ 
+ /**
