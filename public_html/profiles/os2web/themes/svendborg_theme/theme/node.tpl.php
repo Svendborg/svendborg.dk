@@ -111,7 +111,7 @@
     <?php else : ?>
       <?php print render($content['field_os2web_base_field_image']); ?>
     <?php endif; ?>
-    <?php if ($node->type != 'os2web_base_contentpage' &&  $node->type != 'os2web_borger_dk_article'): ?>
+    <?php if ($node->type != 'os2web_base_contentpage' &&  $node->type != 'os2web_borger_dk_article' && $node->type != 'borger_dk_article'): ?>
     <time pubdate="pubdate">
       <i></i><?php print format_date($created, 'custom', 'j. F Y'); ?>
     </time>
