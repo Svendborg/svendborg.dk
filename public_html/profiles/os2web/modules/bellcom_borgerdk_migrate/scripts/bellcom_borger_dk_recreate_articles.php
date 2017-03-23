@@ -68,7 +68,10 @@ if (isset($result['node'])) {
     $node->field_svendborg_hide_sidebar = $old_article->field_svendborg_hide_sidebar;
 
     //filling borger.dk - article fields
-    $entities = borgerdk_article_load_multiple(FALSE, array('articleUrl' => $old_article->field_os2web_borger_dk_borgerurl['und'][0]['value']));
+    $old_article_url = $old_article->field_os2web_borger_dk_borgerurl['und'][0]['value'];
+    $old_article_url = parse_url($old_article_url);
+    $old_article_url = $old_article_url['scheme'] . '://' . $old_article_url['host'] . $old_article_url['path'];
+    $entities = borgerdk_article_load_multiple(FALSE, array('articleUrl' => $old_article_url));
     $selected_article_entity = reset($entities);
     if (!$selected_article_entity) {
       print('Skipping. Borger.dk article with this URL is not found: [url: ' . $old_article->field_os2web_borger_dk_borgerurl['und'][0]['value'] . ']' . PHP_EOL);
