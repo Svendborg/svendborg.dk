@@ -8439,6 +8439,9 @@ body.page-taxonomy-term.term-is-not-top .field-type-text-long img {
   max-width: 100%;
   height: auto;
 }
+body.page-node .region-content article a {
+  color: #0089cd;
+}
 body.page-node .region-content.col-sm-6 .borger_dk_body_intro_text .intro_text_text,
 body.page-taxonomy-term.term-is-not-top .region-content.col-sm-6 .borger_dk_body_intro_text .intro_text_text,
 body.page-node .region-content.col-md-6 .borger_dk_body_intro_text .intro_text_text,
