@@ -8439,9 +8439,6 @@ body.page-taxonomy-term.term-is-not-top .field-type-text-long img {
   max-width: 100%;
   height: auto;
 }
-body.page-node .region-content article a {
-  color: #0089cd;
-}
 body.page-node .region-content.col-sm-6 .borger_dk_body_intro_text .intro_text_text,
 body.page-taxonomy-term.term-is-not-top .region-content.col-sm-6 .borger_dk_body_intro_text .intro_text_text,
 body.page-node .region-content.col-md-6 .borger_dk_body_intro_text .intro_text_text,
@@ -8523,6 +8520,16 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 .page-node .region-content.col-md-12 article .field-name-field-os2web-base-field-image {
   padding: 0 15px;
 }
+.page-taxonomy .region-content.col-sm-9 article a,
+.page-node .region-content.col-sm-9 article a,
+.page-taxonomy .region-content.col-md-9 article a,
+.page-node .region-content.col-md-9 article a,
+.page-taxonomy .region-content.col-sm-12 article a,
+.page-node .region-content.col-sm-12 article a,
+.page-taxonomy .region-content.col-md-12 article a,
+.page-node .region-content.col-md-12 article a {
+  color: #0089cd;
+}
 .page-taxonomy .region-content.col-sm-9 article .wrap,
 .page-node .region-content.col-sm-9 article .wrap,
 .page-taxonomy .region-content.col-md-9 article .wrap,
@@ -8533,6 +8540,12 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 .page-node .region-content.col-md-9 article header {
   width: 77.77777776%;
 }
+.page-taxonomy .region-content.col-sm-9 article a,
+.page-node .region-content.col-sm-9 article a,
+.page-taxonomy .region-content.col-md-9 article a,
+.page-node .region-content.col-md-9 article a {
+  color: #0089cd;
+}
 .page-taxonomy .region-content.col-sm-12 article .wrap,
 .page-node .region-content.col-sm-12 article .wrap,
 .page-taxonomy .region-content.col-md-12 article .wrap,
@@ -8542,6 +8555,12 @@ body.page-taxonomy-term.term-is-not-top .region-content.col-md-6 div.node-os2web
 .page-taxonomy .region-content.col-md-12 article header,
 .page-node .region-content.col-md-12 article header {
   width: 83.33333333%;
+}
+.page-taxonomy .region-content.col-sm-12 article a,
+.page-node .region-content.col-sm-12 article a,
+.page-taxonomy .region-content.col-md-12 article a,
+.page-node .region-content.col-md-12 article a {
+  color: #0089cd;
 }
 .region-content .taxonomy-term-description a,
 .region-content .field-name-body a {
