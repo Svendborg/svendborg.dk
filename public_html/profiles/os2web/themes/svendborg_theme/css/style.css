@@ -6499,6 +6499,9 @@ fieldset.features-export-component .component-select .form-type-checkbox input[t
 div.features-export-list .form-type-checkbox input[type=checkbox] {
   margin-top: 0;
 }
+.node.node-unpublished {
+  background-color: #f2dede;
+}
 /*
 LESS variables are information about icon's compiled state, stored under its original file name
 
