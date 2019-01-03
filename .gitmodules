@@ -1,3 +1,6 @@
 [submodule "public_html/profiles/os2web/modules/bellcom_borgerdk"]
 	path = public_html/profiles/os2web/modules/bellcom_borgerdk
 	url = https://github.com/bellcom/bellcom_borgerdk
+[submodule "public_html/profiles/os2web/modules/os2forms"]
+	path = public_html/profiles/os2web/modules/os2forms
+	url = https://github.com/OS2Forms/os2forms_frontend
